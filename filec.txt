@@ -4,5 +4,4 @@ function makemehappy()
 {
 	var a = 50;
 	a = a +100;
-	printf("I'm happy");
 }
