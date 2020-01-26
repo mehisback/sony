@@ -1,0 +1,8 @@
+
+
+function makemehappy()
+{
+	var a = 50;
+	a = a +20;
+	printf("I'm happy");
+}
