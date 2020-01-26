@@ -3,6 +3,6 @@
 function makemehappy()
 {
 	var a = 50;
-	a = a +20;
+	a = a +10;
 	printf("I'm happy");
 }
