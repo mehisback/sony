@@ -1,3 +1,0 @@
-This is a test code
-
-and the changes are to be merged
