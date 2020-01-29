@@ -1,0 +1,322 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<ngb-tabset type="pills">
+  <ngb-tab title="Account Sub Type" id="account">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="accountdataSource"
+                [showBorders]="true" (onRowClick)="onUserRowSelect($event)">
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column dataField="Code" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="PostingType" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="CodeType" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="getSubTypeFilter"
+                [showBorders]="true">
+                <dxo-editing mode="row" [allowAdding]="true" [allowDeleting]="true">
+                </dxo-editing>
+                <dxi-column dataField="SubTypeCode" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="AccountType" [allowSearch]="true" [editorOptions]="{itemTemplate: hover6}"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="accountTypeArray" [valueExpr]="formateForItemListSuggestion6" [displayExpr]="itemLookup6"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Vendor Posting Group" id="vendor">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer2 [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainer"
+                [dataSource]="dataSource" [showBorders]="true" (onInitNewRow)="onInitNewRow($event)" (onEditingStart)="onEditingStart($event)">
+                <dxo-editing mode="row" [allowAdding]="true" [allowDeleting]="true" [allowUpdating]="true">
+                </dxo-editing>
+                <dxi-column dataField="Code" [allowSearch]="true" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="Description" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="PayableAccount" [allowSearch]="true" [editorOptions]="{itemTemplate: hover4}"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="itemArray" [valueExpr]="formateForItemListSuggestion2" [displayExpr]="itemLookup2"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Customer Posting Group" id="customer">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer3 [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainer"
+                [dataSource]="dataSourceforCustomer" [showBorders]="true" (onInitNewRow)="onInitNewRow2($event)"
+                (onEditingStart)="onEditingStart2($event)">
+                <dxo-editing mode="row" [allowAdding]="true" [allowDeleting]="true" [allowUpdating]="true">
+                </dxo-editing>
+                <dxi-column dataField="Code" [allowSearch]="true" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="Description" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="ReceivablesAccount" [allowSearch]="true" [editorOptions]="{itemTemplate: hover4}"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="itemArray" [valueExpr]="formateForItemListSuggestion2" [displayExpr]="itemLookup2"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="ConsignReceivableAccount" [allowSearch]="true" [editorOptions]="{itemTemplate: hover4}"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="itemArray" [valueExpr]="formateForItemListSuggestion2" [displayExpr]="itemLookup2"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="General Account" id="general">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer4 [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainer4"
+                [dataSource]="dataSourceforgeneral" [showBorders]="true">
+                <dxo-editing mode="row" [allowAdding]="false" [allowDeleting]="false" [allowUpdating]="true">
+                </dxo-editing>
+                <dxi-column dataField="CurrentFiscalYear" [allowSearch]="true" [setCellValue]="setFiscalYearOnSelect"
+                  [editorOptions]="{showClearButton: false, itemTemplate: hover3, searchExpr: ['FiscalYearID'] }"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="fiscalArray" [valueExpr]="suggestionFormateForDropDown3" [displayExpr]="suggestionFormateForDropDown3"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="AllowBackDate" [allowSearch]="true" [editorOptions]="{showClearButton: true, itemTemplate: hover2, searchExpr: ['Code'] }"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="AllowBackDate" [valueExpr]="suggestionFormateForDropDown2" [displayExpr]="suggestionFormateForDropDown2"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="CurrencyCode" [allowSearch]="true">
+                  <dxo-lookup [dataSource]="currencyArray" [valueExpr]="suggestionFormateForcurrencyArray"
+                    [displayExpr]="suggestionFormateForcurrencyArray" hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="CostingMethod" [allowSearch]="true" [editorOptions]="{showClearButton: true, itemTemplate: hover2, searchExpr: ['Code'] }"
+                  dataType="string">
+                  <dxo-lookup [dataSource]="CostingMethod" [valueExpr]="suggestionFormateForDropDown2" [displayExpr]="suggestionFormateForDropDown2"
+                    hoverStateEnabled="true">
+                  </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="RoundingPrecision" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="FirstDayofYear" [allowSearch]="true" [allowEditing]="false"></dxi-column>
+                <!-- <dxi-column dataField="GRClearingAccount" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="RealizedRoundingAccount" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="UnrealizedRoundingAccount" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="PurchaseDiscountAccount" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="SalesDiscountAccount" [allowSearch]="true"></dxi-column> -->
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <div id="form-container">
+                <dx-form itemType="group" (onFieldDataChanged)="formSummary_fieldDataChanged($event)" [colCount]="2"
+                  [formData]="gotSelectedLists" accept-charset="UTF-8">
+                  <dxi-item itemType="group">
+
+                    <dxi-item cssClass="font-for-formlable" [template]="'CurrentFiscalYear'"
+                      [label]="{text: 'CurrentFiscalYear'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'AllowBackDate'"
+                      [label]="{text: 'Allow Back Date:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="CurrencyCode" [label]="{text: 'Currency Code'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'CostingMethod'"
+                      [label]="{text: 'Costing Method:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="RoundingPrecision" [label]="{text: 'Rounding Precision'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                  </dxi-item>
+                  <div *dxTemplate="let data of 'AllowBackDate'">
+                    <dx-select-box #selectBox1 [dataSource]="AllowBackDate" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown2" valueExpr="Code" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.AllowBackDate:''"
+                      (onValueChanged)="onAllowBackDateChange($event)" hoverStateEnabled="true" [itemTemplate]="hover2">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.Code:gotSelectedLists ? gotSelectedLists.AllowBackDate:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+
+                  <div *dxTemplate="let data of 'CostingMethod'">
+                    <dx-select-box #selectBox1 [dataSource]="CostingMethod" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown2" valueExpr="Code" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.CostingMethod:''"
+                      (onValueChanged)="onCostingMethodChange($event)" hoverStateEnabled="true" [itemTemplate]="hover2">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.Code:gotSelectedLists ? gotSelectedLists.CostingMethod:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+
+                  <div *dxTemplate="let data of 'CurrentFiscalYear'">
+                    <dx-select-box #selectBox1 [dataSource]="CostingMethod" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown3" valueExpr="FiscalYearID" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.CurrentFiscalYear:''"
+                      (onValueChanged)="onCurrentFiscalYearChange($event)" hoverStateEnabled="true"
+                      [itemTemplate]="hover3">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.FiscalYearID:gotSelectedLists ? gotSelectedLists.CurrentFiscalYear:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" [template]="'GRClearingAccount'"
+                      [label]="{text: 'GR Clearing Account:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'RealizedRoundingAccount'"
+                      [label]="{text: 'Realized Rounding Account:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'UnrealizedRoundingAccount'"
+                      [label]="{text: 'Unrealized Rounding Account:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'PurchaseDiscountAccount'"
+                      [label]="{text: 'Purchase Discount Account:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'SalesDiscountAccount'"
+                      [label]="{text: 'Sales Discount Account:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                  </dxi-item>
+                  <div *dxTemplate="let data of 'GRClearingAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="itemArray" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.GRClearingAccount:''"
+                      (onValueChanged)="onGRClearingAccountChange($event)" hoverStateEnabled="true"
+                      [itemTemplate]="hover4">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.GRClearingAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'UnrealizedRoundingAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="itemArray" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.UnrealizedRoundingAccount:''"
+                      (onValueChanged)="onUnrealizedRoundingAccountChange($event)" hoverStateEnabled="true"
+                      [itemTemplate]="hover4">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.UnrealizedRoundingAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'RealizedRoundingAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="itemArray" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.RealizedRoundingAccount:''"
+                      (onValueChanged)="onRealizedRoundingAccountChange($event)" hoverStateEnabled="true"
+                      [itemTemplate]="hover4">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.RealizedRoundingAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'PurchaseDiscountAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="itemArray" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.PurchaseDiscountAccount:''"
+                      (onValueChanged)="onPurchaseDiscountAccountChange($event)" hoverStateEnabled="true"
+                      [itemTemplate]="hover4">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.PurchaseDiscountAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'SalesDiscountAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="itemArray" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.SalesDiscountAccount:''"
+                      (onValueChanged)="onSalesDiscountAccountChange($event)" hoverStateEnabled="true"
+                      [itemTemplate]="hover4">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.SalesDiscountAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                </dx-form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

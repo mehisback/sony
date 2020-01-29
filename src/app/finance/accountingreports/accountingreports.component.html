@@ -1,0 +1,398 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+    <i class="fa fa-home my-float-home"></i>
+</a>
+<!-- <div class="container"> -->
+<div class="row">
+    <div class="col-3">
+        <!-- <div class="left-content"> -->
+        <div class="card">
+            <div class="card-body">
+                <dx-tree-view [dataSource]="continents" selectionMode="single" [selectByClick]="true"
+                    (onItemSelectionChanged)="changeSelection($event)" [hoverStateEnabled]="true">
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+                    <dxo-selection mode="single"></dxo-selection>
+                </dx-tree-view>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+    <div class="col-9">
+        <!--  <div class="right-content"> -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 style="color:#20aee3;">{{reportHeaderText}}</h3>
+                        <dx-form id="Acc" itemType="group" [colCount]="3" (onFieldDataChanged)="formSummary_fieldDataChanged($event)"
+                            accept-charset="UTF-8" [formData]="FormDate">
+                            <dxi-item itemType="group">
+                                <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+                                    [label]="{text: 'From Date'}" [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                                </dxi-item>
+                                <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate5'" [label]="{text: 'Code'}"
+                                    [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }" [visible]="dataSuggestions == null ? false:true"></dxi-item>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'nameTemplate5'">
+                                <dx-select-box #selectBox4 [dataSource]="dataSuggestions" [searchEnabled]="true"
+                                    [displayExpr]="suggestionFormateForCode" [valueExpr]="valueExprsuggestionFormateForCode"
+                                    [value]="valueExprsuggestionFormateForCode" [minSearchLength]="0" fieldTemplate="field5"
+                                    [disabled]="dataSuggestions!=null ? false:true" (onValueChanged)="onDropDownCodeChanged($event)"
+                                    hoverStateEnabled="true" [itemTemplate]="hoversuggestionFormateForCode"
+                                    [showClearButton]="true">
+                                    <div *dxTemplate="let itemData5 of 'field5'">
+                                        <dx-text-box [text]="setTextInTextField(itemData5)" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                    </div>
+                                </dx-select-box>
+                            </div>
+
+                            <dxi-item itemType="group">
+                                <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox"
+                                    [label]="{text: 'To Date'}" [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                                </dxi-item>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <dxi-item cssClass="clearfix2" [template]="'nameTemplate3'" [editorOptions]="{ width: '100%', class : 'clearfix2' }"></dxi-item>
+                            </dxi-item>
+                            <div class="clearfix2" *dxTemplate="let data of 'nameTemplate3'">
+                                <dx-button cssClass="text-left" icon="refresh" type="normal" (onClick)="AccountingReportGo('Refresh')" [elementAttr]="{ 'class': 'text-left' }"></dx-button>
+                                &nbsp;
+                                <dx-button cssClass="text-right" icon="print" type="default" text="Print" (onClick)="AccountingReportGo('Print Order')" [elementAttr]="{ 'class': 'text-right' }"></dx-button>
+                            </div>
+                        </dx-form>
+                        <br>
+                        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSourceGLTrialBalance"
+                            [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true"
+                            (onCellPrepared)="onCellPrepared($event)">
+                            <dxo-search-panel [visible]="true"></dxo-search-panel>
+                            <dxo-selection mode="single"></dxo-selection>
+                            <dxo-export [enabled]="true" fileName="AccountingReport-Details"></dxo-export>
+
+                            <!--GLTrailBalance-->
+
+                            <dxi-column dataField="Acccode" caption="Account Code" [visible]="true" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="name" caption="Account Name" [visible]="true" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="startdebit" caption="STARTING DEBIT" [visible]="true" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="startcredit" caption="STARTING CREDIT" [visible]="true" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="rangedebit" caption="RANGE DEBIT" [visible]="true" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="rangecredit" caption="RANGE CREDIT" [visible]="true" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="enddebit" caption="ENDING DEBIT" [visible]="true" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="endcredit" caption="ENDING CREDIT" [visible]="true" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+
+
+                            <!--GLTrailBalanceSummary2-->
+                            <dxi-column dataField="AccountCode" caption="Code" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="AccountName" caption="Acc. Name" [visible]="false" dataType="string">
+                            </dxi-column>
+
+                            <!--GeneralLedgerByAccountCodeReport-->
+                            <dxi-column dataField="DocumentDate" caption="Document date" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="Documentdate" caption="Document date" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="DocumentNo" caption="DocumentNo" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="DocumentType" caption="DocumentType" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="Description" caption="Description" [visible]="false" dataType="string"></dxi-column>
+
+
+                            <dxi-column dataField="BalanceDebit" caption="Balance DEBIT" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="BalanceCredit" caption="Balance CREDIT" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+                            <!--GLTrailBalanceSummary-->
+                            <dxi-column dataField="Particulars" caption="Description" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="Name" caption="Name" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="DebitAmount" caption="DEBIT Amount" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="CreditAmount" caption="CREDIT Amount" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="Balance" caption="Balance Amount" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+                            <!--FSOverview-->
+                            <dxi-column dataField="SalesAmount" caption="SALES" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="ExpenseAmount" caption="EXPENSES " [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="PLAmount" caption="PROFIT/LOSS" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="AssetAmount" caption="ASSET" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="LiabilityAmount" caption="LIABILITY" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+                            <dxi-column dataField="BalanceAmount" caption="Balance Amount" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+                            <!--StatementOfCashFlow-->
+                            <dxi-column dataField="Detail" caption="Detail" [visible]="false" dataType="string">
+                            </dxi-column>
+
+
+                            <!--IncomeStatement-->
+                            <dxi-column dataField="MainType" caption="Account Type" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="SUB_TOTAL" caption="SubTotal" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="TOTAL" caption="Total" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="PY_SUB_TOTAL" caption="PY SubTotal" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="PY_TOTAL" caption="PY Total" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+                            <!--IncomeStatementSummary-->
+                            <!--BalanceSheet-->
+                            <!--BalanceSheetSummary-->
+                            <dxi-column dataField="Amount" caption="Amount" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+
+                            <!--GeneralLedgerAllAccountCodeReport-->
+
+
+
+                            <!--GeneralLedgerReport-->
+                            <dxi-column dataField="AMOUNT" caption="AMOUNT" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="BLANCE" caption="Balance" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+                            <!--JournalReport-->
+                            <dxi-column dataField="TRANSACTION_TYPE" caption="Document Type" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="NAME" caption="Name" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="ACCOUNT_NO" caption="Account Code" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="DESCRIPTION" caption="Description" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="DEBIT" caption="Debit" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="CREDIT" caption="Credit" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+                            <!-- --- SUB LEDGER REPORTS--- -->
+                            <!--StockCard-->
+                            <dxi-column dataField="InQty" caption="IN QTY" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="InCost" caption="IN COST" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="InAmount" caption="IN AMOUNT" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="OutQty" caption="OUT QTY" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="OutCost" caption="OUT COST" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="OutAmount" caption="OUT AMOUNT" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="BalanceQty" caption="BALANCE QTY" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="BalanceCost" caption="BALANCE COST" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="BalanceAmount" caption="BALANCE AMT" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+                            <!--StockCardAll-->
+                            <dxi-column dataField="ItemCode" caption="ItemCode" [visible]="false" dataType="string">
+                            </dxi-column>
+
+                            <!--ARDetailTrailBalance-->
+                            <dxi-column dataField="ExternalDocumentNo" caption="Ext.Doc.No" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="RemainingAmount" caption="Rem.Amount" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="invoicestatus" caption="Status" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="Duedate" caption="Due date" [visible]="false" dataType="string">
+                            </dxi-column>
+
+                            <!--ARDetailTrailBalanceCust-->
+                            <!--APDetailTrailBalance-->
+                            <!--APDetailTrailBalanceVend-->
+                            <!--SalesPersonCommision-->
+                            <!--HSNCardAll-->
+
+                            <!--Income By Customer Summary-->
+                            <dxi-column dataField="BillToCustomer" caption="Customer Code" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="BillToName" caption="Customer Name" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="EXPENSES" caption="Expense" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="NET_INCOME" caption="Net Income" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+                            <!--OpenInvoice-->
+                            <dxi-column dataField="CUSTCODE" caption="Customer Code" [visible]="false" dataType="string"></dxi-column>
+                            <dxi-column dataField="DUE_DATE" caption="Due Date" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="OPEN_BALANCE" caption="Open Balance" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+                            <!--SalesByProduct-->
+                            <dxi-column dataField="PRODUCT" caption="Product" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="TYPE" caption="Type" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="CUSTOMER" caption="CustCode" [visible]="false" dataType="string">
+                            </dxi-column>
+                            <dxi-column dataField="QTY" caption="Quantity" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+                            <dxi-column dataField="Salesprice" caption="Sales Price" [visible]="false" dataType="number">
+                                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                            </dxi-column>
+
+
+                            <!--CustomerDetail-->
+                            <!--CustomerDetailCard-->
+                            <!--SupplierBalanceDetail-->
+                            <dxi-column dataField="DATE" caption="Date" [visible]="false" dataType="string">
+                            </dxi-column>
+
+
+                            <!--AgingReport-->
+
+                            <dxo-paging [pageSize]="12"></dxo-paging>
+                            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                            <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+
+                            <dxo-summary>
+                                <dxi-total-item column="DebitAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Debit Total: {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="CreditAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Credit Total: {0}">
+                                </dxi-total-item>
+
+
+                                <dxi-total-item column="BalanceDebit" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Debit Total: {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="BalanceCredit" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Credit Total: {0}">
+                                </dxi-total-item>
+
+
+                                <dxi-total-item column="SalesAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="TOTAL SALES: {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="ExpenseAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="TOTAL EXPENSES: {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="PLAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="SALES - EXPENSES: {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="AssetAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="TOTAL ASSET: {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="LiabilityAmount" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="TOTAL EQUITY+LIABILITY: {0}" valueFormat="#,##0.00">
+                                </dxi-total-item>
+
+                                <dxi-total-item column="PY_TOTAL" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="PROFIT OR LOSS (PREVIOUS PERIOD): {0}">
+                                </dxi-total-item>
+
+                                <dxi-total-item column="TOTAL" [customizeText]="incomeTotal" summaryType="sum"
+                                    valueFormat="#,##0.00" displayFormat="Total : {0}">
+                                </dxi-total-item>
+
+                                <dxi-total-item column="NET_INCOME" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Total : {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="AMOUNT" summaryType="sum" valueFormat="#,##0.00" displayFormat="Total : {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="EXPENSES" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Total : {0}">
+                                </dxi-total-item>
+
+
+                                <dxi-total-item column="Salesprice" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Total : {0}">
+                                </dxi-total-item>
+
+                                <dxi-total-item column="BALANCE" summaryType="sum" valueFormat="#,##0.00" displayFormat="Total : {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="Amount" [customizeText]="getFormatOfNumber" summaryType="sum"
+                                    valueFormat="#,##0.00" displayFormat="Total : {0}">
+                                </dxi-total-item>
+                                <dxi-total-item column="OPEN_BALANCE" summaryType="sum" valueFormat="#,##0.00"
+                                    displayFormat="Total : {0}">
+                                </dxi-total-item>
+                            </dxo-summary>
+                        </dx-data-grid>
+                        <div class="row" [style.visibility]="isDivVisible ? 'visible' : 'hidden'">
+                            <div style="background-color:#B4CA86; padding: 10px;" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                                ASSETS : {{ formatNumber(totalAsset) }}
+                            </div>
+                            <div style="background-color:#E1E294; padding: 10px;" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                                EQUITY : {{ formatNumber(totalEquity) }}
+                            </div>
+                            <div style="background-color:#E1E294; padding: 10px;" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                                LIABILITY : {{ formatNumber(totalLiablity) }}
+                            </div>
+                            <div style="background-color:#F91106; padding: 10px; color: #fff;" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                                {{ txtBalanced }} {{ formatNumber(totalDiff) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+</div>
+<!-- </div> -->

@@ -1,0 +1,81 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <div id="form-container">
+          <dx-form id="FiscalYearGroup" itemType="group" [colCount]="3" [formData]="fiscalYearList" accept-charset="UTF-8">
+            <dxi-item itemType="group">
+              <dxi-item cssClass="font-for-formlable" [template]="'fiscalYearListTemplate'" [label]="{text: 'Fiscal Year ID'}"></dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group" [visible]="false">
+            </dxi-item>
+            <dxi-item itemType="group">
+              <dx-button icon="plus" type="default" text="Create New" (onClick)="allowNewclick($event)">
+              </dx-button>
+            </dxi-item>
+            <div *dxTemplate="let data of 'fiscalYearListTemplate'">
+              <dx-select-box #selectBox2 [dataSource]="fiscalYearListSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormatForFiscalYearCodeList"
+                valueExpr="FiscalYearID" [minSearchLength]="0" fieldTemplate="field2" [value]="fiscalYearListSuggestions ? fiscalYearList.FiscalYearID:''"
+                [disabled]="fiscalYearListSuggestions!=null ? false:true" (onValueChanged)="onFiscalYearChanged($event)">
+                <div *dxTemplate="let itemData2 of 'field2'">
+                  <dx-text-box [text]="itemData2 ? itemData2.FiscalYearID:''" [elementAttr]="{ 'class': 'font-for-formlable' }">
+                  </dx-text-box>
+                </div>
+              </dx-select-box>
+            </div>
+          </dx-form>
+
+        </div>
+        <br>
+        <h5 class="font-for-formlable" *ngIf="fiscalYearList!={}">Starting From {{fiscalYearList.StartingDate}}</h5><br>
+        <h5 class="font-for-formlable" *ngIf="fiscalYearList!={}">Ends On: {{fiscalYearList.EndingDate}}</h5><br>
+        <h5 class="font-for-formlable" *ngIf="fiscalYearList!={}">Fiscal Year is: {{fiscalYearList.FiscalStaus}}</h5>
+        <br>
+
+        <h2 class="font-for-formlable  font-weight-bold" *ngIf="fiscalYearList!={}">Details of Selected Fiscal Year
+          {{fiscalYearList.FiscalYearID}}</h2>
+        <dx-data-grid id="gridContainer" #gridContainer [columnAutoWidth]="true" [showBorders]="true" [dataSource]="fiscalYearListGrid"
+          [allowColumnResizing]="true" [hoverStateEnabled]="true">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="FiscalPeriod"></dxi-column>
+          <dxi-column dataField="StartingDate"></dxi-column>
+          <dxi-column dataField="EndingDate"></dxi-column>
+          <dxi-column dataField="FiscalQuater" caption="Fiscal Quarter"></dxi-column>
+          <dxi-column dataField="FiscalStaus" caption="Fiscal Status"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dx-popup class="popup" [width]="400" [height]="'auto'" [showTitle]="true" title="Create New Fiscal Year" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="newFiscalPOPUP">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form id="CustomerDetails" [(formData)]="newFiscalDetail" accept-charset="UTF-8" (onFieldDataChanged)="form_fieldDataChanged($event)">
+            <dxi-item class="font-for-formlable" dataField="FiscalYearID" [label]="{text: 'Fiscal Year ID'}">
+              <dxi-validation-rule type="required" message="Fiscal Year is required"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="StartingDate" editorType="dxDateBox" [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+              <dxi-validation-rule type="required" message="Starting Date is required"></dxi-validation-rule>
+            </dxi-item>
+          </dx-form>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <dx-button text="Save" type="default" (onClick)="SaveNewFiscal()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+<br>

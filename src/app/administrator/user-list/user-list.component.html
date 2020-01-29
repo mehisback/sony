@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-lg-4 col-md-8 col-sm-12">
+        <input class="form-control" type="text"  [(ngModel)]="searchText" placeholder="Search">
+    </div>
+    <a [routerLink]="" class="float" (click)="onCreateNew()">
+        <i class="fa fa-plus my-float"></i>
+    </a>
+    <a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+        <i class="fa fa-home my-float-home"></i>
+    </a>
+
+    <br>
+</div>
+<br>
+<div class="text-center py-2">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+<div class="row" *ngIf="UserList;else loader_GIF">
+    <div class="col-lg-3 col-md-12 col-sm-12"
+        *ngFor="let user of UserList  | filter: searchText| paginate: { itemsPerPage: 12, currentPage: p }">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12" (click)="openUserDetails(user.userid)">
+                        <p class="font-weight-light font-for-formlable mb-0">{{ user.userid }}</p>
+                        <h6 class="card-title font-weight-bold mb-0">{{ user.userName }}</h6>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star "></span>
+                        <span class="fa fa-star-o "></span>
+                        <span class="fa fa-star-o "></span>
+                        <span class="fa fa-star-o "></span>
+                        <img class="card-img-top img-rounded" src="assets/images/big/img.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ng-template #loader_GIF>
+    <div class="text-center">
+        <img src="assets/images/big/loader.gif">
+    </div>
+</ng-template>
+<div class="text-center py-2">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+<dx-popup class="popup" [width]="500" [height]="450" [showTitle]="true" title="Create User" [dragEnabled]="true"
+    [closeOnOutsideClick]="true" [(visible)]="newUserPopUp">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <div id="form-container">
+                    <dx-form id="UserDetails" [colCount]="2" [(formData)]="newUserDetail" accept-charset="UTF-8">
+                        <dxi-item class="font-for-formlable" dataField="UserID" [colSpan]="2">
+                            <dxi-validation-rule type="required" message="UserID Code is required">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="Password" [editorOptions]="{ mode: 'password' }"
+                            [colSpan]="2">
+                            <dxi-validation-rule type="required" message="Password is required">
+                            </dxi-validation-rule>
+                            <dxi-validation-rule type="stringLength" [min]="2"
+                                message="Name must have at least 2 symbols"></dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="ConfrimPassword" editorType="dxTextBox"
+                            [editorOptions]="{ mode: 'password' }" [colSpan]="2">
+                            <dxo-label text="Confirm Password">
+                            </dxo-label>
+                            <dxi-validation-rule type="required" message="Confirm Password is required">
+                            </dxi-validation-rule>
+                            <dxi-validation-rule type="compare" [comparisonTarget]="passwordComparison"
+                                message="Password and Confirm Password do not match">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="UserName" [colSpan]="2"></dxi-item>
+
+                    </dx-form>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <dx-button text="Validate" type="default" (onClick)="SaveNewUser()">
+                </dx-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>

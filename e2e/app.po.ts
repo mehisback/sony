@@ -1,11 +1,11 @@
-import { browser, element, by } from 'protractor';
+import { browser, by, element } from 'protractor';
 
-export class Ng2RealApp {
+export class AppPage {
   navigateTo() {
     return browser.get('/');
   }
 
-    getParagraphText() {
-    return element(by.css('.logo-font')).getText();
+  getParagraphText() {
+    return element(by.css('')).getText();
   }
 }

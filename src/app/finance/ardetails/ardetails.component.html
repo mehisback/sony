@@ -1,0 +1,131 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+          <ngb-tab id="Aging" title="Aging">
+            <ng-template ngbTabContent>
+              <br>
+              <dx-data-grid id="gridContainer1" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                [dataSource]="dataSource" [showBorders]="true" [hoverStateEnabled]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-export [enabled]="true" fileName="VatReport"></dxo-export>
+                <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                <dxo-paging [pageSize]="20"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+                </dxo-pager>
+                <dxi-column dataField="CustCode"></dxi-column>
+                <dxi-column dataField="Name"></dxi-column>
+                <dxi-column dataField="DocumentNo"></dxi-column>
+                <dxi-column dataField="DocumentDate"></dxi-column>
+                <dxi-column dataField="duedate"></dxi-column>
+                <dxi-column dataField="Balance" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="current" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="30 DAYS" caption="1-30Days" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="60 DAYS" caption="31-60Days" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="90 DAYS" caption="61-90Days" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="120 DAYS" caption="91-120Days" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="MORETHAN120DAYS" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+              </dx-data-grid>
+              <br>
+              <div class="row">
+                <div class="col-12" *ngIf="barChartData!=null||barChartData">
+                  <dx-chart id="chart" [dataSource]="barChartData" palette="soft">
+                    <dxi-series valueField="current" name="Current">
+                    </dxi-series>
+                    <dxi-series valueField="30 DAYS" name="30 Days"></dxi-series>
+                    <dxi-series valueField="60 DAYS" name="60 Days"></dxi-series>
+                    <dxi-series valueField="90 DAYS" name="90 Days"></dxi-series>
+                    <dxi-series valueField="MORETHAN120DAYS" name=">120 Days"></dxi-series>
+                    <dxo-common-series-settings argumentField="CustCode" type="bar" [ignoreEmptyPoints]="true"
+                      [barPadding]="0.5">
+                      <dxo-label [visible]="true" [format]="{ type: 'fixedPoint',precision: '0'}">
+                      </dxo-label>
+                    </dxo-common-series-settings>
+                    <dxo-legend verticalAlignment="bottom" horizontalAlignment="center">
+                    </dxo-legend>
+                    <dxi-value-axis>
+                      <dxo-title text="Balance"></dxo-title>
+                    </dxi-value-axis>
+                    <dxo-zoom-and-pan [dragToZoom]="true" panKey="ctrl" argumentAxis="both" valueAxis="both">
+                    </dxo-zoom-and-pan>
+                    <dxo-scroll-bar [visible]="true"></dxo-scroll-bar>
+                    <dxo-argument-axis title="Customer Code">
+                    </dxo-argument-axis>
+                    <dxo-tooltip [enabled]="true" width="200" [customizeTooltip]="customizeTooltip">
+                    </dxo-tooltip>
+                    <dxo-export [enabled]="true"></dxo-export>
+                  </dx-chart>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+
+
+          <ngb-tab id="AgingDetails" title="Aging Details">
+            <ng-template ngbTabContent>
+              <br>
+              <dx-form id="CustomerDetailsGropu" itemType="group" [colCount]="3" [formData]="dateValue"
+                accept-charset="UTF-8" (onFieldDataChanged)="formSummary_fieldDataChanged($event)">
+                <dxi-item itemType="group">
+                  <dxi-item cssClass="font-for-formlable" dataField="Date" editorType="dxDateBox"
+                    [editorOptions]="{ value: null, width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                  </dxi-item>
+                </dxi-item>
+              </dx-form>
+              <br>
+
+              <div class="">
+                <dx-data-grid id="gridContainer1" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="dataSourceDetails" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-export [enabled]="true" fileName="VatReport"></dxo-export>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-paging [pageSize]="20"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+                  </dxo-pager>
+                  <dxi-column dataField="CustCode"></dxi-column>
+                  <dxi-column dataField="Name"></dxi-column>
+                  <dxi-column dataField="current" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="1-30Days" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="31-60Days" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="61-90Days" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="MoreThan90Days" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                </dx-data-grid>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+
+
+      </div>
+    </div>
+  </div>
+</div>

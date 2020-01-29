@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        if (document.location.hostname == 'localhost') {
+            var serverName = 'https://rhbussupport.com/dist';
+            var serverName2 = 'https://localhost:4200';
+        } else if (document.location.hostname == '27.254.172.167') {
+            serverName = 'http://27.254.172.167';
+        } else if (document.location.hostname == 'rhbuscloud.com') {
+            serverName = 'https://rhbuscloud.com';
+        } else if (document.location.hostname == 'rhbussupport.com') {
+            serverName = 'https://rhbussupport.com/dist';
+        } else if (document.location.hostname == 'rihbus.com') {
+            serverName = 'https://rihbus.com';
+        } else {
+            serverName = "https://" + document.location.hostname;
+        }
+
+        var url_string = window.location.href
+        var url = new URL(url_string);
+        var c = url.searchParams.get("code");
+        var clientID = url.searchParams.get("id");
+
+        if (c) {
+            localStorage.setItem('CodebackFromLAZO', c);
+            window.close();
+        } else if (clientID) {
+            var currentURL = serverName + "/assets/js/lazada_script.html";
+            var mainURL = "https://auth.lazada.com/oauth/authorize?spm=a2o9m.11193494.0.0.5687266bKmLP5j&response_type=code&redirect_uri=" + currentURL + "&force_auth=true&client_id=" + clientID;
+            window.location.href = mainURL;
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

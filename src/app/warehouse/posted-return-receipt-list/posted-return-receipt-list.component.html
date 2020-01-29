@@ -1,0 +1,26 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [dataSource]="grReturntListSource"
+          [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true" [allowColumnResizing]="true"
+          (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="DocumentNo" caption="Pick No"></dxi-column>
+          <dxi-column dataField="DocumentDate" caption="Date"> </dxi-column>
+          <dxi-column dataField="SourceNo" caption="SourceNo"></dxi-column>
+          <dxi-column dataField="LocationCode" caption="Location"> </dxi-column>
+          <dxi-column dataField="DocumentStatus" caption="Status"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,622 @@
+<a [routerLink]="[ '/sales/salesreturn-list']" class="float">
+    <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+    <i class="fa fa-home my-float-home"></i>
+</a>
+
+<dx-popup class="popup" [width]="'auto'" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Customer Selection"
+    [closeOnOutsideClick]="true" [(visible)]="globalCustomerLookupPopup">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [showBorders]="true" [dataSource]="customerSuggestions"
+                    (onRowClick)="onCustomerRowClicked($event)">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="CustCode" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="Name" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="Address1" [allowEditing]="false"> </dxi-column>
+                    <dxi-column dataField="City" [allowEditing]="false"></dxi-column>
+                    <dxo-paging [pageSize]="7"></dxo-paging>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Customer Details"
+    [closeOnOutsideClick]="true" [(visible)]="popupSelltoCustDetails">
+    <dx-form itemType="group" [formData]="SRHeader" accept-charset="UTF-8" (onFieldDataChanged)="onCustomerDetailsFieldsChanges($event)"
+        [readOnly]="SRFlowResult">
+        <dxi-item cssClass="font-for-formlable" dataField="SelltoCustomerNo"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="SelltoCustomerName" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="SelltoAddress" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="SelltoAddress2" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="SelltoCity" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="SelltoPostCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+    </dx-form>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Shipping Details"
+    [closeOnOutsideClick]="true" [(visible)]="popupShiptoCustDetails">
+    <dx-form itemType="group" [formData]="SRHeader" accept-charset="UTF-8" (onFieldDataChanged)="onCustomerDetailsFieldsChanges($event)"
+        [readOnly]="SRFlowResult">
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoCode"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoName" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoAddress" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoAddress2" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoCity" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="ShiptoCounty" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+    </dx-form>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Billing Details"
+    [closeOnOutsideClick]="true" [(visible)]="popupBilltoCustDetails">
+    <dx-form itemType="group" [formData]="SRHeader" accept-charset="UTF-8" (onFieldDataChanged)="onCustomerDetailsFieldsChanges($event)"
+        [readOnly]="SRFlowResult">
+        <dxi-item cssClass="font-for-formlable" dataField="BilltoCustomerNo"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="BilltoName" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="BilltoAddress" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="BilltoAddress2" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="BilltoCity" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="BilltoPostCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+    </dx-form>
+</dx-popup>
+
+<dx-popup class="popup" [showTitle]="true" title="Item LookUp" [dragEnabled]="true" [closeOnOutsideClick]="true"
+    [(visible)]="globalItemLookupPopup">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <dx-data-grid [columnAutoWidth]="true" [showBorders]="true" [dataSource]="itemArray"
+                    [hoverStateEnabled]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event,'ITEM')">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="ItemCode"></dxi-column>
+                    <dxi-column dataField="Description"></dxi-column>
+                    <dxi-column dataField="SalesUOM"></dxi-column>
+                    <dxi-column dataField="UnitPrice" dataType="number">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" width="600" [showTitle]="true" title="Item Details" [dragEnabled]="true" [closeOnOutsideClick]="true"
+    [(visible)]="itemDetailsPopup">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <dx-form itemType="group" [colCount]="2" [formData]="itemDetails" accept-charset="UTF-8" [readOnly]="true">
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="ItemCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="Description" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="UOM" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="UnitPrice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="Barcode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="BrandCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="CostIncVAT" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="FromInvoiceNo" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="FromPickNo" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="QtytoShip" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="QtytoInvoice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="Quantity" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="UnitPrice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VATProdPostingGroup" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VATBusPostingGroup" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VatAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="LineAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dxi-item>
+                </dx-form>
+            </div>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="500" [height]="450" [showTitle]="true" title="Create Customer" [dragEnabled]="true"
+    [closeOnOutsideClick]="true" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <div id="form-container">
+                    <dx-form id="CustomerDetails" [colCount]="2" [(formData)]="newCustomerDetail" accept-charset="UTF-8">
+                        <dxi-item class="font-for-formlable" dataField="CustomerID" [colSpan]="2">
+                            <dxi-validation-rule type="required" message="Customer Code is required">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="Name" [colSpan]="2">
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="Address" [colSpan]="2">
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="Address2" [colSpan]="2">
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="City" [label]="{text: 'City'}">
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="ZipCode" editorType="dxNumberBox" [label]="{text: 'Zip'}"></dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="Phone" [label]="{text: 'Phone'}"
+                            [editorOptions]="{ maskRules: phoneRules,
+                                                                                                  useMaskedValue: true,
+                                                                                                  maskInvalidMessage: 'The phone must have a correct  phone format' }">
+                            <dxi-validation-rule type="pattern" [pattern]="phonePattern" message="The phone must have a correct  phone format">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <dxi-item class="font-for-formlable" dataField="Email" [label]="{text: 'Email'}">
+                            <dxi-validation-rule type="email" message="Email is invalid">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                    </dx-form>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <dx-button text="Add" type="default" (onClick)="SaveNewCustomer()">
+                </dx-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-darkerbg">
+            <div class="card-body">
+                <dx-form id="SalesOrderOperation" itemType="group" [colCount]="4" accept-charset="UTF-8">
+                    <dxi-item itemType="group">
+                        <dxi-item [template]="'MainTemp'"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item [template]="'MainTemp4'"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item [template]="'MainTemp3'"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group" [colSpan]="2">
+                        <dxi-item [template]="'MainTemp2'">
+                        </dxi-item>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'MainTemp'">
+                        <span *ngIf="SRHeader" style="color: #fff; font-size:22px;"><b>{{SRHeader.DocumentNo }}</b></span>
+                    </div>
+                    <div *dxTemplate="let data of 'MainTemp4'" style="color: #fff; font-size:22px;">Status:
+                        <span #docStatus id="docStatus" class="label" *ngIf="SRHeader"><b>
+                                {{SRHeader.FlowResult }}</b></span>
+                    </div>
+                    <div *dxTemplate="let data of 'MainTemp3'" style="color: #fff; font-size:22px;">
+                        <span #docStatus id="docStatus" class="label" *ngIf="SRHeader"><b>
+                                {{SRHeader.CurrencyCode }} {{SRHeader.DocumentAmount }}</b></span>
+                    </div>
+                    <div class="clearfix" *dxTemplate="let data of 'MainTemp2'">
+                        <dx-select-box #selectBoxSR [dataSource]="SalesReturnOperations" [value]=""></dx-select-box>
+                        <dx-button type="default" text="GO" (onClick)="SalesReturnOperationsGo(selectBoxSR.text)">
+                        </dx-button>
+                    </div>
+                </dx-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <dx-form (onFieldDataChanged)="formSummary_fieldDataChanged($event)" [formData]="SRHeader"
+                    accept-charset="UTF-8" [readOnly]="SRFlowResult">
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate3'" [label]="{text: 'Customer Code'}">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate4'" [label]="{text: 'Customer Name'}"
+                        [editorOptions]="{ width: '100%',elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <div class="clearfix2" *dxTemplate="let data of 'nameTemplate3'">
+                        <dx-text-box [value]="SRHeader ? SRHeader.SelltoCustomerNo:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        <dx-button type="default" icon="find" (onClick)="onCustomerSearchClicked('SellTo')" [disabled]="isLinesExist">
+                        </dx-button>
+                    </div>
+                    <div class="clearfix2" *dxTemplate="let data of 'nameTemplate4'">
+                        <dx-text-box [value]="SRHeader ? SRHeader.SelltoCustomerName:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        <dx-button type="default" icon="info" (onClick)="getSellToCustomerDetail($event)" [disabled]="SRFlowResult">
+                        </dx-button>
+                    </div>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate5'" [label]="{text: 'Ship to'}">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate6'" [label]="{text: 'Ship to Name'}"
+                        [editorOptions]="{ width: '100%',elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <div class="clearfix2" *dxTemplate="let data of 'nameTemplate5'">
+                        <dx-text-box [value]="SRHeader ? SRHeader.ShiptoCode:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        <dx-button type="default" icon="find" (onClick)="onCustomerSearchClicked('ShipTo')" [disabled]="SRFlowResult">
+                        </dx-button>
+                    </div>
+                    <div class="clearfix2" *dxTemplate="let data of 'nameTemplate6'">
+                        <dx-text-box [value]="SRHeader ? SRHeader.ShiptoName:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        <dx-button type="default" icon="info" (onClick)="getShipToCustomerDetail($event)" [disabled]="SRFlowResult">
+                        </dx-button>
+                    </div>
+
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate7'" [label]="{text: 'Bill to'}">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate8'" [label]="{text: 'Bill to Name'}"
+                        [editorOptions]="{ width: '100%',elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <div class="clearfix2" *dxTemplate="let data of 'nameTemplate7'">
+                        <dx-text-box [value]="SRHeader ? SRHeader.BilltoCustomerNo:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        <dx-button type="default" icon="find" (onClick)="onCustomerSearchClicked('BillTo')" [disabled]="SRFlowResult">
+                        </dx-button>
+                    </div>
+                    <div class="clearfix2" *dxTemplate="let data of 'nameTemplate8'">
+                        <dx-text-box [value]="SRHeader ? SRHeader.BilltoName:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        <dx-button type="default" icon="info" (onClick)="getBillToCustomerDetail($event)" [disabled]="SRFlowResult">
+                        </dx-button>
+                    </div>
+                </dx-form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <dx-form (onFieldDataChanged)="formSummary_fieldDataChanged($event)" itemType="group" [colCount]="1"
+                    [formData]="SRHeader" accept-charset="UTF-8" [readOnly]="SRFlowResult">
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="OrderDate" editorType="dxDateBox"
+                            [editorOptions]="{readOnly:isLinesExist, width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                        </dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="ShipmentDate" [label]="{text: 'Receive Date'}"
+                            editorType="dxDateBox" [editorOptions]="{width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                        </dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate5'" [label]="{text: 'Sugg. Location'}"
+                            [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" [template]="'FromInvoiceNo'" [label]="{text: 'From InvoiceNo'}"
+                            [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}">
+                        </dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="YourReference" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group" [colCount]="2">
+                        <dxi-item itemType="group">
+                            <dxi-item cssClass="font-for-formlable" dataField="ExternalDocumentNo" [label]="{text: 'Ext. Doc. No'}">
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group">
+                            <dxi-item cssClass="font-for-formlable" dataField="AmtIncvat" editorType="dxCheckBox"
+                                [label]="{text: 'Price Inc TAX'}" [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' }, readOnly:isLinesExist }">
+                            </dxi-item>
+                        </dxi-item>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'nameTemplate5'">
+                        <dx-select-box #selectBox4 [dataSource]="ShipFromSuggestions" [searchEnabled]="true"
+                            [displayExpr]="suggestionFormateForLocationCode" valueExpr="LocationCode" [minSearchLength]="0"
+                            [readOnly]="SRFlowResult" [value]="SRHeader ? SRHeader.LocationCode:''" (onValueChanged)="onDropDownCodeChanged($event,'LocationCode')"
+                            hoverStateEnabled="true" [itemTemplate]="hover4">
+                        </dx-select-box>
+                    </div>
+                    <div *dxTemplate="let data of 'FromInvoiceNo'">
+                        <dx-select-box #selectBox4 [dataSource]="gotpostedsalesinvoicelines" [searchEnabled]="true"
+                            [displayExpr]="suggestionFormateForFromInvoiceNo" valueExpr="DocumentNo" [minSearchLength]="0"
+                            fieldTemplate="field5" [readOnly]="isLinesExist" [value]="SRHeader ? SRHeader.FromInvoiceNo:''"
+                            (onValueChanged)="onDropDownCodeChanged($event,'FromInvoiceNo')" hoverStateEnabled="true"
+                            [itemTemplate]="hoverforFromInvoiceNo">
+                            <div *dxTemplate="let itemData5 of 'field5'">
+                                <dx-text-box [text]="itemData5 ? itemData5.DocumentNo:SRHeader ? SRHeader.FromInvoiceNo:''"
+                                    [readOnly]="SRFlowResult" [elementAttr]="{ 'class': 'font-for-formlable' }">
+                                </dx-text-box>
+                            </div>
+                        </dx-select-box>
+                    </div>
+                </dx-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource"
+                    [showBorders]="true" [allowColumnResizing]="true" [allowColumnReordering]="true" [wordWrapEnabled]="true"
+                    (onInitNewRow)="onInitNewRow($event)" (onRowInserted)="onRowInserted($event)" (onRowUpdated)="onRowInserted($event)"
+                    (onEditingStart)="onInitNewRow($event)" (onCellPrepared)="onCellPrepared($event)">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-editing mode="row" [allowAdding]="!SRFlowResult" [allowUpdating]="!SRFlowResult"
+                        [allowDeleting]="!SRFlowResult">
+                    </dxo-editing>
+                    <dxi-column dataField="LineNo" [allowSearch]="false" [visible]="false"></dxi-column>
+                    <dxi-column dataField="ItemCode" [allowSearch]="true" [setCellValue]="setBaseUOMValueItemCode"
+                        [allowEditing]="false" dataType="string">
+                        <!-- <dxo-lookup [dataSource]="itemArray" [valueExpr]="formateForItemListSuggestion2"
+                            [displayExpr]="itemLookup2" hoverStateEnabled="true">
+                        </dxo-lookup> -->
+                    </dxi-column>
+                    <dxi-column dataField="Lookup" caption="" cellTemplate="cellTemplate" [allowEditing]="false"
+                        [allowSearch]="false" [visible]="false"></dxi-column>
+                    <dxi-column dataField="Details" caption="" cellTemplate="cellTemplate2" [allowEditing]="false"
+                        [allowSearch]="false"></dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                        <div class="icon">
+                            <i class="fa fa-search" (click)="ItemLookupvalueChanged(data)"></i>
+                        </div>
+                    </div>
+                    <div *dxTemplate="let data of 'cellTemplate2'">
+                        <div class="icon">
+                            <a><i class="fa fa-info-circle" (click)="ItemDeatilsForPopUp(data)"></i></a>
+                        </div>
+                    </div>
+                    <dxi-column dataField="Description" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="UOM" [allowSearch]="true" dataType="string" [allowEditing]="false">
+                    </dxi-column>
+                    <dxi-column dataField="UnitPrice" [allowSearch]="false" dataType='number' [editorOptions]="{ min: 0, format: ' #,##0.##' }"
+                        [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column> <!-- [setCellValue]="setPriceValue" -->
+                    <dxi-column dataField="OrderQuantity" [allowSearch]="false" dataType="number" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="Quantity" dataType="number" [allowSearch]="false" [editorOptions]="{ min: 0, format: ' #,##0.##' }">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column> <!-- [setCellValue]="setQuantityValue" -->
+                    <dxi-column dataField="VatAmount" [allowSearch]="false" dataType="number" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="LineDiscountAmount" dataType="string" [allowSearch]="false">
+                    </dxi-column> <!-- [setCellValue]="setDiscountValue" -->
+                    <dxi-column dataField="LineAmount" [allowSearch]="false" dataType="number" [allowEditing]="false"
+                        [editorOptions]="{ min: 0, format: ' #,##0.##' }">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="ReturnedQuantity" [allowSearch]="false" dataType="number" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="QtytoInvoice" [allowSearch]="false" dataType="number" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                    <dxo-summary>
+                        <dxi-total-item column="Quantity" displayFormat="Total:"></dxi-total-item>
+                        <dxi-total-item column="LineDiscountAmount" summaryType="sum" displayFormat="{0}"
+                            [customizeText]="getFormatOfNumber"></dxi-total-item>
+                        <dxi-total-item column="LineAmount" summaryType="sum" displayFormat="{0}" [customizeText]="getFormatOfNumber"
+                            dataType="number"></dxi-total-item>
+                        <dxi-total-item column="ReturnedQuantity" summaryType="sum" displayFormat="{0}" [customizeText]="getFormatOfNumber"
+                            dataType="number"></dxi-total-item>
+                    </dxo-summary>
+                </dx-data-grid>
+                <div class="row" style="padding: 10px; float: right; color:#000;">
+                    <div>
+                        <span style="float: right; color:#000;"> Quantity : {{ TotalQuantity | number:
+                            '1.2-2'}}</span>
+                        <br>
+                        <br>
+                        <span style="float: right; color:#000;"> Discount : {{ totalInvoiceDisocunt}}</span>
+                        <br>
+                        <br>
+                        <span style="float: right; color:#000;"> Amount Ex Tax : {{ lineTotal | number:
+                            '1.2-2'}}</span>
+                        <br>
+                        <br>
+                        <span style="float: right; color:#000;"> Tax : {{ Tax | number: '1.2-2'}} </span>
+                        <br>
+                        <br>
+                        <span style="float: right; color:#000;"> Amount Inc Tax : {{ amtincvatvalue |
+                            number: '1.2-2' }} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+                    <ngb-tab title="Product and Services">
+                        <ng-template ngbTabContent>
+                            <div #barcodediv id="barcodediv" class="dx-field"
+                                [ngStyle]="{'visibility':isDivVisible ? 'visible' : 'hidden'}">
+                                <dx-form *ngIf="isDivVisible" [formData]="barcodeValue"
+                                    (onFieldDataChanged)="BarcodetxtScan_enterHandler($event)" [colCount]="2"
+                                    accept-charset="UTF-8" [focusStateEnabled]="true">
+                                    <dxi-item #SalesReturnScanOperations id="SalesReturnScanOperations"
+                                        dataField="barcode"
+                                        [editorOptions]="{ showClearButton: true, onContentReady:setFocus }"
+                                        [label]="{text: 'Scan-Mode Active'}"></dxi-item>
+                                </dx-form>
+                            </div>
+                           
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Billing Info">
+                        <ng-template ngbTabContent>
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <dx-form id="BillInfo" [formData]="SRHeader"
+                                        (onFieldDataChanged)="formBilling_fieldDataChanged($event)" [colCount]="2"
+                                        accept-charset="UTF-8" [readOnly]="SRFlowResult">
+                                        <dxi-item itemType="group">
+                                            <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate2'"
+                                                [label]="{text: 'Bil-To'}"></dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" editorType="dxTextArea"
+                                                dataField="BilltoAddress" [label]="{text: 'Address1'}"
+                                                [editorOptions]="{ height:70, elementAttr:{ 'class': 'font-for-formlable'}}">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" dataField="BilltoCity"
+                                                [label]="{text: 'City'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                        </dxi-item>
+                                        <div *dxTemplate="let data of 'nameTemplate2'">
+                                            <dx-select-box #selectBox2 [dataSource]="customerSuggestions"
+                                                [searchEnabled]="true" [showClearButton]="!SRFlowResult"
+                                                [displayExpr]="suggestionFormateForCustomer" valueExpr="CustCode"
+                                                [minSearchLength]="0" fieldTemplate="field2" [readOnly]="SRFlowResult"
+                                                noDataText="Want to Add New ?"
+                                                [value]="customerSuggestions ? SRHeader.BilltoCustomerNo:''"
+                                                [disabled]="customerSuggestions!=null ? false:true"
+                                                (onValueChanged)="onBillToCustomerCodeChanged($event)"
+                                                hoverStateEnabled="true" [itemTemplate]="hover">
+                                                <div *dxTemplate="let itemData2 of 'field2'">
+                                                    <dx-text-box
+                                                        [text]="itemData2 ? itemData2.CustCode:SRHeader ? SRHeader.BilltoCustomerNo:''"
+                                                        [readOnly]="SRFlowResult"
+                                                        [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                                    <dx-button *ngIf="selectBox2.text!=''"
+                                                        [visible]="!selectBox2.text.includes('|')" icon="plus"
+                                                        (onClick)="showNewCustomerCard($event)"
+                                                        [elementAttr]="{ 'class': 'cls' }"></dx-button>
+                                                </div>
+                                            </dx-select-box>
+                                        </div>
+                                        <dxi-item itemType="group">
+                                            <dxi-item cssClass="font-for-formlable" dataField="BilltoName"
+                                                [label]="{text: 'Name'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" editorType="dxTextArea"
+                                                dataField="BilltoAddress2" [label]="{text: 'Address2'}"
+                                                [editorOptions]="{ height:70, elementAttr:{ 'class': 'font-for-formlable'}}">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" dataField="BilltoPostCode"
+                                                [label]="{text: 'Post Code'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                        </dxi-item>
+                                    </dx-form>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Shipping Info">
+                        <ng-template ngbTabContent>
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <dx-form id="ShippingInfo" [formData]="SRHeader" [colCount]="2"
+                                        accept-charset="UTF-8"
+                                        (onFieldDataChanged)="formShipping_fieldDataChanged($event)"
+                                        [readOnly]="SRFlowResult">
+                                        <dxi-item itemType="group">
+                                            <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate3'"
+                                                [label]="{text: 'Ship-To'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" editorType="dxTextArea"
+                                                dataField="ShiptoAddress" [label]="{text: 'Address1'}"
+                                                [editorOptions]="{ height:70, elementAttr:{ 'class': 'font-for-formlable' }}">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" dataField="ShiptoCity"
+                                                [label]="{text: 'City'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                        </dxi-item>
+                                        <div *dxTemplate="let data of 'nameTemplate3'">
+                                            <dx-select-box #selectBox3 [dataSource]="customerSuggestions"
+                                                [searchEnabled]="true" [showClearButton]="!SRFlowResult"
+                                                [displayExpr]="suggestionFormateForCustomer" valueExpr="CustCode"
+                                                [minSearchLength]="0" fieldTemplate="field3" [readOnly]="SRFlowResult"
+                                                noDataText="Want to Add New ?"
+                                                [value]="customerSuggestions ? SRHeader.ShiptoCode:''"
+                                                [disabled]="customerSuggestions!=null ? false:true"
+                                                (onValueChanged)="onShipToCustomerCodeChanged($event)"
+                                                hoverStateEnabled="true" [itemTemplate]="hover">
+                                                <div *dxTemplate="let itemData3 of 'field3'">
+                                                    <dx-text-box
+                                                        [text]="itemData3 ? itemData3.CustCode:SRHeader ? SRHeader.ShiptoCode:''"
+                                                        [readOnly]="SRFlowResult"
+                                                        [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                                    <dx-button *ngIf="selectBox3.text!=''"
+                                                        [visible]="!selectBox3.text.includes('|')" icon="plus"
+                                                        (onClick)="showNewCustomerCard($event)"
+                                                        [elementAttr]="{ 'class': 'cls' }"></dx-button>
+                                                </div>
+                                            </dx-select-box>
+                                        </div>
+                                        <dxi-item itemType="group">
+                                            <dxi-item cssClass="font-for-formlable" dataField="ShiptoName"
+                                                [label]="{text: 'Name'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" editorType="dxTextArea"
+                                                dataField="ShiptoAddress2" [label]="{text: 'Address2'}"
+                                                [editorOptions]="{ height:70, elementAttr:{ 'class': 'font-for-formlable' }}">
+                                            </dxi-item>
+                                            <dxi-item cssClass="font-for-formlable" dataField="ShiptoPostCode"
+                                                [label]="{text: 'Post Code'}"
+                                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                                            </dxi-item>
+                                        </dxi-item>
+                                    </dx-form>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Get From SO">
+                        <ng-template ngbTabContent>
+                            <dx-data-grid #gridContainerSO [columnAutoWidth]="true" id="gridContainerSO"
+                                [dataSource]="dataSourceSO" [showBorders]="true" [allowColumnResizing]="true"
+                                [repaintChangesOnly]="true">
+                                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                <dxi-column dataField="DocumentNo" [allowSearch]="true" [allowEditing]="false">
+                                </dxi-column>
+                                <dxi-column dataField="OrderDate" [allowSearch]="true" dataType="string"
+                                    [allowEditing]="false">
+                                </dxi-column>
+                                <dxi-column dataField="ItemCode" [allowSearch]="true" dataType="string"
+                                    [allowEditing]="false"></dxi-column>
+                                <dxi-column dataField="Description" [allowSearch]="true" dataType="string"
+                                    [allowEditing]="false"></dxi-column>
+                                <dxi-column dataField="UOM" [allowSearch]="true" dataType="string"
+                                    [allowEditing]="false"></dxi-column>
+                                <dxi-column dataField="QtyAvb" dataType="number" [allowSearch]="false"
+                                    [allowEditing]="false" [editorOptions]="{ mode:number }">
+                                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                </dxi-column>
+                                <dxi-column dataField="UnitPrice" dataType="number" [allowEditing]="false"
+                                    [allowSearch]="false" [editorOptions]="{ mode:number }">
+                                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                </dxi-column>
+                                <dxi-column dataField="amountIncludingVAT" dataType="number" [allowSearch]="false"
+                                    [allowEditing]="true" [editorOptions]="{ mode:number, min:0 }">
+                                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                </dxi-column>
+                                <dxi-column dataField="LineDiscountAmount" dataType="number" [allowSearch]="false"
+                                    [allowEditing]="true" [editorOptions]="{ mode:number, min:0 }">
+                                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                </dxi-column>
+                                <dxi-column dataField="Action" cellTemplate="cellTemplate" [allowEditing]="false"
+                                    [allowSearch]="false"></dxi-column>
+                                <dxo-paging [pageSize]="12"></dxo-paging>
+                                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                </dxo-pager>
+                                <div *dxTemplate="let data of 'cellTemplate'">
+                                    <dx-button [visible]="!SRFlowResult" text="ADD" type="default" icon="plus"
+                                        (onClick)="btnAddLinePressed(data)"></dx-button>
+                                </div>
+                            </dx-data-grid>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+    </div>
+</div> -->

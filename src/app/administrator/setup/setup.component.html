@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-12">
+    <dx-form [colCount]="3" [(formData)]="userDefinedAttributes" accept-charset="UTF-8">
+      <dxi-item cssClass="font-for-formlable" [template]="'userDefinedAttributes'" [label]="{text: 'Choose Master'}"
+        [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+      </dxi-item>
+      <div *dxTemplate="let data of 'userDefinedAttributes'">
+        <dx-select-box #selectBox1 [dataSource]="userDefinedAttributes" [searchEnabled]="true"
+          [displayExpr]="suggestionFormateForDropDown3" valueExpr="master" [minSearchLength]="0" fieldTemplate="field1"
+          [value]="userDefinedAttributes ? userDefinedAttributes.master:''" (onValueChanged)="onmasterChange($event)"
+          hoverStateEnabled="true" [itemTemplate]="hover3">
+          <div *dxTemplate="let itemData1 of 'field1'">
+            <dx-text-box [text]="itemData1 ? itemData1.master:userDefinedAttributes ? userDefinedAttributes.master:'' "
+              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+          </div>
+        </dx-select-box>
+      </div>
+    </dx-form>
+  </div> 
+</div>
+<br>
+<div class="row">
+  <div class="col-12">
+    <form-builder [(form)]="jsonSchema" (change)="onChange($event)"></form-builder>
+  </div>
+</div>

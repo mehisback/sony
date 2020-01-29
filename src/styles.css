@@ -1,1 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import '../node_modules/ngx-toastr/toastr.css';
+@import '../node_modules/angular-archwizard/archwizard.css';
+
+.ps .ps__scrollbar-y-rail {
+  left: 3px;
+  right: auto;
+}
+
+
+.float {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  top:5px;
+  right: 480px;
+  background-color: #0c9;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 999;
+}
+
+.my-float {
+  margin-top: 17px;
+}
+
+
+.float-home {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  top:5px;
+  right: 420px;
+  background-color: #408bca;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 999;
+}
+
+.my-float-home {
+  margin-top: 17px;
+}
+
+
+.float-help {
+  position: fixed;
+  top:85px;
+  right: 30px;
+  z-index: 999;
+}
+
+@media only screen and (max-width: 480px) {
+  .float-home {
+    right:70px;
+  }
+
+  .float {
+    right:130px;
+  }
+
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* TOASTR BUGFIX */
+#toast-container > div {
+  opacity: 1;
+}
+.toast {
+  font-size: initial !important;
+  border: initial !important;
+  backdrop-filter: blur(0) !important;
+}
+.toast-success {
+  background-color: #51A351 !important;
+}
+.toast-error {
+  background-color: #BD362F !important;
+}
+.toast-info {
+  background-color: #2F96B4 !important;
+}
+.toast-warning {
+  background-color: #F89406 !important;
+}

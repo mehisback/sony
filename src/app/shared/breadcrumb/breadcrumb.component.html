@@ -1,0 +1,48 @@
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-themecolor">{{pageInfo?.title}}</h3>
+        <ol class="breadcrumb">
+            <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                    <a href='javascript:void(0)'>{{url.title}}</a>
+                </li>
+                <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li>
+            </ng-template>
+        </ol>
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-5 remove-help-button">
+            <!-- <ng-template ngFor [ngForOf]="pageInfo?.urls">
+                <a [routerLink]="[ '/dashboard/dashboard1']">
+                    <button type="button" class="btn btn-secondary float-right disabled">
+                        <i class="fa fa-info"></i>
+                        Help</button>
+                </a>
+            </ng-template> -->
+    </div>
+    <!-- <div  class="col-md-5">
+        <form>
+            <div class="form-group row">
+                    <label for="example-number-input" class="col-3 col-form-label font-for-formlable">Operations</label>
+                    <div class="col-4 pl-0">
+                        <select class="custom-select form-control form-control-sm" id="example-month-input2">
+                            <option selected="">Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="text-right d-none d-md-block">
+                            <button type="button" class="btn btn-success"><i class="fa fa-plus-circle"></i> Go</button>
+                        </div>
+                </div>
+            </form>
+    </div> -->
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->

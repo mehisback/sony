@@ -1,0 +1,60 @@
+<a [routerLink]="[ '/finance/gl-register']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="dataSource"
+          [showBorders]="true" [hoverStateEnabled]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <dxo-paging [pageSize]="20"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+          </dxo-pager>
+          <dxi-column dataField="EntryNo"></dxi-column>
+          <dxi-column dataField="DocumentNo"></dxi-column>
+          <dxi-column dataField="DocumentDate"></dxi-column>
+          <dxi-column dataField="PostingDate"></dxi-column>
+          <dxi-column dataField="DocumentType"></dxi-column>
+          <dxi-column dataField="AccountCode"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="Amount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="DebitAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="CreditAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="ReversedEntry"></dxi-column>
+          <dxi-column dataField="UserID"></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="dataSource2"
+          [showBorders]="true" [hoverStateEnabled]="true">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <dxo-paging [pageSize]="20"></dxo-paging>
+          <dxi-column dataField="LV"></dxi-column>
+          <dxi-column dataField="TYPES"></dxi-column>
+          <dxi-column dataField="DOCUMENTNO"></dxi-column>
+          <dxi-column dataField="MASTERS"></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

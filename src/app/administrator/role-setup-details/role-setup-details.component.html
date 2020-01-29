@@ -1,0 +1,284 @@
+<a [routerLink]="[ '/administrator/role-setup-list']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+      <div class="card bg-darkerbg">
+          <div class="card-body">
+              <dx-form id="SalesOrderOperation" itemType="group" [colCount]="4" accept-charset="UTF-8">
+                  <dxi-item itemType="group">
+                      <dxi-item [template]="'MainTemp'"></dxi-item>
+                  </dxi-item>
+                  <div *dxTemplate="let data of 'MainTemp'">
+                      <span style="color: #fff; font-size:22px;"><b>Role: {{selectedRole }}</b></span>
+                  </div>
+              </dx-form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+  <ngb-tab title="Menu Permission" id="menu">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-4">
+          <div class="card h-100">
+            <div class="card-body font-for-formlable">
+              <h4 class="card-title">Modules:</h4>
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainerMenuModules"
+                [dataSource]="dataSourceRoleModules" [showBorders]="true" [focusedRowEnabled]="true"
+                (onFocusedRowChanged)="onFocusedRowChangedModules($event)">
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxi-column dataField="ID" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="Name" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+            <div class="card">
+              <dx-button text="Add" width="80%" style="margin-left: auto; margin-right: auto;" type="default" (onClick)="btnAddModules_clickHandler()">
+              </dx-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card h-100">
+            <div class="card-body font-for-formlable">
+              <h4 class="card-title">Granules:</h4>
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainerMenuGranules"
+                [dataSource]="dataSourceRoleGranules" [showBorders]="true" [focusedRowEnabled]="true"
+                (onFocusedRowChanged)="onFocusedRowChangedGranules($event)">
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxi-column dataField="ID" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="Name" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+            <div class="card">
+              <dx-button text="Add" width="80%" style="margin-left: auto; margin-right: auto;" type="default" (onClick)="btnAddGranules_clickHandler()">
+              </dx-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card h-100">
+            <div class="card-body font-for-formlable">
+              <h4 class="card-title">Functions:</h4>
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainerMenuGranules"
+                [dataSource]="dataSourceRoleFunctions" [showBorders]="true" [focusedRowEnabled]="true"
+                (onFocusedRowChanged)="onFocusedRowChangedFunctions($event)">
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxi-column dataField="ID" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="Name" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+            <div class="card">
+              <dx-button text="Add" width="80%" style="margin-left: auto; margin-right: auto;" type="default" (onClick)="btnAddFunctions_clickHandler()">
+              </dx-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card h-100">
+            <div class="card-body font-for-formlable">
+              <h4 class="card-title">Added Menu:</h4>
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainerMenuPermission"
+                [dataSource]="dataSourceRoleMenuPermission" [showBorders]="true" [focusedRowEnabled]="true"
+                (onFocusedRowChanged)="onFocusedRowChangedMenuPermission($event)">
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxi-column dataField="Name" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="MenuID" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="MenuLevel" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+
+            <div class="card">
+              <dx-button text="Delete Menu Permission" width="20%" style="margin-left: 20px;" type="default" (onClick)="btnDeletePermission_clickHandler()">
+              </dx-button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Create" id="create">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <div id="form-container">
+                <dx-form id="RolePermissionDetails"  [(formData)]="rolePermissionDetail"  (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8">
+                  <dxi-item class="font-for-formlable" dataField="CreateItem" editorType="dxCheckBox" [editorOptions]="{ text: 'Create Item', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreateCustomer" editorType="dxCheckBox" [editorOptions]="{ text: 'Create Customer', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreateVendor" editorType="dxCheckBox" [editorOptions]="{ text: 'Create Vendor', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreateSO" editorType="dxCheckBox" [editorOptions]="{ text: 'Create SO', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreatePO" editorType="dxCheckBox" [editorOptions]="{ text: 'Create PO', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreatePick" editorType="dxCheckBox" [editorOptions]="{ text: 'Create Pick', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreateGR" editorType="dxCheckBox" [editorOptions]="{ text: 'Create GR', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="CreateDeposit" editorType="dxCheckBox" [editorOptions]="{ text: 'Create Deposit', elementAttr:{ 'class': 'font-for-formlable' } }">
+                      <dxo-label [visible]="false">
+                        </dxo-label>
+                  </dxi-item>
+                </dx-form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Edit" id="edit">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+                <div id="form-container">
+                    <dx-form id="RolePermissionDetails"  [(formData)]="rolePermissionDetail"  (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8">
+                      <dxi-item class="font-for-formlable" dataField="EditSO" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit SO', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="EditPick" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit Pick', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="EditPO" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit PO', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="EditGR" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit GR', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="EditDeposit" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit Deposit', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                    </dx-form>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Post" id="post">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+                <div id="form-container">
+                    <dx-form id="RolePermissionDetails"  [(formData)]="rolePermissionDetail"  (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8">
+                      <dxi-item class="font-for-formlable" dataField="PostPick" editorType="dxCheckBox" [editorOptions]="{ text: 'Post Pick', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="PostGR" editorType="dxCheckBox" [editorOptions]="{ text: 'Post GR', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="PostDeposit" editorType="dxCheckBox" [editorOptions]="{ text: 'Post Deposit', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                    </dx-form>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Other" id="other">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+                <div id="form-container">
+                    <dx-form id="RolePermissionDetails"  [(formData)]="rolePermissionDetail"  (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8">
+                      <dxi-item class="font-for-formlable" dataField="EditSOafterFinal" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit S.O. After Approval', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="EditPOafterFinal" editorType="dxCheckBox" [editorOptions]="{ text: 'Edit P.O. After Approval', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="ClosePick" editorType="dxCheckBox" [editorOptions]="{ text: 'Allow Pick Close', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="CloseGR" editorType="dxCheckBox" [editorOptions]="{ text: 'Allow GR Close', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="CloseDeposit" editorType="dxCheckBox" [editorOptions]="{ text: 'Allow Deposit Close', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="CanRep" editorType="dxCheckBox" [editorOptions]="{ text: 'Can Replicate', elementAttr:{ 'class': 'font-for-formlable' } }">
+                          <dxo-label [visible]="false">
+                            </dxo-label>
+                      </dxi-item>
+                    </dx-form>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+
+
+
+</ngb-tabset>

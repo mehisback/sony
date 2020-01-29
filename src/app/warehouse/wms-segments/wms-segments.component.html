@@ -1,0 +1,185 @@
+<a [routerLink]="[ '/warehouse/wms-segments-list']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <ngb-tabset type="pills">
+          <ngb-tab title="General Setup">
+            <ng-template ngbTabContent>
+              <br>
+              <div class="row">
+                <div class="col-6">
+                  <dx-form id="WarehouseGroup" [formData]="LocationDetails" (onFieldDataChanged)="formWarehouse_fieldDataChanged($event)"
+                    accept-charset="UTF-8">
+                    <dxi-item class="font-for-formlable" dataField="LocationCode" [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' }, readOnly: true }"></dxi-item>
+                    <dxi-item class="font-for-formlable" dataField="Name"></dxi-item>
+                    <dxi-item class="font-for-formlable" dataField="Address1"></dxi-item>
+                    <dxi-item class="font-for-formlable" dataField="Address2"></dxi-item>
+                    <dxi-item class="font-for-formlable" dataField="City"></dxi-item>
+                    <dxi-item class="font-for-formlable" dataField="Zip"></dxi-item>
+                  </dx-form>
+                </div>
+                <div class="col-6">
+                  <dx-form id="WarehouseGroup" [formData]="LocationDetails" (onFieldDataChanged)="formWarehouse_fieldDataChanged($event)"
+                    accept-charset="UTF-8">
+                    <dxi-item itemType="group">
+                      <dxi-item cssClass="font-for-formlable" [template]="'LocationType'" [label]="{text: 'Location Type'}"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                      <dxi-item class="font-for-formlable" dataField="LocationStatus" [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' }, disabled: true }"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                      <dxi-item cssClass="font-for-formlable" [template]="'receiveAtTemplate'" [label]="{text: 'Default Receive At'}"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                      <dxi-item cssClass="font-for-formlable" [template]="'shipAtTemplate'" [label]="{text: 'Default Ship At'}"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                      <dxi-item cssClass="font-for-formlable" [template]="'storageAtTemplate'" [label]="{text: 'Default Storage At'}"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group" [colCount]="3">
+                      <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="Intransit" editorType="dxCheckBox" [label]="{text: 'Intransit'}"
+                          [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' }, readOnly:isConsignment }">
+                        </dxi-item>
+                      </dxi-item>
+                      <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="QCLocation" editorType="dxCheckBox" [label]="{text: 'QCLocation'}"
+                          [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' } }">
+                        </dxi-item>
+                      </dxi-item>
+                      <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="DepositLocation" editorType="dxCheckBox"
+                          [label]="{text: 'Consignment'}" [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' } }">
+                        </dxi-item>
+                      </dxi-item>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'LocationType'">
+                      <dx-select-box #selectBox1 [dataSource]="tenderSuggestions" [searchEnabled]="true"
+                        [displayExpr]="suggestionFormateForLocation2" valueExpr="Code"
+                        [minSearchLength]="0" fieldTemplate="field1" [value]="receiveLocSuggestions ? LocationDetails.LocationType:''"
+                        (onValueChanged)="onDropDownChanged($event,'LocationType')" hoverStateEnabled="true"
+                        [itemTemplate]="hoverFormateForLocation2">
+                        <div *dxTemplate="let itemData1 of 'field1'">
+                          <dx-text-box [text]="itemData1 ? itemData1.Code:'' " [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        </div>
+                      </dx-select-box>
+                    </div>
+                    <div *dxTemplate="let data of 'storageAtTemplate'">
+                      <dx-select-box #selectBox1 [dataSource]="receiveLocSuggestions" [searchEnabled]="true"
+                        [displayExpr]="suggestionFormateForLocation" valueExpr="Code"
+                        [minSearchLength]="0" fieldTemplate="field1" [value]="receiveLocSuggestions ? LocationDetails.DefStoreageUnit:''"
+                        (onValueChanged)="onDropDownChanged($event,'DefStoreageUnit')" hoverStateEnabled="true"
+                        [itemTemplate]="hoverFormateForLocation">
+                        <div *dxTemplate="let itemData1 of 'field1'">
+                          <dx-text-box [text]="itemData1 ? itemData1.Code:'' " [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        </div>
+                      </dx-select-box>
+                    </div>
+                    <div *dxTemplate="let data of 'receiveAtTemplate'">
+                      <dx-select-box #selectBox1 [dataSource]="receiveLocSuggestions" [searchEnabled]="true"
+                        [displayExpr]="suggestionFormateForLocation" valueExpr="Code"
+                        [minSearchLength]="0" fieldTemplate="field1" [value]="receiveLocSuggestions ? LocationDetails.DefReceiveStorage:''"
+                        (onValueChanged)="onDropDownChanged($event,'DefReceiveStorage')" hoverStateEnabled="true"
+                        [itemTemplate]="hoverFormateForLocation">
+                        <div *dxTemplate="let itemData1 of 'field1'">
+                          <dx-text-box [text]="itemData1 ? itemData1.Code:'' " [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        </div>
+                      </dx-select-box>
+                    </div>
+                    <div *dxTemplate="let data of 'shipAtTemplate'">
+                      <dx-select-box #selectBox1 [dataSource]="receiveLocSuggestions" [searchEnabled]="true"
+                        [displayExpr]="suggestionFormateForLocation" valueExpr="Code"
+                        [minSearchLength]="0" fieldTemplate="field1" [value]="receiveLocSuggestions ? LocationDetails.DefPickStorage:''"
+                        (onValueChanged)="onDropDownChanged($event,'DefPickStorage')" hoverStateEnabled="true"
+                        [itemTemplate]="hoverFormateForLocation">
+                        <div *dxTemplate="let itemData1 of 'field1'">
+                          <dx-text-box [text]="itemData1 ? itemData1.Code:'' " [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                        </div>
+                      </dx-select-box>
+                    </div>
+                  </dx-form>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Segments">
+            <ng-template ngbTabContent>
+              <br>
+              <div class="row">
+                <div class="col-3 text-center">
+                  <h5><b>ZONES</b></h5>
+                  <br>
+                  <dx-data-grid #gridContainer1 [columnAutoWidth]="true" id="gridContainer1" [dataSource]="dataSource"
+                    [showBorders]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect1($event)"
+                    [hoverStateEnabled]="true">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
+                    <dxi-column dataField="ZoneCode" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="Name" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                  </dx-data-grid>
+                </div>
+                <div class="col-3 text-center">
+                  <h5><b>SECTIONS</b></h5>
+                  <br>
+                  <dx-data-grid #gridContainer2 [columnAutoWidth]="true" id="gridContainer2" [dataSource]="dataSource2"
+                    [showBorders]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect2($event)"
+                    [hoverStateEnabled]="true" (onInitNewRow)="wmsLocationCardOnInitNewRow($event,'SECTIONS')">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-editing mode="row" [allowAdding]="isSectionAdd" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
+                    <dxi-column dataField="SectionCode" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="Name" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                  </dx-data-grid>
+                </div>
+                <div class="col-3 text-center">
+                  <h5><b>SHELVES</b></h5>
+                  <br>
+                  <dx-data-grid #gridContainer3 [columnAutoWidth]="true" id="gridContainer3" [dataSource]="dataSource3"
+                    [showBorders]="true" [allowColumnResizing]="true" [hoverStateEnabled]="true" (onRowClick)="onUserRowSelect3($event)"
+                    (onInitNewRow)="wmsLocationCardOnInitNewRow($event,'SHELVES')">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-editing mode="row" [allowAdding]="isShelvesAdd" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
+                    <dxi-column dataField="ShelfCode" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="Name" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                  </dx-data-grid>
+                </div>
+                <div class="col-3 text-center">
+                  <h5><b>STORAGE UNITS</b></h5>
+                  <br>
+                  <dx-data-grid #gridContainer4 [columnAutoWidth]="true" id="gridContainer4" [dataSource]="dataSource4"
+                    [showBorders]="true" [allowColumnResizing]="true" [hoverStateEnabled]="true" (onInitNewRow)="wmsLocationCardOnInitNewRow($event,'STORAGE')">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-editing mode="row" [allowAdding]="isStorageAdd" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
+                    <dxi-column dataField="StorageUnit" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="StorageUnitCode" [allowSearch]="true" dataType="string" [allowEditing]="false"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                  </dx-data-grid>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</div>

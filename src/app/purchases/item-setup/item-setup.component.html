@@ -1,0 +1,267 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+    <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+    <div class="col-12">
+        <ngb-tabset type="pills">
+            <ngb-tab title="ITEM FAMILY | CATEGORY | SUB CATEGORY" id="first">
+                <ng-template ngbTabContent>
+                    <br>
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>ITEM FAMILY</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource" [showBorders]="true" [allowColumnResizing]="true"
+                                        (onRowClick)="onUserRowSelect($event)" [hoverStateEnabled]="true">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="Code" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>CATEGORY</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer2 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource2" [showBorders]="true" [allowColumnResizing]="true"
+                                        (onRowClick)="onUserRowSelect2($event)" [hoverStateEnabled]="true"
+                                        (onInitNewRow)="ItemSetupOnInitNewRow($event,'CATEGORY')">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="Code" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="FamilyCode" [allowSearch]="true" dataType="string"
+                                            [allowEditing]="false">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="ItemPrefix" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>SUB CATEGORY</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer3 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource3" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true" (onInitNewRow)="ItemSetupOnInitNewRow($event,'SUBCATEGORY')">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="SubCode" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Category" [allowSearch]="true" dataType="string"
+                                            [allowEditing]="false">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="ItemPrefix" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="UOM | COLOR | BRAND" id="second">
+                <ng-template ngbTabContent>
+                    <br>
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>UOM</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer4 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource4" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="Code" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>COLOR</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer5 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource5" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="ColorCode" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>BRAND</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer6 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource6" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="BrandCode" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="ItemPrefix" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="GENDER | SIZE | SIZE CATEGORY" id="third">
+                <ng-template ngbTabContent>
+                    <br>
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>GENDER</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer7 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource7" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="Name" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>SIZE</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer8 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource8" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true" (onRowClick)="onUserRowSelect3($event)">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="SizeCode" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="SizeSequence" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxi-column dataField="GroupID" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="card">
+                                <div class="card-body font-for-formlable">
+                                    <h5><b>SIZE CATEGORY</b></h5>
+                                    <br>
+                                    <dx-data-grid #gridContainer9 [columnAutoWidth]="true" id="gridContainer"
+                                        [dataSource]="dataSource9" [showBorders]="true" [allowColumnResizing]="true"
+                                        [hoverStateEnabled]="true" (onInitNewRow)="ItemSetupOnInitNewRow($event,'SIZECATEGORY')">
+                                        <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true"
+                                            [allowDeleting]="true">
+                                        </dxo-editing>
+                                        <dxi-column dataField="CategoryCode" [allowSearch]="true" [editorOptions]="{showClearButton: false, itemTemplate: hoverFormateForLookup, searchExpr: ['Code', 'Description'] }"
+                                            dataType="string">
+                                            <dxo-lookup [dataSource]="SuggestionsLookup" [valueExpr]="suggestionFormateForLookup"
+                                                [displayExpr]="suggestionFormateForLookup" hoverStateEnabled="true">
+                                            </dxo-lookup>
+                                        </dxi-column>
+                                        <dxi-column dataField="SizeCode" [allowSearch]="true" dataType="string">
+                                        </dxi-column>
+                                        <dxo-paging [pageSize]="12"></dxo-paging>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                                        </dxo-pager>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

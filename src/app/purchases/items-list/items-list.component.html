@@ -1,0 +1,320 @@
+<div class="row">
+    <div class="col-lg-4 col-md-8 col-sm-12">
+        <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Search">
+    </div>
+    <a [routerLink]="" class="float" (click)="showInfo()">
+        <i class="fa fa-plus my-float"></i>
+    </a>
+    <a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+        <i class="fa fa-home my-float-home"></i>
+    </a>
+    <a [routerLink]="" (click)="import()" class="float-download">
+        <i class="fa fa-download my-float-download"></i>
+    </a>
+</div>
+
+
+<dx-popup class="popup" [width]="600" [height]="350" [showTitle]="true" title="Create Item" [dragEnabled]="true"
+    [closeOnOutsideClick]="true" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <div id="form-container">
+                    <dx-form id="CustomerDetails" [(formData)]="newItemDetail"
+                        (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8"
+                        itemType="group" [colCount]="1">
+                        <dxi-item itemType="group" [colCount]="2">
+                            <dxi-item itemType="group">
+                                <dxi-item class="font-for-formlable" dataField="ItemCode" [label]="{text: 'Item Code'}"
+                                    [editorOptions]="{ readOnly: itemcodefield }">
+                                    <dxi-validation-rule type="required" message="Customer Code is required">
+                                    </dxi-validation-rule>
+                                </dxi-item>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <dxi-item class="font-for-formlable" dataField="Auto" editorType="dxCheckBox">
+                                </dxi-item>
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group">
+                            <dxi-item cssClass="font-for-formlable" [template]="'BrandTemplate'"
+                                [label]="{text: 'Brand'}">
+                                <dxi-validation-rule type="required" message="Brand is required"> </dxi-validation-rule>
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group">
+                            <dxi-item cssClass="font-for-formlable" [template]="'categoryTemplate'"
+                                [label]="{text: 'Category'}">
+                                <dxi-validation-rule type="required" message="Category is required">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group">
+                            <dxi-item cssClass="font-for-formlable" [template]="'subcategoryTemplate'"
+                                [label]="{text: 'Sub Category'}">
+                                <dxi-validation-rule type="required" message="Subcategory is required">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group">
+                            <dxi-item class="font-for-formlable" [template]="'itemFamilyTemplate'"
+                                [label]="{text: 'Family'}">
+                                <dxi-validation-rule type="required" message="Subcategory is required">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'itemFamilyTemplate'">
+                            <dx-select-box [dataSource]="itemFamilySuggestions" [searchEnabled]="true"
+                                [showClearButton]="true" [displayExpr]="suggestionFormatForItemFamily" valueExpr="Code"
+                                [minSearchLength]="0" fieldTemplate="field2"
+                                [value]="custDetail ? custDetail.FamilyCode:''"
+                                (onValueChanged)="onitemFamilyChanged($event)">
+                                <div *dxTemplate="let itemData2 of 'field2'">
+                                    <dx-text-box [text]="itemData2 ? itemData2.Code:''"
+                                        [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                </div>
+                            </dx-select-box>
+                        </div>
+                        <div *dxTemplate="let data of 'BrandTemplate'">
+                            <dx-select-box [dataSource]="brandSuggestions" [searchEnabled]="true"
+                                [showClearButton]="true" [displayExpr]="suggestionFormatForBrand" valueExpr="BrandCode"
+                                [minSearchLength]="0" fieldTemplate="field2" [value]="custDetail ? custDetail.Brand:''"
+                                [disabled]="brandSuggestions!=null ? false:true"
+                                (onValueChanged)="onBrandChange($event)">
+                                <div *dxTemplate="let itemData2 of 'field2'">
+                                    <dx-text-box [text]="itemData2 ? itemData2.BrandCode:''"
+                                        [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                </div>
+                            </dx-select-box>
+                        </div>
+                        <div *dxTemplate="let data of 'categoryTemplate'">
+                            <dx-select-box [dataSource]="categorySuggestions" [searchEnabled]="true"
+                                [showClearButton]="true" [displayExpr]="suggestionFormatForcategory" valueExpr="Code"
+                                [minSearchLength]="0" fieldTemplate="field2"
+                                [value]="custDetail ? custDetail.Category:''"
+                                [disabled]="categorySuggestions!=null ? false:true"
+                                (onValueChanged)="onCategoryChanged($event)">
+                                <div *dxTemplate="let itemData2 of 'field2'">
+                                    <dx-text-box [text]="itemData2 ? itemData2.Code:''"
+                                        [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                </div>
+                            </dx-select-box>
+                        </div>
+                        <div *dxTemplate="let data of 'subcategoryTemplate'">
+                            <dx-select-box [dataSource]="subcategorySuggestions" [searchEnabled]="true"
+                                [showClearButton]="true" [displayExpr]="suggestionFormatForsubcategory"
+                                valueExpr="SubCode" [minSearchLength]="0" fieldTemplate="field2"
+                                [value]="custDetail ? custDetail.subcategory:''"
+                                [disabled]="subcategorySuggestions!=null ? false:true"
+                                (onValueChanged)="onSubCategoryChange($event)">
+                                <div *dxTemplate="let itemData2 of 'field2'">
+                                    <dx-text-box [text]="itemData2 ? itemData2.SubCode:''"
+                                        [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                </div>
+                            </dx-select-box>
+                        </div>
+                    </dx-form>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <dx-button text="Add" type="default" (onClick)="Save()">
+                </dx-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [height]="'auto'" [showTitle]="true" [showCloseButton]="true" title="Item Import"
+    [dragEnabled]="true" [closeOnOutsideClick]="true" [deferRendering]="false" [(visible)]="importpopup">
+    <div *dxTemplate="let data of 'content'">
+        <mat-horizontal-stepper [linear]="true" #stepper>
+            <mat-step [completed]="isFileSelected1" [editable]="true">
+                <ng-template matStepLabel>Import</ng-template>
+                <div class="row font-for-formlable">
+                    <div class="col-12 font-for-formlable">
+                        Choose a File(.xlsx, .xls, .csv) :
+                        <span class="btn btn-primary btn-sm btn-file">
+                            Browse file<input #selectedfile class="selectedfile" type="file" (click)="clearFile()"
+                                (change)="onFileChange1($event)" multiple="false" accept=".xlsx, .xls, .csv" />
+                        </span>
+                        <br>
+                        <br>
+                        <div>
+                            <!-- class="col-3" style="text-align: right;"-->
+                            <a href="assets/xlsx/item-import-sample.xlsx" download>
+                                <button type="button" class="btn btn-outline-dark btn-sm">DOWNLOAD IMPORT
+                                    TEMPLATE</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step [completed]="!isFileSelected1" [editable]="isFileSelected1">
+                <ng-template matStepLabel>Validate</ng-template>
+                <div class="font-for-formlable">
+                    <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+                        <ngb-tab title="NEW ITEMS">
+                            <ng-template ngbTabContent>
+                                <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true"
+                                    [showBorders]="true" [dataSource]="dataSource1" [repaintChangesOnly]="true"
+                                    [allowColumnResizing]="true">
+                                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                    <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true">
+                                    </dxo-editing>
+                                    <dxo-export [enabled]="true" fileName="Item-Import-Data"></dxo-export>
+                                    <dxi-column dataField="ItemCode" [allowEditing]="false"></dxi-column>
+                                    <dxi-column dataField="Description"></dxi-column>
+                                    <dxi-column dataField="BaseUOM"></dxi-column>
+                                    <dxi-column dataField="ListPrice" dataType="number"
+                                        [editorOptions]="{ mode:number, min: 0, format: ' #,##0.##' }">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="UnitPrice" dataType="number"
+                                        [editorOptions]="{ mode:number, min: 0, format: ' #,##0.##' }">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="UnitCost" dataType="number"
+                                        [editorOptions]="{ mode:number, min: 0, format: ' #,##0.##' }">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="CategoryCode"></dxi-column>
+                                    <dxi-column dataField="SubCategoryCode"></dxi-column>
+                                    <dxi-column dataField="BrandCode"></dxi-column>
+                                    <dxi-column dataField="SizeCode"></dxi-column>
+                                    <dxi-column dataField="ColorCode"></dxi-column>
+                                    <dxi-column dataField="Barcode"></dxi-column>
+                                    <dxi-column dataField="FamilyCode"></dxi-column>
+                                    <dxi-column dataField="GenPolicyGroup"></dxi-column>
+                                    <dxi-column dataField="VatProdPostGroup"></dxi-column>
+                                    <dxi-column dataField="LegacyCode"></dxi-column>
+                                    <dxi-column dataField="HSNCode"></dxi-column>
+                                    <dxi-column dataField="ExpiryDays"></dxi-column>
+                                    <dxi-column dataField="ShelfDays"></dxi-column>
+                                    <dxi-column dataField="LeadTime"></dxi-column>
+                                    <dxi-column dataField="BOMItem"></dxi-column>
+                                    <dxi-column dataField="ImportedBy" [allowEditing]="false"></dxi-column>
+                                    <dxo-paging [pageSize]="6"></dxo-paging>
+                                    <dxo-pager [showInfo]="true"></dxo-pager>
+                                </dx-data-grid>
+                                <br>
+                                <span style="float: right;">Total Count : {{ rowCount1 }}</span>
+                                <dx-button type="default" icon="download" text="IMPORT" [disabled]="rowCount1==0"
+                                    (onClick)="btnImport_clickHandler()"></dx-button>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="EXISTING ITEMS">
+                            <ng-template ngbTabContent>
+                                <dx-data-grid #gridContainer2 id="gridContainer2" [columnAutoWidth]="true"
+                                    [showBorders]="true" [dataSource]="dataSource2" [repaintChangesOnly]="true"
+                                    [allowColumnResizing]="true">
+                                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                    <dxo-editing mode="cell" [allowDeleting]="true"></dxo-editing>
+                                    <dxo-export [enabled]="true" fileName="Item-Import-Data"></dxo-export>
+                                    <dxi-column dataField="ItemCode" [allowEditing]="false"></dxi-column>
+                                    <dxi-column dataField="Description"></dxi-column>
+                                    <dxi-column dataField="BaseUOM"></dxi-column>
+                                    <dxi-column dataField="ListPrice" dataType="number">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="UnitPrice" dataType="number">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="UnitCost" dataType="number">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="CategoryCode"></dxi-column>
+                                    <dxi-column dataField="SubCategoryCode"></dxi-column>
+                                    <dxi-column dataField="BrandCode"></dxi-column>
+                                    <dxi-column dataField="SizeCode"></dxi-column>
+                                    <dxi-column dataField="ColorCode"></dxi-column>
+                                    <dxi-column dataField="Barcode"></dxi-column>
+                                    <dxi-column dataField="FamilyCode"></dxi-column>
+                                    <dxi-column dataField="GenPolicyGroup"></dxi-column>
+                                    <dxi-column dataField="VatProdPostGroup"></dxi-column>
+                                    <dxi-column dataField="LegacyCode"></dxi-column>
+                                    <dxi-column dataField="HSNCode"></dxi-column>
+                                    <dxi-column dataField="ExpiryDays"></dxi-column>
+                                    <dxi-column dataField="ShelfDays"></dxi-column>
+                                    <dxi-column dataField="LeadTime"></dxi-column>
+                                    <dxi-column dataField="BOMItem"></dxi-column>
+                                    <dxi-column dataField="ImportedBy" [allowEditing]="false"></dxi-column>
+                                    <dxo-paging [pageSize]="6"></dxo-paging>
+                                    <dxo-pager [showInfo]="true"></dxo-pager>
+                                </dx-data-grid>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="DUPLICATE BARCODES">
+                            <ng-template ngbTabContent>
+                                <dx-data-grid #gridContainer3 id="gridContainer3" [columnAutoWidth]="true"
+                                    [showBorders]="true" [dataSource]="dataSource3" [repaintChangesOnly]="true"
+                                    [allowColumnResizing]="true">
+                                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                                    <dxo-export [enabled]="true" fileName="Item-Import-Data"></dxo-export>
+                                    <dxi-column dataField="LineNo"></dxi-column>
+                                    <dxi-column dataField="ItemCodeInDB" caption="EXISTING Item Code"></dxi-column>
+                                    <dxi-column dataField="ItemCode"></dxi-column>
+                                    <dxi-column dataField="Barcode"></dxi-column>
+                                    <dxi-column dataField="BaseUOM"></dxi-column>
+                                    <dxi-column dataField="Description"></dxi-column>
+                                    <dxi-column dataField="UnitPrice" dataType="number">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxi-column dataField="UnitCost" dataType="number">
+                                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                                    </dxi-column>
+                                    <dxo-paging [pageSize]="6"></dxo-paging>
+                                    <dxo-pager [showInfo]="true"></dxo-pager>
+                                </dx-data-grid>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
+</dx-popup>
+
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="row" *ngIf="itemList;else loader_GIF">
+            <div class="col-lg-3 col-md-12 col-sm-12 px-1"
+                *ngFor="let user of itemList | filter: searchText|  paginate: { itemsPerPage: 20, currentPage: p }">
+                <a (click)="itemCode(user.ItemCode)">
+                    <div class="card mb-1">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                                    <p class="font-weight-light font-for-formlable"
+                                        *ngIf="user.ItemCode;else ALTERNATE_HEAD">{{
+                                        user.ItemCode }}</p>
+                                    <ng-template #ALTERNATE_HEAD>
+                                        <p class="font-weight-light font-for-formlable">No Item Code</p>
+                                    </ng-template>
+                                    <h6 class="card-title font-weight-bold"
+                                        *ngIf="user.Description;else ALTERNATE_DESC">{{
+                                        user.Description }}</h6>
+                                    <ng-template #ALTERNATE_DESC>
+                                        <h6 class="card-title font-weight-bold"> &nbsp; </h6>
+                                    </ng-template>
+                                    <p class="font-weight-light font-for-formlable">
+                                        {{ user.UnitPrice }}/{{ user.BaseUOM }}</p>
+                                    <p class="font-weight-light font-for-formlable">{{ user.Brand }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <ng-template #loader_GIF>
+            <div class="text-center">
+                <img src="assets/images/big/loader.gif">
+            </div>
+        </ng-template>
+        <div class="text-center py-2">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

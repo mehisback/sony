@@ -1,0 +1,393 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="continents"
+          [hoverStateEnabled]="true" [showBorders]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-editing mode="cell" [allowAdding]="true"></dxo-editing>
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="StoreID" [allowSearch]="true" dataType="string"></dxi-column>
+          <dxi-column dataField="Name" [allowSearch]="true" [allowEditing]="false" dataType="string"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="col-8">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+          <ngb-tab title="General Details">
+            <ng-template ngbTabContent>
+              <div id="form-container">
+                <dx-form [(formData)]="StoreDetails" accept-charset="UTF-8">
+                  <dxi-item class="font-for-formlable" dataField="StoreID" [editorOptions]="{ readOnly: true }">
+                  </dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="Name"></dxi-item>
+                  <dxi-item class="font-for-formlable" dataField="StoreManagerName"></dxi-item>
+                  <dxi-item cssClass="font-for-formlable" [template]="'StoreGroup'" [label]="{text: 'New Group'}"></dxi-item>
+                  <div *dxTemplate="let data of 'StoreGroup'">
+                    <dx-select-box #selectBox2 [dataSource]="groupSuggestion" [searchEnabled]="true" [displayExpr]="suggestionFormatForGroup"
+                      valueExpr="GroupCode" [minSearchLength]="0" fieldTemplate="field1" [value]="groupSuggestion ? StoreDetails.StoreGroup:''"
+                      (onValueChanged)="onDropDownvalueChanged($event,'StoreGroup')" hoverStateEnabled="true"
+                      [itemTemplate]="hoverFormatForGroup">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box [text]="itemData1 ? itemData1.GroupCode : StoreDetails ? StoreDetails.StoreGroup:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <dxi-item cssClass="font-for-formlable" [template]="'AreaCode'" [label]="{text: 'New Area'}"></dxi-item>
+                  <div *dxTemplate="let data of 'AreaCode'">
+                    <dx-select-box #selectBox2 [dataSource]="areaSuggestion" [searchEnabled]="true" [displayExpr]="suggestionFormatForCode"
+                      valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="areaSuggestion ? StoreDetails.AreaCode:''"
+                      (onValueChanged)="onDropDownvalueChanged($event,'AreaCode')" hoverStateEnabled="true"
+                      [itemTemplate]="hoverFormatForCode">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box [text]="itemData1 ? itemData1.Code : StoreDetails ? StoreDetails.AreaCode:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <dxi-item cssClass="font-for-formlable" [template]="'SubAreaCode'" [label]="{text: 'New Sub Area'}"></dxi-item>
+                  <div *dxTemplate="let data of 'SubAreaCode'">
+                    <dx-select-box #selectBox2 [dataSource]="subareaSuggestion" [searchEnabled]="true" [displayExpr]="suggestionFormatForCode"
+                      valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="subareaSuggestion ? StoreDetails.SubAreaCode:''"
+                      (onValueChanged)="onDropDownvalueChanged($event,'SubAreaCode')" hoverStateEnabled="true"
+                      [itemTemplate]="hoverFormatForCode">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box [text]="itemData1 ? itemData1.Code : StoreDetails ? StoreDetails.SubAreaCode:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <dxi-item class="font-for-formlable" dataField="DefaultPriceGroup" [label]="{text: 'Related Price Group'}"
+                    [editorOptions]="{ readOnly: true }"></dxi-item>
+                </dx-form>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Posting">
+            <ng-template ngbTabContent>
+              <div class="row p-t-20">
+                <div class="col-12">
+                  <div id="form-container">
+                    <dx-form [(formData)]="StoreDetails" accept-charset="UTF-8">
+                      <dxi-item cssClass="font-for-formlable" [template]="'StoreVATBus_Post_Gr'" [label]="{text: 'VAT Bus. Group'}"></dxi-item>
+                      <div *dxTemplate="let data of 'StoreVATBus_Post_Gr'">
+                        <dx-select-box [dataSource]="getStoreVATBus" [searchEnabled]="true" [displayExpr]="suggestionFormatForStoreVATBus"
+                          valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="getStoreVATBus ? StoreDetails.StoreVATBus_Post_Gr:''"
+                          (onValueChanged)="onDropDownvalueChanged($event,'StoreVATBus_Post_Gr')" hoverStateEnabled="true"
+                          [itemTemplate]="hoverFormatForStoreVATBus">
+                          <div *dxTemplate="let itemData1 of 'field1'">
+                            <dx-text-box [text]="itemData1 ? itemData1.Code : StoreDetails ? StoreDetails.StoreVATBus_Post_Gr:'' "
+                              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                      <dxi-item cssClass="font-for-formlable" [template]="'DefaultPriceGroup'" [label]="{text: 'Price Group'}"></dxi-item>
+                      <div *dxTemplate="let data of 'DefaultPriceGroup'">
+                        <dx-select-box [dataSource]="getDefaultPriceGroup" [searchEnabled]="true" [displayExpr]="suggestionFormatForPriceGroup"
+                          valueExpr="SalesCode" [minSearchLength]="0" fieldTemplate="field1" [value]="getDefaultPriceGroup ? StoreDetails.DefaultPriceGroup:''"
+                          (onValueChanged)="onDropDownvalueChanged($event,'DefaultPriceGroup')" hoverStateEnabled="true"
+                          [itemTemplate]="hoverFormatForPriceGroup">
+                          <div *dxTemplate="let itemData1 of 'field1'">
+                            <dx-text-box [text]="itemData1 ? itemData1.SalesCode : StoreDetails ? StoreDetails.DefaultPriceGroup:'' "
+                              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                      <dxi-item cssClass="font-for-formlable" [template]="'Def_CustCode'" [label]="{text: 'Default Customer'}"></dxi-item>
+                      <div *dxTemplate="let data of 'Def_CustCode'">
+                        <dx-select-box #selectBox2 [dataSource]="getCustCode" [searchEnabled]="true" [displayExpr]="suggestionFormatForCustCode"
+                          valueExpr="CustCode" [minSearchLength]="0" fieldTemplate="field1" [value]="getCustCode ? StoreDetails.Def_CustCode:''"
+                          (onValueChanged)="onDropDownvalueChanged($event,'Def_CustCode')" hoverStateEnabled="true"
+                          [itemTemplate]="hoverFormatForStoreCustCode">
+                          <div *dxTemplate="let itemData1 of 'field1'">
+                            <dx-text-box [text]="itemData1 ? itemData1.CustCode : StoreDetails ? StoreDetails.Def_CustCode:'' "
+                              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                      <dxi-item cssClass="font-for-formlable" [template]="'StoreLocation'" [label]="{text: 'Default Location'}"></dxi-item>
+                      <div *dxTemplate="let data of 'StoreLocation'">
+                        <dx-select-box #selectBox2 [dataSource]="getStoreLocation" [searchEnabled]="true" [displayExpr]="suggestionFormatForCode"
+                          valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="getStoreLocation ? StoreDetails.StoreLocation:''"
+                          (onValueChanged)="onDropDownvalueChanged($event,'StoreLocation')" hoverStateEnabled="true"
+                          [itemTemplate]="hoverFormatForCode">
+                          <div *dxTemplate="let itemData1 of 'field1'">
+                            <dx-text-box [text]="itemData1 ? itemData1.Code : StoreDetails ? StoreDetails.StoreLocation:'' "
+                              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                      <dxi-item cssClass="font-for-formlable" [template]="'StoreDefaultStoageUnit'" [label]="{text: 'Default StorageUnit'}"></dxi-item>
+                      <div *dxTemplate="let data of 'StoreDefaultStoageUnit'">
+                        <dx-select-box #selectBox2 [dataSource]="getStorageUnit" [searchEnabled]="true" [displayExpr]="suggestionFormatForCode"
+                          valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="getStorageUnit ? StoreDetails.StoreDefaultStoageUnit:''"
+                          (onValueChanged)="onDropDownvalueChanged($event,'StoreDefaultStoageUnit')" hoverStateEnabled="true"
+                          [itemTemplate]="hoverFormatForCode">
+                          <div *dxTemplate="let itemData1 of 'field1'">
+                            <dx-text-box [text]="itemData1 ? itemData1.Code : StoreDetails ? StoreDetails.StoreDefaultStoageUnit:'' "
+                              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                      <dxi-item cssClass="font-for-formlable" [template]="'StoreDefaultIntransit'" [label]="{text: 'Default Intrasnit'}"></dxi-item>
+                      <div *dxTemplate="let data of 'StoreDefaultIntransit'">
+                        <dx-select-box #selectBox2 [dataSource]="getIntrasnit" [searchEnabled]="true" [displayExpr]="suggestionFormatForCode"
+                          valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="getIntrasnit ? StoreDetails.StoreDefaultIntransit:''"
+                          (onValueChanged)="onDropDownvalueChanged($event,'StoreDefaultIntransit')" hoverStateEnabled="true"
+                          [itemTemplate]="hoverFormatForCode">
+                          <div *dxTemplate="let itemData1 of 'field1'">
+                            <dx-text-box [text]="itemData1 ? itemData1.Code : StoreDetails ? StoreDetails.StoreDefaultIntransit:'' "
+                              [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                      <dxi-item cssClass="font-for-formlable" dataField="IsConsignmentStore" editorType="dxCheckBox"
+                        [label]="{text: 'Consign. Store'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dx-form>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Operations">
+            <ng-template ngbTabContent>
+              <div class="row p-t-20">
+                <div class="col-12">
+                  <div id="form-container">
+                    <dx-form [(formData)]="StoreDetails" accept-charset="UTF-8">
+                      <dxi-item class="font-for-formlable" dataField="StoreOpenfrom" editorType="dxDateBox"
+                        [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, width:'100%', type:'time' }"></dxi-item>
+                      <!-- , displayFormat: 'HH:mm' -->
+                      <dxi-item class="font-for-formlable" dataField="StoreOpento" editorType="dxDateBox"
+                        [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, width:'100%', type:'time' }"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="ReturnTenderType"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="ChangeTender"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="ReturnBefore"></dxi-item>
+                      <dxi-item cssClass="font-for-formlable" dataField="RequireManageronReturn" editorType="dxCheckBox"
+                        [label]="{text: 'Require Manageron Return'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                      <dxi-item cssClass="font-for-formlable" dataField="RequireManageronCancel" editorType="dxCheckBox"
+                        [label]="{text: 'Require Manageron Cancel'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dx-form>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Communication">
+            <ng-template ngbTabContent>
+              <div class="row p-t-20">
+                <div class="col-12">
+                  <div id="form-container">
+                    <dx-form [(formData)]="StoreDetails" accept-charset="UTF-8">
+                      <dxi-item class="font-for-formlable" dataField="Address"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="Address2"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="Address3"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="City"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="PostCode"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="PhoneNo"></dxi-item>
+                      <dxi-item class="font-for-formlable" dataField="FaxNo"></dxi-item>
+                    </dx-form>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Tenders">
+            <ng-template ngbTabContent>
+              <div class="row p-t-20">
+                <div class="col-12">
+                  <dx-data-grid #gridContainer1 id="gridContainer1" [columnAutoWidth]="true" [dataSource]="dataSourceTender"
+                    [hoverStateEnabled]="true" [showBorders]="true" [allowColumnResizing]="true" (onCellPrepared)="onCellPrepared($event)">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="false" [allowDeleting]="true"></dxo-editing>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="TenderType" [allowSearch]="true" dataType="string" [setCellValue]="setTenderType">
+                      <dxo-lookup [dataSource]="tenderTypeSuggestion" [valueExpr]="suggestionFormateForType"
+                        [displayExpr]="suggestionFormateForType" hoverStateEnabled="true">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="TenderCode" [allowSearch]="true" dataType="string">
+                      <dxo-lookup [dataSource]="tenderCodeSuggestion" [valueExpr]="suggestionFormateForCode"
+                        [displayExpr]="suggestionFormateForCode" hoverStateEnabled="true">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="CardCode" [allowSearch]="true" dataType="string" [allowEditing]="false">
+                    </dxi-column>
+                    <dxi-column dataField="Description" [allowSearch]="true" dataType="string" [allowEditing]="false">
+                    </dxi-column>
+                    <dxi-column dataField="ChangeAllowed" [allowSearch]="true" dataType="string" [editorOptions]="{showClearButton: true, itemTemplate: hoverFormatForCode}">
+                      <dxo-lookup [dataSource]="optionSuggestion" [valueExpr]="suggestionFormateForCode" [displayExpr]="suggestionFormateForCode"
+                        hoverStateEnabled="true">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxi-column dataField="FloatTender" [allowSearch]="true" dataType="string" [editorOptions]="{showClearButton: true, itemTemplate: hoverFormatForCode}">
+                      <dxo-lookup [dataSource]="optionSuggestion" [valueExpr]="suggestionFormateForCode" [displayExpr]="suggestionFormateForCode"
+                        hoverStateEnabled="true">
+                      </dxo-lookup>
+                    </dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                  </dx-data-grid>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="POS-Terminal">
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-4">
+                  <dx-data-grid #gridContainer2 id="gridContainer2" [columnAutoWidth]="true" [dataSource]="dataSourcePOS"
+                    [hoverStateEnabled]="true" [showBorders]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect2($event)">
+                    <dxo-editing mode="cell" [allowAdding]="true" [allowUpdating]="false" [allowDeleting]="false">
+                    </dxo-editing>
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="POSID" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="Description" [allowSearch]="true" [allowEditing]="false" dataType="string"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                  </dx-data-grid>
+                </div>
+                <div class="col-8">
+                  <br>
+                  <ngb-tabset type="pills" (tabChange)="onTabChangePOSDetais($event)">
+                    <ngb-tab title="POS Details">
+                      <ng-template ngbTabContent>
+                        <div class="row p-t-20">
+                          <div class="col-12">
+                            <div id="form-container">
+                              <dx-form [(formData)]="PosDetails" accept-charset="UTF-8">
+                                <dxi-item class="font-for-formlable" dataField="POSID" [editorOptions]="{ readOnly: true }"></dxi-item>
+                                <dxi-item class="font-for-formlable" dataField="Description"></dxi-item>
+                                <dxi-item class="font-for-formlable" dataField="Placement"></dxi-item>
+                                <dxi-item class="font-for-formlable" dataField="TerminalIPAddress" [editorOptions]="{ readOnly: true }"></dxi-item>
+                                <dxi-item class="font-for-formlable" dataField="POSRegistrationNo" [editorOptions]="{ readOnly: true }"></dxi-item>
+                              </dx-form>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Setup Details">
+                      <ng-template ngbTabContent>
+                        <div id="form-container">
+                          <dx-form [(formData)]="recpNoArr" accept-charset="UTF-8" (onFieldDataChanged)="formPOS_fieldDataChanged1($event)">
+                            <dxi-item class="font-for-formlable" dataField="prefix" [label]="{text: 'Receipt No. For  Sales  Transactions'}"></dxi-item>
+                            <dxi-item class="font-for-formlable" dataField="LastNoUsed" [label]="{text: 'Last No. Used'}"
+                              [editorOptions]="{ readOnly: true }"></dxi-item>
+                          </dx-form>
+                          <br>
+                          <dx-form [(formData)]="abbSalesNoArr" accept-charset="UTF-8" (onFieldDataChanged)="formPOS_fieldDataChanged3($event)">
+                            <dxi-item class="font-for-formlable" dataField="prefix" [label]="{text: 'ABB Slip No. For Sales Transactions'}"></dxi-item>
+                            <dxi-item class="font-for-formlable" dataField="LastNoUsed" [label]="{text: 'Last No. Used'}"
+                              [editorOptions]="{ readOnly: true }"></dxi-item>
+                          </dx-form>
+                          <br>
+                          <dx-form [(formData)]="abbVoidNoArr" accept-charset="UTF-8" (onFieldDataChanged)="formPOS_fieldDataChanged2($event)">
+                            <dxi-item class="font-for-formlable" dataField="prefix" [label]="{text: 'ABB Slip No. For VOID Transactions'}"></dxi-item>
+                            <dxi-item class="font-for-formlable" dataField="LastNoUsed" [label]="{text: 'Last No. Used'}"
+                              [editorOptions]="{ readOnly: true }"></dxi-item>
+                          </dx-form>
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Retail Users">
+                      <ng-template ngbTabContent>
+                        <div class="row">
+                          <div class="col-4">
+                            <dx-data-grid #gridContainer3 id="gridContainer3" [columnAutoWidth]="true" [dataSource]="dataSourceRetail"
+                              [hoverStateEnabled]="true" [showBorders]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect3($event)">
+                              <dxo-editing mode="cell" [allowAdding]="true" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
+                              <dxo-search-panel [visible]="false"></dxo-search-panel>
+                              <dxo-selection mode="single"></dxo-selection>
+                              <dxi-column dataField="UserID" [editorOptions]="{ itemTemplate: hoverFormatForStoreUser, searchExpr: ['userid', 'userName'] }"
+                                dataType="string">
+                                <dxo-lookup [dataSource]="retailuserSuggestions" [valueExpr]="suggestionFormatForUser"
+                                  [displayExpr]="suggestionFormatForUser" hoverStateEnabled="true">
+                                </dxo-lookup>
+                              </dxi-column>
+                              <dxo-paging [pageSize]="12"></dxo-paging>
+                              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                              </dxo-pager>
+                            </dx-data-grid>
+                          </div>
+                          <div class="col-8">
+                            <dx-form [(formData)]="UserDetails" accept-charset="UTF-8" (onFieldDataChanged)="formSummary_fieldDataChanged($event)">
+                              <dxi-item cssClass="font-for-formlable" dataField="CanReturn" editorType="dxCheckBox"
+                                [label]="{text: 'Can Return'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" dataField="CanCancel" editorType="dxCheckBox"
+                                [label]="{text: 'Can Cancel'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" dataField="CanFloatTender" editorType="dxCheckBox"
+                                [label]="{text: 'Can FloatTender'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" dataField="CanRemoveTender" editorType="dxCheckBox"
+                                [label]="{text: 'Can RemoveTender'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" dataField="CanChangePrice" editorType="dxCheckBox"
+                                [label]="{text: 'Can ChangePrice'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" dataField="NeedManagertoChangePrice" editorType="dxCheckBox"
+                                [label]="{text: 'Change Price on Appr'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" dataField="IsPriceChangeManager" editorType="dxCheckBox"
+                                [label]="{text: 'Price Change Manager'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                              </dxi-item>
+                              <dxi-item cssClass="font-for-formlable" [template]="'brand'" [label]="{text: 'Brand'}"></dxi-item>
+                              <div *dxTemplate="let data of 'brand'">
+                                <dx-select-box [dataSource]="getbrand" [searchEnabled]="true" [displayExpr]="suggestionFormatForBrandCode"
+                                  valueExpr="BrandCode" [minSearchLength]="0" fieldTemplate="field1" [value]="getbrand ? UserDetails.BrandFilter:''"
+                                  (onValueChanged)="onDropDownvalueChanged($event,'BrandFilter')" hoverStateEnabled="true"
+                                  [itemTemplate]="hoverFormatForStoreBrandCode">
+                                  <div *dxTemplate="let itemData1 of 'field1'">
+                                    <dx-text-box [text]="itemData1 ? itemData1.BrandCode : UserDetails ? UserDetails.BrandFilter:'' "
+                                      [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                  </div>
+                                </dx-select-box>
+                              </div>
+                              <dxi-item cssClass="font-for-formlable" [template]="'category'" [label]="{text: 'category'}"></dxi-item>
+                              <div *dxTemplate="let data of 'category'">
+                                <dx-select-box [dataSource]="getcategory" [searchEnabled]="true" [displayExpr]="suggestionFormatForCategory"
+                                  valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="getcategory ? UserDetails.CategoryFilter:''"
+                                  (onValueChanged)="onDropDownvalueChanged($event,'CategoryFilter')" hoverStateEnabled="true"
+                                  [itemTemplate]="hoverFormatForCategory">
+                                  <div *dxTemplate="let itemData1 of 'field1'">
+                                    <dx-text-box [text]="itemData1 ? itemData1.Code : UserDetails ? UserDetails.CategoryFilter:'' "
+                                      [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                                  </div>
+                                </dx-select-box>
+                              </div>
+                            </dx-form>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+      <div class="row">
+        <br>
+        <div class="col-6">
+          <dx-button text="SAVE STORE" type="default" [visible]="visiblitySTORE" (onClick)="update()"></dx-button>
+          <dx-button text="SAVE POS" type="default" [visible]="visiblityPOS" (onClick)="UpdatePOS()"></dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

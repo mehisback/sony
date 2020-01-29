@@ -1,0 +1,240 @@
+<a [routerLink]="[ '/warehouse/posted-return-pick-list']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<dx-popup class="popup" width="600" [showTitle]="true" title="Vendor Details" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="popupSelltoCustDetails">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-form itemType="group" [colCount]="1" [formData]="PickReturnHeader" accept-charset="UTF-8" [readOnly]="true">
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="Code"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Name"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Address"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Address2"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="City"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="PostCode"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" width="600" [showTitle]="true" title="Item Detials" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="itemDetailsPopup">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-form itemType="group" [colCount]="2" [formData]="itemDetails" accept-charset="UTF-8" [readOnly]="true">
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="ItemCode"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Description"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="UOM"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="UnitCost"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="GenPolicyGroup"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="Category"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="SubCategory"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BrandCode"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="UnitPrice"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="VATProdPostingGroup"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="ListPrice"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card bg-darkerbg">
+      <div class="card-body">
+        <dx-form id="PurchaseOrderOperation" itemType="group" [colCount]="3" accept-charset="UTF-8">
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp4'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" [colSpan]="2">
+            <dxi-item [template]="'MainTemp2'">
+            </dxi-item>
+          </dxi-item>
+          <div *dxTemplate="let data of 'MainTemp'">
+            <span *ngIf="PickReturnHeader"
+              style="color: #fff; font-size:22px;"><b>{{ PickReturnHeader.DocumentNo }}</b></span>
+          </div>
+          <div *dxTemplate="let data of 'MainTemp4'" style="color: #fff; font-size:22px;">Status:
+            <span *ngIf="PickReturnHeader"><b> {{ PickReturnHeader.DocumentStatus }}</b></span>
+          </div>
+          <div class="clearfix" *dxTemplate="let data of 'MainTemp2'">
+            <dx-select-box #selectBoxGR [dataSource]="GoodsReceiptOperation" [value]=""></dx-select-box>
+            <dx-button type="default" text="GO" (onClick)="GoodsReceiptOperationsGo(selectBoxGR.text)">
+            </dx-button>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <dx-form id="PickOrderForm" [formData]="PickReturnHeader" [readOnly]="true" accept-charset="UTF-8">
+          <dxi-item cssClass="font-for-formlable" dataField="DocumentNo"
+            [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="DocumentDate" editorType="dxDateBox"
+            [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' }, readOnly: isLinesExist }">
+          </dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="LocationCode" [label]="{text: 'Location Code'}">
+          </dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="DefPickStorage" [label]="{text: 'Storage Unit'}"
+            [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate3'" [label]="{text: 'Purchase Return'}">
+          </dxi-item>
+          <div class="clearfix2" *dxTemplate="let data of 'nameTemplate3'">
+            <dx-text-box [value]="PickReturnHeader ? PickReturnHeader.SourceNo:''"
+              [elementAttr]="{ 'class': 'font-for-formlable' }">
+            </dx-text-box>
+            <dx-button type="default" icon="find" (onClick)="SalesOrderLookupSearch()" [disabled]="isLinesExist">
+            </dx-button>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <dx-form id="PickOrderForm" [formData]="PickReturnHeader" [readOnly]="true" accept-charset="UTF-8">
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate4'" [label]="{text: 'Vendor Code'}"
+              [editorOptions]="{ width: '100%',elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <div class="clearfix2" *dxTemplate="let data of 'nameTemplate4'">
+            <dx-text-box [value]="PickReturnHeader ? PickReturnHeader.VendorCode:''"
+              [elementAttr]="{ 'class': 'font-for-formlable' }">
+            </dx-text-box>
+            <dx-button type="default" icon="info" (onClick)="getSellToCustomerDetail()">
+            </dx-button>
+          </div>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="DeliveryStatus" [label]="{text: 'Delivery Status'}"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="RemarksExternal" [label]="{text: 'Ext. Remarks'}"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="SourceType" [label]="{text: 'Source Type'}"
+              [editorOptions]="{ width: '100%', elementAttr:{ 'class': 'font-for-formlable' }, readOnly: true }">
+            </dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="ReservedPick" editorType="dxCheckBox"
+              [label]="{text: 'Reserved Pick'}"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly: true }">
+            </dxi-item>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource"
+          [showBorders]="true" [allowColumnResizing]="true">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-editing mode="cell" [allowUpdating]="true"></dxo-editing>
+          <dxi-column dataField="LineNo" [allowSearch]="true" [visible]="false"></dxi-column>
+          <dxi-column dataField="ItemCode" [allowSearch]="true" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="BaseUOM" [allowSearch]="true" dataType="string" [allowEditing]="false">
+          </dxi-column>
+          <dxi-column dataField="QtyInBaseUOM" [allowSearch]="true" dataType="number" [allowEditing]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="PRUOM" dataType="string" [allowSearch]="false" [allowEditing]="false">
+          </dxi-column>
+          <dxi-column dataField="QtyInPRUOM" [allowSearch]="true" dataType="number" [allowEditing]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="ShippedQuantity" dataType="number" [allowSearch]="false" [allowEditing]="true"
+            [editorOptions]="{ min: 0 }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="ShippingQuantity" dataType="number" [allowSearch]="false" [allowEditing]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+        <!-- <ngb-tabset type="pills">
+          <ngb-tab title="Pick Lines">
+            <ng-template ngbTabContent>
+             
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Pick Stock">
+            <ng-template ngbTabContent>
+              <dx-data-grid #gridContainerPA id="gridContainerPA" [columnAutoWidth]="true" [dataSource]="dataSourcePICKStore"
+                [showBorders]="true" [allowColumnResizing]="true" [repaintChangesOnly]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-editing mode="cell" [allowUpdating]="true" [refreshMode]="reshape"></dxo-editing>
+                <dxi-column dataField="ItemCode" [allowSearch]="true" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="LotNumber" [allowSearch]="true" dataType="string" [allowEditing]="false"></dxi-column>
+                <dxi-column dataField="ExpiryDate" [allowSearch]="true" dataType="string" [allowEditing]="false">
+                </dxi-column>
+                <dxi-column dataField="reqQty" dataType="number" [allowSearch]="false" [allowEditing]="false"
+                  [editorOptions]="{ mode:number }">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="Available" dataType="number" [allowEditing]="false" [allowSearch]="false"
+                  [editorOptions]="{ mode:number }">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="QuantityToPick" dataType="number" [allowSearch]="false" [allowEditing]="true"
+                  [editorOptions]="{ mode:number, min: 0, format: ' #,##0.##' }">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+.piechart{
+    height:375px; 
+    width:280px;
+    margin: 0 auto;
+}
+
+>>> .ct-series-c .ct-slice-donut {
+	stroke: #EF5350;
+}
+>>> .ct-series-b .ct-slice-donut {
+	stroke: #26C6DA;
+}
+>>> .ct-series-a .ct-slice-donut {
+	stroke: #1976D2;
+}
+
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+  }
+
+.text-white {
+color: #fff;
+}
+
+.border-for-menu {
+  margin: 5px;
+  background-color: #fff;
+  padding: 20px;
+  border: 2px solid grey;
+  border-radius: 5px;
+}
+
+.bg-sales{
+background-color: #46C2E2 ;
+}
+.bg-finance{
+  background-color: #3BD7CC ;
+}
+.bg-purchase{
+background-color: #316897 ;
+}
+.bg-retail{
+  background-color: #3EC0E1 ;
+}
+.bg-warehouse{
+background-color: #18334A ;
+}
+.bg-admin{
+  background-color: #CA9542 ;
+}
+.bg-help{
+  background-color: #7D5310 ;
+}
+.bg-manage{
+  background-color: #84AED3 ;
+}
+.bg-prod{
+  background-color: #3EC0E1 ;
+}
+.bg-trans{
+  background-color: #316897 ;
+}
+.bg-child{
+  background-color: #316897 ;
+}
+.bg-subchild{
+  background-color: #3EC0E1 ;
+}
+
+.bg-light2{
+  background-color: #f5f5f5 ;
+}
+
+.anyClass {
+  height:454px;
+  overflow-y: scroll;
+}
+
+.anyClass2 {
+  height:175px;
+  overflow-y: scroll;
+}
+.anyClass3 {
+  height:318px;
+  overflow-y: scroll;
+}
+
+.no-gap{
+  padding-left: 0px;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+::ng-deep #customergrid .dx-header-row{
+  background-color: #00BCD4;
+  color: #000;
+}
+.green-color {
+  color: green;
+}
+
+.red-color {
+  color: red;
+}

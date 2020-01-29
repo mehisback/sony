@@ -1,0 +1,45 @@
+.bg-darkerbg{
+    background-color: #408bca;
+    margin-bottom: 15px;
+  }
+  .clearfix {
+    display: flex;
+    justify-content: flex-end; /*space-between flex-end*/
+  }
+
+  .WrappedColumnClass {
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  ::ng-deep .color-for-column-Approved{
+    background-color :#157FFB;
+    color: #fff;
+    text-align: center !important;
+    }
+    ::ng-deep .color-for-column-Rejected{
+        background-color :#FF0000;
+        color: #fff;
+                text-align: center !important;
+    }
+
+    .btn-file {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-file input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+    }

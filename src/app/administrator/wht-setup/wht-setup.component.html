@@ -1,0 +1,142 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<a href="https://rhbussolutions.com/documentation/wht-setup/" target="_blank" class="float-help">
+  <button type="button" class="btn btn-secondary float-right disabled">
+      <i class="fa fa-info"></i>
+      Help</button>
+</a>
+
+<ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+  <ngb-tab title="BUS Group" id="bus">
+    <ng-template ngbTabContent>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainer"
+                [dataSource]="dataSource" [showBorders]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-editing mode="row" [allowDeleting]="true" [allowUpdating]="true" [allowAdding]="true">
+                </dxo-editing>
+                <dxi-column dataField="Code" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="Description" [allowSearch]="true"></dxi-column>
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="PROD Group" id="prod">
+    <ng-template ngbTabContent>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" id="gridContainer2"
+                [dataSource]="dataSource2" [showBorders]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-editing mode="row" [allowDeleting]="true" [allowUpdating]="true" [allowAdding]="true">
+                </dxo-editing>
+                <dxi-column dataField="Code" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="Description" [allowSearch]="true"></dxi-column>
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+  <ngb-tab title="Setup" id="setup">
+    <ng-template ngbTabContent>
+      <div class="row">
+        <div class="col-2">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true"
+                [dataSource]="dataSource" [showBorders]="true" (onRowClick)="onUserRowSelect($event)">
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column dataField="Code" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-data-grid #gridContainer3 [columnAutoWidth]="true" [allowColumnResizing]="true"
+                [dataSource]="listforSecondDatarid" [showBorders]="true" (onRowClick)="onUserRowSelect2($event)">
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column dataField="Code" [allowSearch]="true"></dxi-column>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <div id="form-container">
+                <dx-form id="CustomerDetailsGropu" itemType="group"
+                  (onFieldDataChanged)="formSummary_fieldDataChanged($event)" [colCount]="2"
+                  [formData]="gotSelectedLists" accept-charset="UTF-8">
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" dataField="WHTpercentage" [label]="{text: 'Tax %'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="WHTReport" [label]="{text: 'Report Type'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                  </dxi-item>
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" [template]="'PayableWHTAccount'"
+                      [label]="{text: 'PAYABLE WHT ACCOUNT:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'ReceivableWHTAccount'"
+                      [label]="{text: 'RECEIVABLE WHT ACCOUNT:'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                  </dxi-item>
+                  <div *dxTemplate="let data of 'PayableWHTAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="gotListCHILDONLY" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.PayableWHTAccount:''"
+                      (onValueChanged)="onPayChange($event)" hoverStateEnabled="true" [itemTemplate]="hover">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.PayableWHTAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'ReceivableWHTAccount'">
+                    <dx-select-box #selectBox1 [dataSource]="gotListCHILDONLY" [searchEnabled]="true"
+                      [displayExpr]="suggestionFormateForDropDown" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field1" [value]="gotSelectedLists ? gotSelectedLists.ReceivableWHTAccount:''"
+                      (onValueChanged)="onRecieveChange($event)" hoverStateEnabled="true" [itemTemplate]="hover">
+                      <div *dxTemplate="let itemData1 of 'field1'">
+                        <dx-text-box
+                          [text]="itemData1 ? itemData1.AccountCode:gotSelectedLists ? gotSelectedLists.ReceivableWHTAccount:'' "
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                </dx-form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+  </ngb-tab>
+
+</ngb-tabset>

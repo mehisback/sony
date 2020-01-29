@@ -1,0 +1,277 @@
+<a [routerLink]="[ '/finance/purchase-journal']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<dx-popup class="popup" [width]="'auto'" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Vendor Selection"
+  [closeOnOutsideClick]="true" [(visible)]="globalVendorLookupPopup">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div id="form-container">
+          <dx-data-grid [columnAutoWidth]="true" [showBorders]="true" [dataSource]="getVendorList" (onRowClick)="onVendorRowClicked($event)">
+            <dxo-search-panel [visible]="true"></dxo-search-panel>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column dataField="VendCode" [allowEditing]="false"></dxi-column>
+            <dxi-column dataField="Name" [allowEditing]="false"></dxi-column>
+            <dxi-column dataField="Address1" [allowEditing]="false"> </dxi-column>
+            <dxi-column dataField="City" [allowEditing]="false"></dxi-column>
+            <dxo-paging [pageSize]="7"></dxo-paging>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Vendor Details"
+  [closeOnOutsideClick]="true" [(visible)]="globalVendorDetailsPopup">
+  <div id="form-container">
+    <dx-form itemType="group" [formData]="EJDetails" accept-charset="UTF-8" [readOnly]="true">
+      <dxi-item itemType="group">
+        <dxi-item cssClass="font-for-formlable" dataField="PayToVendor" [label]="{text: 'Pay To'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="PayToName" [label]="{text: 'Name'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="PayToAddress" [label]="{text: 'Address'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="PayToAddress2" [label]="{text: 'Address 2'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="PayToCity" [label]="{text: 'City'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+        </dxi-item>
+      </dxi-item>
+    </dx-form>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="500" [showTitle]="true" title="Check and Confirm Posting" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="popupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-data-grid [columnAutoWidth]="true" [showBorders]="true" [dataSource]="onCreateGLBuffResultSet"
+          [repaintChangesOnly]="true" [allowColumnResizing]="true">
+          <dxi-column dataField="AccountCode"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="DebitAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="CreditAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+        </dx-data-grid>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-6">
+          <p><b>Balance</b>: {{ this.balanceforpost}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <dx-button text="Post" type="default" (onClick)="PostBtn()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [showTitle]="true" title="Service LookUp" [dragEnabled]="true" [closeOnOutsideClick]="true"
+  [(visible)]="globalServiceItemLookupPopup">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-data-grid [columnAutoWidth]="true" [showBorders]="true" [dataSource]="itemArray" [hoverStateEnabled]="true"
+          [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event,'ITEM')">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="Code"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="UnitPrice" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" width="600" [showTitle]="true" title="Line Details" [dragEnabled]="true" [closeOnOutsideClick]="true"
+  [(visible)]="itemDetailsPopup">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-form itemType="group" [colCount]="2" [formData]="itemDetails" accept-charset="UTF-8" [readOnly]="true">
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="LineCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Description" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Quantity" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Amount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="UOM" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="DirectUnitCost" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="AmountIncludingVAT" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="LineDiscountAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="LineAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="VatAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="WHTPerct" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card bg-darkerbg">
+      <div class="card-body">
+        <dx-form id="SalesOrderOperation" itemType="group" [colCount]="3" accept-charset="UTF-8">
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp3'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" [colSpan]="2">
+            <dxi-item [template]="'MainTemp2'">
+            </dxi-item>
+          </dxi-item>
+          <div *dxTemplate="let data of 'MainTemp'">
+            <span *ngIf="EJDetails" style="color: #fff; font-size:22px;"><b>{{EJDetails.DocumentNo
+                }}</b></span>
+          </div>
+          <div *dxTemplate="let data of 'MainTemp3'" style="color: #fff; font-size:22px;">
+            <span #docDate *ngIf="EJDetails"><b>
+                {{ EJDetails.AmountIncludingVAT | number: '1.2-2'}}</b></span>
+          </div>
+          <div class="clearfix" *dxTemplate="let data of 'MainTemp2'">
+            <dx-select-box #selectBoxSI [dataSource]="dropdownmenu" [value]=""></dx-select-box>
+            <dx-button type="default" text="GO" (onClick)="CRJOperationsGo(selectBoxSI.text)">
+            </dx-button>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form id="CustomerDetailsGropu" (onFieldDataChanged)="formSummary_fieldDataChanged($event)" [formData]="EJDetails"
+          accept-charset="UTF-8">
+          <dxi-item cssClass="font-for-formlable" dataField="DocumentDate" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="FiscalPeriod" [editorOptions]="{readOnly: true,elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="FiscalYearID" [editorOptions]="{readOnly: true, elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="ExternalDocumentNo" [label]="{text: 'Ext Doc Number'}"
+            [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form (onFieldDataChanged)="formSummary_fieldDataChanged($event)" [formData]="EJDetails" accept-charset="UTF-8">
+          <dxi-item [template]="'nameTemplate3'" [label]="{text: 'Code'}">
+          </dxi-item>
+          <dxi-item [template]="'nameTemplate4'" [label]="{text: 'Name'}">
+          </dxi-item>
+          <div class="clearfix2" *dxTemplate="let data of 'nameTemplate3'">
+            <dx-text-box [value]="EJDetails ? EJDetails.PayToVendor:''"></dx-text-box>
+            <dx-button type="default" icon="find" (onClick)="onVendorSearchClicked()" [disabled]="isLinesExist">
+            </dx-button>
+          </div>
+          <div class="clearfix2" *dxTemplate="let data of 'nameTemplate4'">
+            <dx-text-box [value]="EJDetails ? EJDetails.PayToName:''">
+            </dx-text-box>
+            <dx-button type="default" icon="info" (onClick)="getBuyFromVendorDetail()">
+            </dx-button>
+          </div>
+          <dxi-item cssClass="font-for-formlable" [template]="'VendGroup'" [label]="{text: 'Vendor Group'}"
+            [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" [template]="'VATGroup'" [label]="{text: 'VAT Group'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="Remarks" [label]="{text: 'Remarks'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <div *dxTemplate="let data of 'VATGroup'">
+            <dx-select-box [dataSource]="paymentMethodData" [searchEnabled]="true" [displayExpr]="suggestionFormateForCustomerGrp"
+              valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="EJDetails ? EJDetails.VATGroup:''"
+              (onValueChanged)="onSellToCustomerGrpCodeChanged($event)" hoverStateEnabled="true" [itemTemplate]="hover2">
+              <div *dxTemplate="let itemData1 of 'field1'">
+                <dx-text-box [text]="itemData1 ? itemData1.Code:EJDetails ? EJDetails.VATGroup:''" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+              </div>
+            </dx-select-box>
+          </div>
+          <div *dxTemplate="let data of 'VendGroup'">
+            <dx-select-box [dataSource]="vendorgrpSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormateForvatGrp"
+              valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="EJDetails ? EJDetails.VendorGroup:''"
+              (onValueChanged)="onSellToVatGrpCodeChanged($event)" hoverStateEnabled="true" [itemTemplate]="hover3">
+              <div *dxTemplate="let itemData1 of 'field1'">
+                <dx-text-box [text]="itemData1 ? itemData1.Code:EJDetails ? EJDetails.VendorGroup:'' " [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+              </div>
+            </dx-select-box>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource2"
+          [showBorders]="true" [allowColumnResizing]="true" [wordWrapEnabled]="true" (onInitNewRow)="onInitNewRow($event)"
+          (onRowInserted)="onRowInserted($event)" (onRowUpdated)="onRowInserted($event)" (onEditingStart)="onInitNewRow($event)"
+          (onCellPrepared)="onCellPrepared($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-editing mode="row" [allowDeleting]="true" [allowUpdating]="true" [allowAdding]="true">
+          </dxo-editing>
+          <dxi-column dataField="LineNo" [allowSearch]="false" [visible]="false"></dxi-column>
+          <dxi-column dataField="LineCode" [allowSearch]="true" [allowEditing]="false" dataType="string" [setCellValue]="setBaseUOMValueItemCode">
+          </dxi-column>
+          <dxi-column dataField="Lookup" caption="" cellTemplate="cellTemplate" [allowEditing]="false" [allowSearch]="false"
+            [visible]="false"></dxi-column>
+          <dxi-column dataField="Details" caption="" cellTemplate="cellTemplate2" [allowEditing]="false" [allowSearch]="false"></dxi-column>
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <div class="icon">
+              <i class="fa fa-search" (click)="ItemLookupvalueChanged(data)"></i>
+            </div>
+          </div>
+          <div *dxTemplate="let data of 'cellTemplate2'">
+            <div class="icon">
+              <a><i class="fa fa-info-circle" (click)="ItemDeatilsForPopUp(data)"></i></a>
+            </div>
+          </div>
+          <dxi-column dataField="Description" [allowSearch]="true"></dxi-column>
+          <dxi-column dataField="DirectUnitCost" [allowSearch]="true" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="CostIncVAT" [allowSearch]="false" [allowEditing]="false">
+            <dxo-lookup [dataSource]="['Yes','No']" hoverStateEnabled="true"> </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="AmountIncludingVAT" dataType="number" [allowEditing]="false" [allowSearch]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="Amount" dataType="number" [allowEditing]="false" [allowSearch]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="VatAmount" dataType="number" [allowEditing]="false" [allowSearch]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

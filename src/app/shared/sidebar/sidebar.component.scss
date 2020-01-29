@@ -1,0 +1,55 @@
+.nested-menu {
+  .list-group-item {
+    cursor: pointer;
+  }
+  .nested {
+    list-style-type: none;
+  }
+  ul.submenu {
+    display: none;
+    height: 0;
+  }
+  & .expand {
+    ul.submenu {
+      display: block;
+      list-style-type: none;
+      height: auto;
+      li {
+        a {
+          padding: 10px;
+          display: block;
+        }
+      }
+    }
+  }
+}
+.bg-sales{
+  background-color: #46C2E2 ;
+  }
+  .bg-finance{
+    background-color: #3BD7CC ;
+  }
+  .bg-purchase{
+  background-color: #316897 ;
+  }
+  .bg-retail{
+    background-color: #3EC0E1 ;
+  }
+  .bg-warehouse{
+  background-color: #18334A ;
+  }
+  .bg-admin{
+    background-color: #CA9542 ;
+  }
+  .bg-help{
+    background-color: #7D5310 ;
+  }
+  .bg-manage{
+    background-color: #84AED3 ;
+  }
+  .bg-prod{
+    background-color: #3EC0E1 ;
+  }
+  .bg-trans{
+    background-color: #316897 ;
+  }

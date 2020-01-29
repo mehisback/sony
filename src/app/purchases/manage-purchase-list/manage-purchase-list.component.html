@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource"
+          [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-editing mode="cell" [allowUpdating]="true" [refreshMode]="reshape"></dxo-editing>
+          <dxi-column dataField="FromSQNo" caption="Sales Quote No" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="DocumentNo" caption="Purchase Quote No" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="PriceUpdated" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="BilltoName" caption="Customer Name" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="BuyFromVendor" caption="Vendor" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="BuyFromName" caption="Vendor" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="ItemCode" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="Description" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="DirectUnitCost" caption="Cost" dataType="number" [allowEditing]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="MarginPert" caption="Margin (%)" dataType="number" [allowEditing]="true"
+            [editorOptions]="{ mode:number, min: 0, format: ' #,##0.##' }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="UnitPriceFromPQ" caption="Suggested Price" dataType="number" [allowEditing]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="selectedPrice" caption="SQ Price" dataType="number" [allowEditing]="false"
+            [editorOptions]="{ mode:number, min: 0, format: ' #,##0.##' }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="LastModifiedon" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="SetPrice" cellTemplate="cellTemplate2" [allowEditing]="false" [allowSearch]="false">
+          </dxi-column>
+          <dxo-paging [pageSize]="15"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[15, 25, 30]"></dxo-pager>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <div *dxTemplate="let data of 'cellTemplate2'">
+            <dx-button type="default" class="button-small-for-DG" text="Set Price" (onClick)="SetSQPrice(data)">
+            </dx-button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

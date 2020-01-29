@@ -1,0 +1,199 @@
+<a [routerLink]="[ '/warehouse/movement-list']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<dx-popup class="popup" [showTitle]="true" title="Item LookUp" [dragEnabled]="true" [closeOnOutsideClick]="true"
+  [(visible)]="globalItemLookupPopup">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-data-grid [columnAutoWidth]="true" [showBorders]="true" [dataSource]="itemArray" [hoverStateEnabled]="true"
+          [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event,'ITEM')">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="ItemCode"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="UOM"></dxi-column>
+          <dxi-column dataField="LotNumber"></dxi-column>
+          <dxi-column dataField="Quantity" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" width="600" [showTitle]="true" title="Item Details" [dragEnabled]="true" [closeOnOutsideClick]="true"
+  [(visible)]="itemDetailsPopup">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-form itemType="group" [colCount]="2" [formData]="itemDetails" accept-charset="UTF-8" [readOnly]="true">
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="ItemCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="Description" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BaseUOM" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="ExpiryDate" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="LotNo" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="FromLocationCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="FromStorageUnitCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="ToStorageUnitCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card bg-darkerbg">
+      <div class="card-body">
+        <dx-form id="PurchaseOrderOperation" itemType="group" [colCount]="3" accept-charset="UTF-8">
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp3'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" [colSpan]="2">
+            <dxi-item [template]="'MainTemp2'">
+            </dxi-item>
+          </dxi-item>
+          <div *dxTemplate="let data of 'MainTemp'">
+            <span *ngIf="movementHeader" style="color: #fff; font-size:22px;"><b>{{ movementHeader.DocumentNo }}</b></span>
+          </div>
+          <div *dxTemplate="let data of 'MainTemp3'" style="color: #fff; font-size:22px;">Status:
+            <span *ngIf="movementHeader"><b> {{ movementHeader.DocumentStatus }}</b></span>
+          </div>
+          <div class="clearfix" *dxTemplate="let data of 'MainTemp2'">
+            <dx-select-box #selectBoxMovement [dataSource]="MovementOperations" [value]=""></dx-select-box>
+            <dx-button type="default" text="GO" (onClick)="MovementOperationsGo(selectBoxMovement.text)">
+            </dx-button>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <div id="form-container">
+          <dx-form id="PickOrderForm" [formData]="movementHeader" (onFieldDataChanged)="formSummary_fieldDataChanged($event)"
+            accept-charset="UTF-8">
+            <dxi-item cssClass="font-for-formlable" [template]="'locationCodeTemplate'" [label]="{text: 'Location Code'}"
+              [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="DocumentDate" editorType="dxDateBox" [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' }, readOnly: isLinesExist }">
+            </dxi-item>
+            <div *dxTemplate="let data of 'locationCodeTemplate'">
+              <dx-select-box #selectBox4 [dataSource]="LocationCodeSuggestions" [searchEnabled]="true"
+                [showClearButton]="true" [displayExpr]="suggestionFormateForLocationCode" valueExpr="Code"
+                [minSearchLength]="0" fieldTemplate="field5" [readOnly]="isLinesExist" [value]="movementHeader ? movementHeader.FromLocationCode :''"
+                [disabled]="LocationCodeSuggestions!=null ? false:true" (onValueChanged)="onLocationCodeChanged($event)"
+                hoverStateEnabled="true" [itemTemplate]="hover4">
+                <div *dxTemplate="let itemData5 of 'field5'">
+                  <dx-text-box [text]="itemData5 ? itemData5.Code:''" [readOnly]="isLinesExist" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                </div>
+              </dx-select-box>
+            </div>
+          </dx-form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form id="PickOrderForm" [formData]="movementHeader" (onFieldDataChanged)="formSummary_fieldDataChanged($event)"
+          accept-charset="UTF-8">
+          <dxi-item cssClass="font-for-formlable" [template]="'fromSUCodeTemplate'" [label]="{text: 'From SU Code'}"
+            [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" [template]="'toSUCodeTemplate'" [label]="{text: 'To SU Code'}"
+            [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="Reason" [label]="{text: 'Comments/Reason For Moving'}"
+            [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          <div *dxTemplate="let data of 'fromSUCodeTemplate'">
+            <dx-select-box #selectBox4 [dataSource]="SUCodeSuggestions" [searchEnabled]="true" [showClearButton]="true"
+              [displayExpr]="suggestionFormateForSUCode" [readOnly]="false" valueExpr="Code" [minSearchLength]="0"
+              fieldTemplate="field5" [value]="movementHeader ? movementHeader.FromStorageUnitCode:''" [disabled]="SUCodeSuggestions!=null ? false:true"
+              (onValueChanged)="onSUCodeChanged($event)" hoverStateEnabled="true" [itemTemplate]="hover4">
+              <div *dxTemplate="let itemData5 of 'field5'">
+                <dx-text-box [text]="itemData5 ? itemData5.Code:''" [elementAttr]="{ 'class': 'font-for-formlable' }">
+                </dx-text-box>
+              </div>
+            </dx-select-box>
+          </div>
+          <div *dxTemplate="let data of 'toSUCodeTemplate'">
+            <dx-select-box #selectBox4 [dataSource]="SUCodeSuggestions" [searchEnabled]="true" [showClearButton]="true"
+              [displayExpr]="suggestionFormateForSUCode" [readOnly]="!isFromStorageUnitCode" valueExpr="Code"
+              [minSearchLength]="0" fieldTemplate="field5" [value]="movementHeader ? movementHeader.ToStorageUnitCode:''"
+              [disabled]="SUCodeSuggestions!=null ? false:true" (onValueChanged)="onToSUCodeChanged($event)"
+              hoverStateEnabled="true" [itemTemplate]="hover4">
+              <div *dxTemplate="let itemData5 of 'field5'">
+                <dx-text-box [text]="itemData5 ? itemData5.Code:''" [readOnly]="!isFromStorageUnitCode" [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+              </div>
+            </dx-select-box>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #datagridforitems id="datagridforitems" [columnAutoWidth]="true" [showBorders]="true"
+          [dataSource]="itemArray" [hoverStateEnabled]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event,'ITEM')">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="ItemCode"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="LotNumber"></dxi-column>
+          <dxi-column dataField="Stock" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource"
+          [showBorders]="true" [allowColumnResizing]="true" [allowColumnReordering]="true" [wordWrapEnabled]="true"
+          (onInitNewRow)="onInitNewRow($event)" (onRowInserted)="onRowInserted($event)" (onRowUpdated)="onRowInserted($event)"
+          (onEditingStart)="onInitNewRow($event)" (onCellPrepared)="onCellPrepared($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-editing mode="row" [allowAdding]="allowAdding" [allowDeleting]="true" [allowUpdating]="false">
+          </dxo-editing>
+          <dxi-column dataField="ItemCode" [allowSearch]="true" [allowEditing]="false" dataType="string"></dxi-column>
+          <dxi-column dataField="Description" [allowEditing]="false" [allowSearch]="true" dataType="string">
+          </dxi-column>
+          <dxi-column dataField="BaseUOM" [allowEditing]="false" [allowSearch]="true" dataType="string"></dxi-column>
+          <dxi-column dataField="Quantity" dataType="number" [setCellValue]="setQuantityValueItemCode" [allowSearch]="false"
+            [editorOptions]="{min: 0, format: ' #,##0.##' }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="LotNo" [allowEditing]="false" [allowSearch]="true" dataType="string"></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

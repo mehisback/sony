@@ -1,0 +1,88 @@
+.cls {
+    position: absolute;
+    right: 34px;
+    top: 0;
+  }
+
+  .alignleft {
+    float: left;
+    text-align: center;
+    padding-top: 3%;
+  }
+  .alignright {
+    float: right;
+    text-align: right;
+    padding-top: 3%;
+  }
+
+  .borderchecker{
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+    text-align: center;
+    border-style: solid; 
+  }
+
+  .clearfix {
+    display: flex;
+    justify-content: flex-end; /*space-between flex-end*/
+  }
+  
+  .clearfix2 {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+
+  .textsizestatus {
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+.dx-form .dx-texteditor-input {
+    font-weight: bold;
+    font-size: 12px;
+    color: darkslateblue;
+}
+
+.piechart{
+  height:375px; 
+  width:280px;
+  margin: 0 auto;
+}
+.ct-series-c .ct-slice-donut {
+stroke: #6772e5;
+}
+.ct-series-b .ct-slice-donut {
+stroke: #20aee3;
+}
+.ct-series-a .ct-slice-donut {
+stroke: #24d2b5;
+}
+
+.align-right{
+  float: right;
+}
+
+.custom-item {
+  position: relative;
+  min-height: 40px;
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: lightblue;
+}
+.bg-darkerbg{
+  background-color: #408bca;
+}
+
+.text-need-white {
+  color: #fff !important;
+}
+
+::ng-deep .dx-texteditor {
+  flex: auto;
+}

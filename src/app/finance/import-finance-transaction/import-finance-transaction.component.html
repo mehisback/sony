@@ -1,0 +1,199 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+  <ngb-tab title="Payout" id="Payout">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-form itemType="group" [colCount]="2" [formData]="importData" accept-charset="UTF-8">
+                <dxi-item [colSpan]="2" cssClass="font-for-formlable" dataField="uuID" [editorOptions]="{ readOnly: true }"></dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" [template]="'nameTemplate6'" [label]="{text: 'Import Type'}"></dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" [template]="'nameTemplate1'" [label]="{text: 'Import Source'}"></dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+                  [label]="{text: 'From Date'}" [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+                <dxi-item [colSpan]="1"></dxi-item>
+                <div *dxTemplate="let data of 'nameTemplate1'">
+                  <dx-select-box [dataSource]="chooseImportFormat" [minSearchLength]="0" [value]="importData ? importData.userselected:''"
+                    (onValueChanged)="onCodeChanged($event,'userselected')" [readOnly]="true">
+                  </dx-select-box>
+                </div>
+                <div *dxTemplate="let data of 'nameTemplate5'">
+                  <dx-select-box [dataSource]="CustSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormateForCustomer"
+                    valueExpr="CustCode" [minSearchLength]="0" [value]="importData ? importData.CustomerCode:''"
+                    (onValueChanged)="onCodeChanged($event,'CustomerCode')" hoverStateEnabled="true" [itemTemplate]="hover"
+                    [showClearButton]="true" [searchExpr]="['CustCode', 'Name']">
+                  </dx-select-box>
+                </div>
+                <div *dxTemplate="let data of 'nameTemplate6'">
+                  <dx-select-box [dataSource]="TypeSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormateForType"
+                    valueExpr="Name" [minSearchLength]="0" [value]="importData ? importData.Type:''" (onValueChanged)="onCodeChanged($event,'Type')"
+                    hoverStateEnabled="true" [itemTemplate]="hoverFormatForType" [showClearButton]="true" [searchExpr]="['Name']">
+                  </dx-select-box>
+                </div>
+              </dx-form>
+              <br>
+              <dx-button type="default" text="IMPORT FROM API" (onClick)="APICallImport('Payout')"></dx-button>
+              <br>
+              <dx-data-grid #gridContainer [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="dataSourceIJ1"
+                [showBorders]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-selection selectAllMode="allPages" showCheckBoxesMode="onClick" mode="multiple"></dxo-selection>
+                <dxi-column dataField="statementnumber" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="createdat"></dxi-column>
+                <dxi-column dataField="updatedat"></dxi-column>
+                <dxi-column dataField="openingbalance" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="itemrevenue" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="shipmentfee" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="shipmentfeecredit" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="otherrevenuetotal" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="fees_total" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="subtotal1" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="refunds" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="feesonrefundstotal" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="subtotal2" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="closingbalance" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="guaranteedeposit" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="payout" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="paid" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="UserID" dataType="string"></dxi-column>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showInfo]="true"></dxo-pager>
+              </dx-data-grid>
+              <br>
+              <span style="float: right;">Total Count : {{ rowCount1 }}</span>
+              <dx-button class="mr-2" type="danger" icon="clear" text="DELETE LINE(S)" [disabled]="rowCount1==0"
+                (onClick)="onDeleteClicked()">
+              </dx-button>
+              <dx-button type="default" icon="todo" text="CREATE-GEN JOURNAL" [disabled]="rowCount1==0" (onClick)="btnImport_clickHandler()">
+              </dx-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Transactions" id="Transactions">
+    <ng-template ngbTabContent>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body font-for-formlable">
+              <dx-form itemType="group" [colCount]="2" [formData]="importData2" accept-charset="UTF-8">
+                <dxi-item [colSpan]="2" cssClass="font-for-formlable" dataField="uuID" [editorOptions]="{ readOnly: true }"></dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" [template]="'nameTemplate6'" [label]="{text: 'Import Type'}"></dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" [template]="'nameTemplate1'" [label]="{text: 'Import Source'}"></dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+                  [label]="{text: 'From Date'}" [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+                <dxi-item [colSpan]="1" cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox"
+                  [label]="{text: 'To Date'}" [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+                <div *dxTemplate="let data of 'nameTemplate1'">
+                  <dx-select-box [dataSource]="chooseImportFormat" [minSearchLength]="0" [value]="importData2 ? importData2.userselected:''"
+                    (onValueChanged)="onCodeChanged2($event,'userselected')" [readOnly]="true">
+                  </dx-select-box>
+                </div>
+                <div *dxTemplate="let data of 'nameTemplate5'">
+                  <dx-select-box [dataSource]="CustSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormateForCustomer"
+                    valueExpr="CustCode" [minSearchLength]="0" [value]="importData ? importData.CustomerCode:''"
+                    (onValueChanged)="onCodeChanged($event,'CustomerCode')" hoverStateEnabled="true" [itemTemplate]="hover"
+                    [showClearButton]="true" [searchExpr]="['CustCode', 'Name']">
+                  </dx-select-box>
+                </div>
+                <div *dxTemplate="let data of 'nameTemplate6'">
+                  <dx-select-box [dataSource]="TypeSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormateForType"
+                    valueExpr="Name" [minSearchLength]="0" [value]="importData2 ? importData2.Type:''" (onValueChanged)="onCodeChanged2($event,'Type')"
+                    hoverStateEnabled="true" [itemTemplate]="hoverFormatForType" [showClearButton]="true" [searchExpr]="['Name']">
+                  </dx-select-box>
+                </div>
+              </dx-form>
+              <br>
+              <dx-button type="default" text="IMPORT FROM API" (onClick)="APICallImport('Transactions')"></dx-button>
+              <br>
+              <dx-data-grid #gridContainer2 [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="dataSourceIJ2"
+                [showBorders]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-selection selectAllMode="allPages" showCheckBoxesMode="onClick" mode="multiple"></dxo-selection>
+                <dxi-column dataField="details" [allowSearch]="true"></dxi-column>
+                <dxi-column dataField="CrossRefCode"></dxi-column>
+                <dxi-column dataField="ThirdPartySKU"></dxi-column>
+                <dxi-column dataField="amount" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="VATinamount" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="WHTamount" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="WHTincludedinamount"></dxi-column>
+                <dxi-column dataField="statement"></dxi-column>
+                <dxi-column dataField="paidstatus"></dxi-column>
+                <dxi-column dataField="orderno"></dxi-column>
+                <dxi-column dataField="orderItemno"></dxi-column>
+                <dxi-column dataField="CustomerName"></dxi-column>
+                <dxi-column dataField="orderItemstatus"></dxi-column>
+                <dxi-column dataField="shippingprovider"></dxi-column>
+                <dxi-column dataField="shippingspeed"></dxi-column>
+                <dxi-column dataField="shipmenttype"></dxi-column>
+                <dxi-column dataField="reference"></dxi-column>
+                <dxi-column dataField="comment"></dxi-column>
+                <dxi-column dataField="paymentrefid"></dxi-column>
+                <dxi-column dataField="feename"></dxi-column>
+                <dxi-column dataField="transactiondate"></dxi-column>
+                <dxi-column dataField="transactiontype"></dxi-column>
+                <dxi-column dataField="transactionnumber"></dxi-column>
+                <dxi-column dataField="UserID" dataType="string"></dxi-column>
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-pager [showInfo]="true"></dxo-pager>
+              </dx-data-grid>
+              <br>
+              <span style="float: right;">Total Count : {{ rowCount2 }}</span>
+              <dx-button class="mr-2" type="danger" icon="clear" text="DELETE LINE(S)" [disabled]="rowCount2==0"
+                (onClick)="onDeleteClicked2()">
+              </dx-button>
+              <dx-button type="default" icon="todo" text="CREATE-CASH RECEIPT JOURNAL" [disabled]="rowCount2==0"
+                (onClick)="btnImport_clickHandler2()">
+              </dx-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

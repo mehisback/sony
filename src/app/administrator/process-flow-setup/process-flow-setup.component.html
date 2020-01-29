@@ -1,0 +1,123 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer [columnAutoWidth]="true" (onRowClick)="onFocusedRowChanged($event)"
+          [allowColumnResizing]="true" id="gridContainer" [dataSource]="dataSourceDoctype" [showBorders]="true"
+          [hoverStateEnabled]="true">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="DocumentName" [allowSearch]="true"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-2">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainerPF id="gridContainerPF" [columnAutoWidth]="true"
+          (onRowClick)="onFocusedRowChanged1($event)" [allowColumnResizing]="true" [hoverStateEnabled]="true"
+          [dataSource]="dataSourceSeq" [showBorders]="true">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="Sequence" [allowSearch]="true"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <dx-button text="Add" width="100%" type="default" (onClick)="btnAddSequence_clickHandler()">
+        </dx-button>
+      </div>
+      <br>
+      <br>
+      <div class="col-12">
+        <dx-button text="Delete" width="100%" type="default" (onClick)="btnDelSequence_clickHandler()">
+        </dx-button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form [(formData)]="seqDetails" accept-charset="UTF-8" (onFieldDataChanged)="form_fieldDataChanged($event)">
+          <dxi-item class="font-for-formlable" dataField="ActionType" [editorOptions]="{readOnly: ActionTypeEditable }"></dxi-item>
+          <dxi-item class="font-for-formlable" dataField="FlowLevel" [editorOptions]="{ readOnly: true }"></dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="ResultIsChoice" editorType="dxCheckBox" [editorOptions]="{readOnly: true,text: 'Process Has Choices', elementAttr:{'class': 'font-for-formlable' }  }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="Result1" editorType="dxCheckBox" [visible]="chkResult1"
+            [disabled]="true" [editorOptions]="{ readOnly: true, elementAttr:{ 'class': 'font-for-formlable' }  }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="Result2" [visible]="chkResult2" editorType="dxCheckBox"
+            [disabled]="true" [editorOptions]="{elementAttr:{ readOnly: true,'class': 'font-for-formlable' }  }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="Result3" [visible]="chkResult3" editorType="dxCheckBox"
+            [editorOptions]="{elementAttr:{'class': 'font-for-formlable' }  }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+          <dxi-item cssClass="font-for-formlable" dataField="FinalStep" editorType="dxCheckBox" [editorOptions]="{readOnly: true,text: 'Process is Final Step', elementAttr:{'class': 'font-for-formlable' }  }">
+            <dxo-label [visible]="false"></dxo-label>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainerRole [columnAutoWidth]="true" (onRowClick)="onFocusedRowChangedRole($event)"
+          [allowColumnResizing]="true" id="gridContainerRole" [dataSource]="dataSourceRole" [showBorders]="true"
+          [hoverStateEnabled]="true">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="RoleID" [allowSearch]="true"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <dx-button text="Add" width="100%" type="default" (onClick)="btnAddRole_clickHandler()">
+        </dx-button>
+      </div>
+      <br>
+      <br>
+      <div class="col-12">
+        <dx-button text="Delete" width="100%" type="default" (onClick)="btnDelRole_clickHadler()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<dx-popup class="popup" [width]="400" [height]="'auto'" [showTitle]="true" title="Select Role" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="PopupRole">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-data-grid [columnAutoWidth]="true" (onRowClick)="onFocusedRowChangedRoleGrid($event)"
+          [allowColumnResizing]="true" id="gridContainer" [dataSource]="dataSourceRolePop" [showBorders]="true"
+          [hoverStateEnabled]="true">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="RoleID" [allowSearch]="true"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>

@@ -1,0 +1,329 @@
+<a [routerLink]="[ '/finance/gen-journal-list']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-12">
+    <div class="card bg-darkerbg">
+      <div class="card-body">
+        <dx-form id="SalesOrderOperation" itemType="group" [colCount]="3" accept-charset="UTF-8">
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item [template]="'MainTemp4'"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" [colSpan]="2">
+            <dxi-item [template]="'MainTemp2'">
+            </dxi-item>
+          </dxi-item>
+          <div *dxTemplate="let data of 'MainTemp'">
+            <span *ngIf="genJournHeaderDetail"
+              style="color: #fff; font-size:20px;"><b>{{genJournHeaderDetail.DocumentNo }}</b></span>
+          </div>
+          <div *dxTemplate="let data of 'MainTemp4'" style="color: #fff; font-size:20px;">Date:
+            <span style="color: #fff; font-size:20px;" *ngIf="genJournHeaderDetail"><b>
+                {{genJournHeaderDetail.DocumentDate }}</b></span>
+          </div>
+          <div class="clearfix" *dxTemplate="let data of 'MainTemp2'">
+            <dx-select-box #selectBoxGenJourn [dataSource]="GenJournalOperations" [value]=""></dx-select-box>
+            <dx-button type="default" text="GO" (onClick)="GenJournalOperationssGo(selectBoxGenJourn.text)">
+            </dx-button>
+          </div>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form id="GenJouranlCardDetail" (onFieldDataChanged)="formSummary_fieldDataChanged($event)" itemType="group"
+          [colCount]="4" [formData]="genJournHeaderDetail" accept-charset="UTF-8">
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="Remarks"
+              [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" dataField="FiscalPeriodCombined"
+              [label]="{text:'FiscalYear and Period'}"
+              [editorOptions]="{ readOnly: true, elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+              <dx-button icon="spinright" type="default" icon="tags" (onClick)="trackCodes()">
+              </dx-button>
+            </dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group">
+            <dxi-item cssClass="font-for-formlable buttonforimport"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+              <dx-button buttonforimport icon="spinright" type="default" icon="arrowdown" (onClick)="import($event)">
+              </dx-button>
+            </dxi-item>
+          </dxi-item>
+        </dx-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<dx-popup class="popup" [width]="600" [height]="450" [showTitle]="true" title="Track Codes" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="trackCodePOPUP">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form id="TrackCodesDetail" [(formData)]="TrackCodesData" accept-charset="UTF-8">
+            <dxi-item cssClass="font-for-formlable" [template]="'trackCodeListTemplate'"
+              [label]="{text: 'Track Codes'}"></dxi-item>
+            <div *dxTemplate="let data of 'trackCodeListTemplate'">
+              <dx-select-box #selectBox2 [dataSource]="trackCodesListSuggestions" [searchEnabled]="true"
+                [showClearButton]="true" [displayExpr]="suggestionFormatForTrackCodeList" valueExpr="Code"
+                [minSearchLength]="0" fieldTemplate="field2" noDataText="Want to Add New ?"
+                [value]="trackCodesListSuggestions ? trackCodesListSuggestions.Code:''"
+                [disabled]="trackCodesListSuggestions!=null ? false:true" (onValueChanged)="onTrackCodeChanged($event)">
+                <div *dxTemplate="let itemData2 of 'field2'">
+                  <dx-text-box [text]="itemData2 ? itemData2.Code:''" [elementAttr]="{ 'class': 'font-for-formlable' }">
+                  </dx-text-box>
+                  <dx-button *ngIf="selectBox2.text!=''" [visible]="!selectBox2.text.includes('|')" icon="plus"
+                    (onClick)="allowNewclick($event)" [elementAttr]="{ 'class': 'cls' }">
+                  </dx-button>
+                </div>
+              </dx-select-box>
+            </div>
+
+            <dxi-item cssClass="font-for-formlable" [template]="'trackCodeValueListTemplate'"
+              [label]="{text: 'Track Codes'}"></dxi-item>
+            <div *dxTemplate="let data of 'trackCodeValueListTemplate'">
+              <dx-select-box #selectBox2 [dataSource]="trackCodesValueListSuggestions" [searchEnabled]="true"
+                [showClearButton]="true" [displayExpr]="suggestionFormatForTrackCodeValueList" valueExpr="CodeValue"
+                [minSearchLength]="0" fieldTemplate="field2" noDataText="Want to Add New ?"
+                [value]="trackCodesValueListSuggestions ? trackCodesValueListSuggestions.CodeValue:''"
+                [disabled]="trackCodesValueListSuggestions!=null ? false:true"
+                (onValueChanged)="onTrackCodeValueChanged($event)">
+                <div *dxTemplate="let itemData2 of 'field2'">
+                  <dx-text-box [text]="itemData2 ? itemData2.CodeValue:''"
+                    [elementAttr]="{ 'class': 'font-for-formlable' }">
+                  </dx-text-box>
+                  <dx-button *ngIf="selectBox2.text!=''" [visible]="!selectBox2.text.includes('|')" icon="plus"
+                    (onClick)="allowNewclick($event)" [elementAttr]="{ 'class': 'cls' }">
+                  </dx-button>
+                </div>
+              </dx-select-box>
+            </div>
+
+          </dx-form>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <dx-button text="Add" type="default" (onClick)="SaveNewValues()" [disabled]="isEnableButton">
+        </dx-button>
+      </div>
+
+      <br>
+      <div class="row">
+        <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [showBorders]="true" [dataSource]="documentValues"
+          [repaintChangesOnly]="true" [allowColumnResizing]="true" (onRowRemoving)="deleteEvent($event)">
+          <dxi-column dataField="DocumentNo"></dxi-column>
+          <dxi-column dataField="TrackingCode"></dxi-column>
+          <dxi-column dataField="TrackingCodeValue"></dxi-column>
+          <dxo-editing mode="row" [allowDeleting]="true">
+          </dxo-editing>
+        </dx-data-grid>
+      </div>
+
+
+    </div>
+  </div>
+</dx-popup>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form id="GenJournalLineOperations" itemType="group" [colCount]="4" accept-charset="UTF-8">
+          <dxi-item itemType="group" dataField="Gen Journal Line Operation">
+            <dx-select-box #selectBoxSO [dataSource]="GenJournalLineOperations" [value]=""
+              (onValueChanged)="GenJournalLineOperationsGoOption($event)"></dx-select-box>
+          </dxi-item>
+          <dxi-item itemType="group" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+            <dx-button icon="spinright" type="default" text="GO" (onClick)="GenJournalLineOperationsGo(Operation2)">
+            </dx-button>
+          </dxi-item>
+        </dx-form>
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="genJournDataSource"
+          [showBorders]="true" [allowColumnResizing]="true">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+          </dxo-editing>
+          <dxi-column dataField="LineNo" [allowSearch]="false" [visible]="false"></dxi-column>
+          <dxi-column dataField="AccountCode" [allowSearch]="true" [setCellValue]="setValueItemCode"
+            [editorOptions]="{showClearButton: true, itemTemplate: hoverItemList, searchExpr: ['AccountCode', 'Name'] }"
+            dataType="string">
+            <dxo-lookup [dataSource]="accountCodeArray" [valueExpr]="formateForAccCodeListSuggestion2"
+              [displayExpr]="itemLookup2" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+          </dxi-column>
+          <dxi-column dataField="DebitAmount" [allowSearch]="true" [setCellValue]="setDebitValue" dataType='number'
+            [editorOptions]="{min: 0 }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="CreditAmount" [allowSearch]="false" [setCellValue]="setCreditValue" dataType='number'
+            [editorOptions]="{ min: 0 }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="Amount" [allowSearch]="false" dataType='number' [editorOptions]="{ min: 0 }">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+          <dxo-summary>
+            <dxi-total-item column="DebitAmount" summaryType="sum" displayFormat="Total: {0}">
+            </dxi-total-item>
+
+            <dxi-total-item column="CreditAmount" summaryType="sum" displayFormat="{0}">
+            </dxi-total-item>
+
+            <dxi-total-item column="Amount" summaryType="sum" displayFormat="{0}">
+            </dxi-total-item>
+
+          </dxo-summary>
+        </dx-data-grid>
+        <br>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<dx-popup class="popup" [width]="500" [height]="'auto'" [showTitle]="true" title="Confrim to Delete Lines"
+  [dragEnabled]="true" [closeOnOutsideClick]="true" [(visible)]="ConfrimPOPUP" [showCloseButton]=true>
+  <div class="card">
+    <h6 class="m-b-0">Do you want to DELETE ALL LINES ?, DELETE Can't be Rolled Back.</h6>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4">
+          <dx-button text="Yes" type="Success" (onClick)="DeleteAll($event)">
+          </dx-button>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <dx-button text="Cancel" type="Success" (onClick)="PopUpClose()">
+          </dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="500" [height]="'auto'" [showTitle]="true" title="Confrim to Delete Lines"
+  [dragEnabled]="true" [closeOnOutsideClick]="true" [(visible)]="ConfrimPostPOPUP" [showCloseButton]=true>
+  <div class="card">
+    <h6 class="m-b-0">Do you want to POST this Document ?, Posting Can't be Rolled Back.</h6>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4">
+          <dx-button text="Yes" type="Success" (onClick)="ConfrimedPosting($event)">
+          </dx-button>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <dx-button text="Cancel" type="Success" (onClick)="PopUpClose()">
+          </dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="500" [height]="'auto'" [showTitle]="true" title="Create New Template"
+  [dragEnabled]="true" [closeOnOutsideClick]="true" [(visible)]="createNewTempPOP" [showCloseButton]=true>
+  <div class="card">
+    <!-- <h6 class="m-b-0">Do you want to POST this Document ?, Posting Can't be Rolled Back.</h6> -->
+    <div class="card-body">
+      <div class="row">
+        <dx-form id="NewTemplateDetails" [(formData)]="newTemplateData" accept-charset="UTF-8">
+          <dxi-item cssClass="font-for-formlable" dataField="newTemplateCode"
+            [editorOptions]="{  elementAttr:{ 'class': 'font-for-formlable' } }">
+            <dxi-validation-rule type="required" message="Code is required"></dxi-validation-rule>
+          </dxi-item>
+        </dx-form>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <dx-button text="Yes" type="Success" (onClick)="saveNewTemplate($event)">
+          </dx-button>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <dx-button text="Cancel" type="Success" (onClick)="PopUpCloseForNewTemp()">
+          </dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="650" [height]="'auto'" [showTitle]="true" title="Get From Template"
+  [dragEnabled]="true" [closeOnOutsideClick]="true" [(visible)]="GetFromTempPOP" [showCloseButton]=true>
+  <div class="card">
+    <!-- <h6 class="m-b-0">Do you want to POST this Document ?, Posting Can't be Rolled Back.</h6> -->
+    <div class="card-body">
+      <div class="row">
+        <dx-form id="getFromTemplateDetails" [(formData)]="getTemplateData" accept-charset="UTF-8">
+          <dxi-item cssClass="font-for-formlable" [template]="'getTemListTemplate'" [label]="{text: 'Template Code'}">
+          </dxi-item>
+          <div *dxTemplate="let data of 'getTemListTemplate'">
+            <dx-select-box #selectBox2 [dataSource]="tempListSuggestions" [searchEnabled]="true"
+              [showClearButton]="true" [displayExpr]="suggestionFormatForTempList" valueExpr="TemplateID"
+              [minSearchLength]="0" fieldTemplate="field2" noDataText="Want to Add New ?"
+              [value]="tempListSuggestions ? tempListSuggestions.TemplateID:''"
+              [disabled]="tempListSuggestions!=null ? false:true" (onValueChanged)="onTempChanged($event)">
+              <div *dxTemplate="let itemData2 of 'field2'">
+                <dx-text-box [text]="itemData2 ? itemData2.TemplateID:''"
+                  [elementAttr]="{ 'class': 'font-for-formlable' }">
+                </dx-text-box>
+                <dx-button *ngIf="selectBox2.text!=''" [visible]="!selectBox2.text.includes('|')" icon="plus"
+                  (onClick)="allowNewclick($event)" [elementAttr]="{ 'class': 'cls' }">
+                </dx-button>
+              </div>
+            </dx-select-box>
+          </div>
+        </dx-form>
+      </div>
+      <br>
+      <div class="">
+        <dx-data-grid id="gridContainerTempPOP" [columnAutoWidth]="true" [showBorders]="true" [dataSource]="TempLines"
+          [repaintChangesOnly]="true" [allowColumnResizing]="true" (onRowRemoving)="deleteEvent($event)">
+          <dxi-column dataField="AccountCode"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="DebitAmount" dataType='number'>
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="CreditAmount" dataType='number'>
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="Amount" dataType='number'>
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <dx-button text="Select" type="Success" (onClick)="onSelectTemplate($event)">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

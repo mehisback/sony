@@ -1,0 +1,249 @@
+<a [routerLink]="[ '/finance/posted-sales-invoice-list']" class="float">
+    <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+    <i class="fa fa-home my-float-home"></i>
+</a>
+
+<dx-popup class="popup" [width]="800" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Selling Details"
+    [closeOnOutsideClick]="true" [(visible)]="popupSelltoCustDetails">
+    <div id="form-container">
+        <dx-form [formData]="SalesInvoiceDetails" accept-charset="UTF-8" [readOnly]="true">
+            <dxi-item cssClass="font-for-formlable" dataField="BillToCustomer" [label]="{text: 'Customer Code'}">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BillToName" [label]="{text: 'Customer Name'}">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="VATID" [label]="{text: 'Tax ID'}"
+                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BillToAddress" [label]="{text: 'Address'}"
+                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BillToAddress2" [label]="{text: 'Address 2'}"
+                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BillToCity" [label]="{text: 'City'}"
+                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+            </dxi-item>
+            <dxi-item cssClass="font-for-formlable" dataField="BillToZip" [label]="{text: 'ZipCode'}"
+                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+            </dxi-item>
+        </dx-form>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" width="600" [showTitle]="true" title="Item Details" [dragEnabled]="true" [closeOnOutsideClick]="true"
+    [(visible)]="itemDetailsPopup">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <dx-form itemType="group" [colCount]="2" [formData]="itemDetails" accept-charset="UTF-8" [readOnly]="true">
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="LineCode" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="Description" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="BaseUOM" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="UnitPrice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="NetPrice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VATBusPostingGroup" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="GenPolicyGroup" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VATPerct" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item cssClass="font-for-formlable" dataField="LineType" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="QuantityToInvoice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="QuantityReturned" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="InvDiscountAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="LineDiscountAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VATProdPostingGroup" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="SOUnitprice" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="VatAmount" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    </dxi-item>
+                </dx-form>
+            </div>
+        </div>
+    </div>
+</dx-popup>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-darkerbg">
+            <div class="card-body">
+                <dx-form id="SalesOrderOperation" itemType="group" [colCount]="3" accept-charset="UTF-8">
+                    <dxi-item itemType="group">
+                        <dxi-item [template]="'MainTemp'"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group">
+                        <dxi-item [template]="'MainTemp3'"></dxi-item>
+                    </dxi-item>
+                    <dxi-item itemType="group" [colSpan]="2">
+                        <dxi-item [template]="'MainTemp2'">
+                        </dxi-item>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'MainTemp'">
+                        <span *ngIf="SalesInvoiceDetails" style="color: #fff; font-size:22px;"><b>{{SalesInvoiceDetails.DocumentNo
+                              }}</b></span>
+                    </div>
+                    <div *dxTemplate="let data of 'MainTemp3'" style="color: #fff; font-size:22px;">
+                        <span #docDate *ngIf="SalesInvoiceDetails"><b>
+                                {{ SalesInvoiceDetails.CurrencyCode }}
+                                {{ SalesInvoiceDetails.Amount | number: '1.2-2' }}</b></span>
+                    </div>
+                    <div class="clearfix" *dxTemplate="let data of 'MainTemp2'">
+                        <dx-select-box #selectBoxSI [dataSource]="dropdownmenu" [value]=""></dx-select-box>
+                        <dx-button type="default" text="GO" (onClick)="SalesInvoiceOperationsGo(selectBoxSI.text)">
+                        </dx-button>
+                    </div>
+                </dx-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <div id="form-container">
+                    <dx-form [formData]="SalesInvoiceDetails" accept-charset="UTF-8" [readOnly]="true">
+                        <dxi-item [template]="'nameTemplate3'" [label]="{text: 'Code'}">
+                        </dxi-item>
+                        <dxi-item [template]="'nameTemplate4'" [label]="{text: 'Name'}">
+                        </dxi-item>
+                        <div class="clearfix2" *dxTemplate="let data of 'nameTemplate3'">
+                            <dx-text-box [value]="SalesInvoiceDetails ? SalesInvoiceDetails.BillToCustomer:''">
+                            </dx-text-box>
+                        </div>
+                        <div class="clearfix2" *dxTemplate="let data of 'nameTemplate4'">
+                            <dx-text-box [value]="SalesInvoiceDetails ? SalesInvoiceDetails.BillToName:''">
+                            </dx-text-box>
+                            <dx-button type="default" icon="info" (onClick)="getSellToCustomerDetail()">
+                            </dx-button>
+                        </div>
+                        <dxi-item cssClass="font-for-formlable" dataField="DocumentDate" editorType="dxDateBox"
+                            [editorOptions]="{ value: null, width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                        </dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="DueDate" [label]="{text: 'Due Date'}"
+                            editorType="dxDateBox"
+                            [editorOptions]="{ value: null, width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                        </dxi-item>
+                        <dxi-item cssClass="font-for-formlable" dataField="RemarksToPrint"
+                            [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+
+                    </dx-form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <div id="form-container">
+                    <dx-form [formData]="SalesInvoiceDetails" accept-charset="UTF-8" [readOnly]="true">
+                        <dxi-item itemType="group" [colCount]="2">
+                            <dxi-item itemType="group">
+                                <dxi-item cssClass="font-for-formlable" dataField="ConnectedOrder"
+                                    [label]="{text: 'From Order'}"
+                                    [editorOptions]="{elementAttr:{'class': 'font-for-formlable'}}"></dxi-item>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <dxi-item cssClass="font-for-formlable" dataField="AmtIncvat" editorType="dxCheckBox"
+                                    [label]="{text: 'Price Inc TAX'}"
+                                    [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+                                </dxi-item>
+                            </dxi-item>
+                        </dxi-item>
+                        <dxi-item itemType="group">
+                            <dxi-item cssClass="font-for-formlable" dataField="CustPostingGroup"
+                                [label]="{text: 'Customer Group'}"
+                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                            <dxi-item cssClass="font-for-formlable" dataField="VATGroup" [label]="{text: 'VAT Group'}"
+                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                            <dxi-item cssClass="font-for-formlable" dataField="ExternalDocumentNo"
+                                [label]="{text: 'Ext Doc Number'}"
+                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+                            <dxi-item cssClass="font-for-formlable" dataField="InvDiscountAmount"
+                                [label]="{text: 'Discount'}"
+                                [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, min: 0, format: ' #,##0.##'}">
+                            </dxi-item>
+                        </dxi-item>
+                    </dx-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body font-for-formlable">
+                <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource"
+                    [showBorders]="true" [allowColumnResizing]="true" [wordWrapEnabled]="true">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-editing mode="row" [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false">
+                    </dxo-editing>
+                    <dxi-column dataField="LineNo" [allowSearch]="false" [visible]="false"></dxi-column>
+                    <dxi-column dataField="PickNo" [allowSearch]="false" [visible]="false"></dxi-column>
+                    <dxi-column dataField="PickLineNo" [allowSearch]="false" [visible]="false"></dxi-column>
+                    <dxi-column dataField="LineCode" [allowSearch]="false" [allowEditing]="false"
+                        [editorOptions]="{showClearButton: true, searchExpr: ['Code', 'Description'] }"
+                        dataType="string">
+                    </dxi-column>
+                    <dxi-column dataField="Details" caption="" cellTemplate="cellTemplate2" [allowEditing]="false"
+                        [allowSearch]="false"></dxi-column>
+                    <div *dxTemplate="let data of 'cellTemplate2'">
+                        <div class="icon">
+                            <a><i class="fa fa-info-circle" (click)="ItemDeatilsForPopUp(data)"></i></a>
+                        </div>
+                    </div>
+                    <dxi-column dataField="LineType" [allowSearch]="true" dataType="string" [allowEditing]="false">
+                    </dxi-column>
+                    <dxi-column dataField="Description" [allowSearch]="true" dataType="string"></dxi-column>
+                    <dxi-column dataField="QuantityToInvoice" [allowSearch]="false" dataType='number'
+                        [editorOptions]="{ min: 0, format: ' #,##0.##' }">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="UnitPrice" [allowSearch]="false" dataType="number"
+                        [editorOptions]="{ min: 0, format: ' #,##0.##' }">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="AmountIncludingVAT" dataType="number" [allowSearch]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="Amount" dataType="number" [allowSearch]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="LineDiscountAmount" [allowSearch]="false" dataType="number"
+                        [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="InvDiscountAmount" [allowSearch]="false" dataType="number"
+                        [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="VatAmount" [allowSearch]="false" dataType="number" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+                    </dxo-pager>
+                    <dxo-summary>
+                        <dxi-total-item column="LineDiscountAmount" summaryType="sum" displayFormat="{0}"
+                            [customizeText]="getFormatOfNumber">
+                        </dxi-total-item>
+                        <dxi-total-item column="Amount" summaryType="sum" displayFormat="{0}"
+                            [customizeText]="getFormatOfNumber">
+                        </dxi-total-item>
+                        <dxi-total-item column="VatAmount" summaryType="sum" displayFormat="{0}"
+                            [customizeText]="getFormatOfNumber">
+                        </dxi-total-item>
+                        <dxi-total-item column="QuantityToInvoice" summaryType="sum" displayFormat="Total: {0}"
+                            [customizeText]="getFormatOfNumber">
+                        </dxi-total-item>
+                    </dxo-summary>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>

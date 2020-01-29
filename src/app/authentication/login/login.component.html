@@ -1,0 +1,273 @@
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Session Expire Warning</h5>
+  </div>
+  <div class="modal-body">
+    <div>Your Session will Expiry In {{ TimeCounter }} Seconds..</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="continueSessionOnClick()">Continue
+      Session</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="stopSession()">Logout</button>
+  </div>
+</ng-template>
+
+<div class="login-register" style="background-color:#0DA5FF;">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <img width="100" src="assets/images/logo.png">
+      </div>
+    </div>
+  </div>
+  <div class="login-box card">
+    <div class="card-body">
+      <form class="form-horizontal form-material" id="loginform">
+        <div class="form-group ">
+          <label>Customer Key</label>
+          <div class="col-xs-12">
+            <input class="form-control-plaintext border-bottom-imp" type="password" #name="ngModel" name="key"
+              [(ngModel)]="login.key" required> </div>
+        </div>
+        <div class="form-group ">
+          <label>User ID</label>
+          <div class="col-xs-12">
+            <input class="form-control-plaintext border-bottom-imp" id="UserID" type="text" #name="ngModel"
+              name="username" [(ngModel)]="login.username" required> </div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="col-xs-12">
+            <input class="form-control-plaintext border-bottom-imp" type="password" #name="ngModel" name="password"
+              [(ngModel)]="login.password" required> </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-12 font-14">
+            <div class="checkbox checkbox-primary pull-left p-t-0">
+              <a href="javascript:void(0)" (click)="forgotID()" id="to-recover" class="text-dark pull-right"><i
+                  class="fa fa-lock m-r-5"></i>Forgot
+                ID?</a>
+            </div>
+            <a href="javascript:void(0)" (click)="forgotPass()" id="to-recover" class="text-dark pull-right"><i
+                class="fa fa-lock m-r-5"></i>Forgot
+              Password?</a>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-12 font-14">
+            <div class="checkbox checkbox-primary pull-left p-t-0">
+              <input id="rememberMe" type="checkbox" [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}">
+              <label for="checkbox-signup"> Remember me </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-center m-t-20">
+          <div class="col-xs-12">
+            <button class="mr-5 btn btn-success btn-lg text-color" (click)="onLoggedin()">LOG IN</button>
+            <button style="background-color:#0DA5FF;" class="btn btn-lg text-color" (click)="onregisterclick()">SIGN
+              UP</button>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
+            <div class="social">
+              <a href="javascript:void(0)" class="btn btn-facebook" placement="top" ngbTooltip="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook"></i> </a>
+              <a href="javascript:void(0)" class="btn btn-googleplus" placement="top" ngbTooltip="Login with Google"> <i aria-hidden="true" class="fa fa-google-plus"></i> </a>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="form-group m-b-0">
+          <div class="col-sm-12 text-center">
+            <div>Don't have an account? <a class="text-info m-l-5" [routerLink]="['/authentication/signup']"><b>Sign Up</b></a></div>
+          </div>
+        </div> -->
+      </form>
+      <form class="form-horizontal" id="recoverform" action="index.html">
+        <div class="form-group ">
+          <div class="col-xs-12">
+            <h3>Recover Password</h3>
+            <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+          </div>
+        </div>
+        <div class="form-group ">
+          <div class="col-xs-12">
+            <input class="form-control" type="text" required="" placeholder="Email"> </div>
+        </div>
+        <div class="form-group text-center m-t-20">
+          <div class="col-xs-12">
+            <a class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light"
+              [routerLink]="['/login']">Reset</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<dx-popup class="popup" [width]="700" [height]="500" [showTitle]="true" [showCloseButton]="true" title="Register "
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="registerpopup">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form [(formData)]="newRegister" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="orderid" [label]="{text: 'Order ID'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="key" [label]="{text: 'Customer Key'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="email" [label]="{text: 'Email'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+          </dx-form>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <dx-button text="Validate" type="default" (onClick)="validateNewRegister()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="700" [height]="500" [showTitle]="true" title="Create New User" [dragEnabled]="true"
+  [closeOnOutsideClick]="false" [(visible)]="newuserregistrerpopup" [showCloseButton]="false">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form [(formData)]="newuserandpass" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="username" [label]="{text: 'UserName'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="newpass" [editorOptions]="{ mode: 'password' }"
+              [label]="{text: 'New Password'}">
+              <dxi-validation-rule type="required" message="Password is required">
+              </dxi-validation-rule>
+              <dxi-validation-rule type="pattern"
+                pattern="^(?=^.{8,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                message="The password must be of length of 8 to 16 aplhanumeric characters and should have atleast 1 small-case letter, 1 Capital letter, 1 digit, 1 special character">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="newpassconfirm" [editorOptions]="{ mode: 'password' }"
+              [label]="{text: 'Confirm New Password'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+              <dxi-validation-rule type="required" message="Confirm Password is required">
+              </dxi-validation-rule>
+            </dxi-item>
+          </dx-form>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <dx-button text="Validate" type="default" (onClick)="CreateNewRegister()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="600" [height]="400" [showTitle]="true" title="We are setting up your Account"
+  [dragEnabled]="true" [closeOnOutsideClick]="false" [(visible)]="progressbarpopup" [showCloseButton]="false">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <dx-progress-bar #progressBar id="progress-bar-status" width="90%"
+          [class.complete]="progressBar.value == maxValue" [min]="0" [max]="100" [statusFormat]="format"
+          [value]="scriptValue">
+        </dx-progress-bar>
+        <br>
+        <h3>Please do not refresh or press the back button</h3>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="450" [height]="300" [showTitle]="true" title="Forgot ID" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="forgotIDModal">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form [(formData)]="forgotid" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="key" [label]="{text: 'Customer Key'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="email" [label]="{text: 'Email'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+          </dx-form>
+          <dx-button text="Submit" type="default" (onClick)="forgotIDModalButtonClick()">
+          </dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="600" [height]="400" [showTitle]="true" title="Forgot Password" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="forgotPassModal">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form [(formData)]="forgotpass" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="customerkey" [label]="{text: 'Customer Key'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="email" [label]="{text: 'Email'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+          </dx-form>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <dx-button text="Submit" type="default" (onClick)="forgotPassModalButtonClick()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="600" [height]="400" [showTitle]="true" title="New Password" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="newPassModal">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form [(formData)]="newpass" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="otp" [label]="{text: 'OTP'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="newpass" [label]="{text: 'New Password'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="newpassconfirm" [label]="{text: 'Confirm New Password'}">
+              <dxi-validation-rule type="required">
+              </dxi-validation-rule>
+            </dxi-item>
+          </dx-form>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <dx-button text="Submit" type="default" (onClick)="newPassModalButtonClick()">
+        </dx-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

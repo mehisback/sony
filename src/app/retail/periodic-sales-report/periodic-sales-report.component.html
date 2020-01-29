@@ -1,0 +1,214 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card-body font-for-formlable">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div id="form-container">
+                <dx-form id="SalesOrderOperation" itemType="group" (onFieldDataChanged)="formSummary_fieldDataChanged($event)"
+                  [colCount]="5" accept-charset="UTF-8">
+                  <dxi-item cssClass="font-for-formlable" [template]="'store'" [label]="{text: 'Store ID'}">
+                  </dxi-item>
+                  <dxi-item cssClass="font-for-formlable" [template]="'pos'" [label]="{text: 'POS ID'}">
+                  </dxi-item>
+                  <dxi-item cssClass="font-for-formlable" dataField="fromDate" editorType="dxDateBox" [editorOptions]="{displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                  </dxi-item>
+                  <dxi-item cssClass="font-for-formlable" dataField="toDate" editorType="dxDateBox" [editorOptions]="{displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                  </dxi-item>
+                  <dxi-item itemType="group" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                    <dx-button icon="spinright" type="default" text="Create" (onClick)="OnCreateReport()">
+                    </dx-button>
+                  </dxi-item>
+
+                  <div *dxTemplate="let data of 'store'">
+                    <dx-select-box #selectBox1 [dataSource]="storeList" [searchEnabled]="true" [displayExpr]="suggestionFormateForStore"
+                      valueExpr="StoreID" [minSearchLength]="0" [value]="storeList ? storeList.StoreID:''"
+                      (onValueChanged)="onStoreIDCodeChanged($event)" hoverStateEnabled="true" [itemTemplate]="hover">
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'pos'">
+                    <dx-select-box #selectBox1 [dataSource]="POSList" [searchEnabled]="true" [displayExpr]="suggestionFormateForPOS"
+                      valueExpr="POSID" [minSearchLength]="0" [value]="POSList ? POSList.POSID:''" (onValueChanged)="onPOSIDCodeChanged($event)"
+                      hoverStateEnabled="true" [itemTemplate]="hover2">
+                    </dx-select-box>
+                  </div>
+                </dx-form>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-12">
+              <dx-data-grid #reportrefresh id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                [dataSource]="datasource" [showBorders]="true" [hoverStateEnabled]="true">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                <dxo-export [enabled]="true" fileName="SalesReport"></dxo-export>
+                <dxi-column dataField="Itemcode"></dxi-column>
+                <dxi-column dataField="Description"></dxi-column>
+                <dxi-column dataField="Amount" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxo-paging [pageSize]="8"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card-body font-for-formlable">
+      <div class="card">
+        <div class="card-body">
+          <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+            <ngb-tab id="item" title="By Item">
+              <ng-template ngbTabContent>
+                <dx-data-grid #reportitemdata id="reportitemdata" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="itemdata" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-export [enabled]="true" fileName="SalesReport"></dxo-export>
+                  <dxi-column dataField="Code" caption="Code"></dxi-column>
+                  <dxi-column dataField="Description" caption="Description"></dxi-column>
+                  <dxi-column dataField="Gaamount" caption="Gross Amount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="lamt" caption="Line Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="iamt" caption="Inv. Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="qty" caption="Quantity" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="amt" caption="Sales" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxo-paging [pageSize]="8"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                </dx-data-grid>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="variant" title="By Variant">
+              <ng-template ngbTabContent>
+                <dx-data-grid #reportVariant id="reportVariant" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="variantdata" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-export [enabled]="true" fileName="SalesReport"></dxo-export>
+                  <dxi-column dataField="Code" caption="Code"></dxi-column>
+                  <dxi-column dataField="Description" caption="Description"></dxi-column>
+                  <dxi-column dataField="Gaamount" caption="Gross Amount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="lamt" caption="Line Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="iamt" caption="Inv. Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="qty" caption="Quantity" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="amt" caption="Sales" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxo-paging [pageSize]="8"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                </dx-data-grid>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="category" title="By Category">
+              <ng-template ngbTabContent>
+                <dx-data-grid #reportCategory id="reportCategory" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="categorydata" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-export [enabled]="true" fileName="SalesReport"></dxo-export>
+                  <dxi-column dataField="Code" caption="Code"></dxi-column>
+                  <dxi-column dataField="Gaamount" caption="Gross Amount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="lamt" caption="Line Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="iamt" caption="Inv. Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="qty" caption="Quantity" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="amt" caption="Sales" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxo-paging [pageSize]="8"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                </dx-data-grid>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="brand" title="By Brand">
+              <ng-template ngbTabContent>
+                <dx-data-grid #reportBrand id="reportBrand" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="branddata" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-export [enabled]="true" fileName="SalesReport"></dxo-export>
+                  <dxi-column dataField="Code" caption="Code"></dxi-column>
+                  <dxi-column dataField="Gaamount" caption="Gross Amount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="lamt" caption="Line Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="iamt" caption="Inv. Discount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="qty" caption="Quantity" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="amt" caption="Sales" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                </dx-data-grid>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="payment" title="Payments">
+              <ng-template ngbTabContent>
+                <dx-data-grid #reportPayments id="reportPayments" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="paymentdata" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-export [enabled]="true" fileName="SalesReport"></dxo-export>
+                  <dxi-column dataField="EntryType"></dxi-column>
+                  <dxi-column dataField="TenderCode"></dxi-column>
+                  <dxi-column dataField="Description"></dxi-column>
+                  <dxi-column dataField="amt" caption="Amount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxo-paging [pageSize]="8"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                </dx-data-grid>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-8">
+    <div id="form-container">
+      <dx-form id="WHTOperation" itemType="group" [colCount]="2" accept-charset="UTF-8">
+        <dxi-item itemType="group" dataField="WHT Operation">
+          <dx-select-box #selectBoxSO [dataSource]="WHTOperations" [value]=""></dx-select-box>
+        </dxi-item>
+        <dxi-item itemType="group" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+          <dx-button icon="spinright" type="default" text="GO" (onClick)="WHTOperationsGo(selectBoxSO.text)">
+          </dx-button>
+        </dxi-item>
+      </dx-form>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<div id="form-container">
+  <dx-form id="PickOrderForm" itemType="group" [colCount]="3" [formData]="WHTDate"
+    (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8">
+    <dxi-item itemType="group">
+      <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+        [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+      </dxi-item>
+    </dxi-item>
+    <dxi-item itemType="group">
+      <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox"
+        [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+      </dxi-item>
+    </dxi-item>
+    <dxi-item itemType="group">
+      <dxi-item cssClass="font-for-formlable" dataField="ShowSuspened" editorType="dxCheckBox"
+        [editorOptions]="{ text: 'Show Suspended', elementAttr:{ 'class': 'font-for-formlable' } }">
+        <dxo-label [visible]="false">
+        </dxo-label>
+      </dxi-item>
+    </dxi-item>
+  </dx-form>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="WHTDetails"
+          [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true"
+          (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="DocumentNo" caption="Document No"></dxi-column>
+          <dxi-column dataField="DocumentDate" caption="Date"> </dxi-column>
+          <dxi-column dataField="DocumentType" caption="Document Type"></dxi-column>
+          <dxi-column dataField="WHTReportType" caption="WHTReport Type"></dxi-column>
+          <dxi-column dataField="WHTBusPostingGroup" caption="WHTBusPosting Group"></dxi-column>
+          <dxi-column dataField="WHTProdPostingGroup" caption="WHTProdPosting Group"></dxi-column>
+          <dxi-column dataField="WHTPercentage" caption="WHT Percentage"></dxi-column>
+          <dxi-column dataField="WHTPayableAccount" caption="Payable Account" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="BaseAmount" caption="BaseAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="Amount" caption="Vat Amount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="WHTDocumentNo" caption="WHTDocument No."></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-export [enabled]="true" fileName="WithHoldingTax-Details"></dxo-export>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

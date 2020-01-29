@@ -1,0 +1,58 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <dx-form itemType="group" [colCount]="4" (onFieldDataChanged)="formSummary_fieldDataChanged($event)" accept-charset="UTF-8"
+      [formData]="FormDate">
+      <dxi-item itemType="group">
+        <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox" [label]="{text: 'From Date'}"
+          [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+        </dxi-item>
+      </dxi-item>
+      <dxi-item itemType="group">
+        <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox" [label]="{text: 'To Date'}"
+          [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+        </dxi-item>
+      </dxi-item>
+    </dx-form>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true"
+          [dataSource]="dataSource" [showBorders]="true" [hoverStateEnabled]="true">
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <dxo-export [enabled]="true" fileName="posSalesbyPayment"></dxo-export>
+          <dxi-column dataField="StoreNo"></dxi-column>
+          <dxi-column dataField="POSTerminalNo" caption="POSID"></dxi-column>
+          <dxi-column dataField="itemcode"></dxi-column>
+          <dxi-column dataField="Description"></dxi-column>
+          <dxi-column dataField="amt" caption="Amount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="dis" caption="DiscountAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="gr" caption="GrossAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="qty" caption="Qty" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="tdis" caption="Total DiscAmount" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="TransDate"></dxi-column>
+          <dxi-column dataField="Hours"></dxi-column>
+          <dxo-paging [pageSize]="8"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

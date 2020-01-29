@@ -1,0 +1,59 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-4">
+        <dx-data-grid [columnAutoWidth]="true" [dataSource]="continents" [hoverStateEnabled]="true" [showBorders]="true"
+          [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="TypesID" [allowSearch]="true" dataType="string">
+          </dxi-column>
+          <dxi-column dataField="Description" [allowSearch]="true" dataType="string">
+          </dxi-column>
+          <dxi-column dataField="GroupModule" [allowSearch]="true" dataType="string">
+          </dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+      <div class="col-8">
+        <dx-data-grid #gridContainer [columnAutoWidth]="true" id="gridContainer" [dataSource]="dataSourceMain"
+          [showBorders]="true" [allowColumnResizing]="true" (onInitNewRow)="onInitNewRow($event)" [wordWrapEnabled]="true"
+          (onEditingStart)="onEditingStart($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+          </dxo-editing>
+          <!-- <dxi-column dataField="AttributeValue" [allowSearch]="true" [visible]="false"></dxi-column> -->
+          <dxi-column dataField="Prefix" [allowSearch]="true" dataType="string" [editorOptions]="{ maxLength: 5 }">
+          </dxi-column>
+          <dxi-column dataField="AttributeValue" [setCellValue]="setBaseUOMValueItemCode" [allowSearch]="true" dataType="string"
+            [editorOptions]="{showClearButton: true, itemTemplate: hoverItemList }">
+            <dxo-lookup [dataSource]="AttributeArray" [valueExpr]="formateForAttributeArray" [displayExpr]="formateForAttributeArray"
+              hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="UserYY" [allowSearch]="true" dataType="string">
+            <dxo-lookup [dataSource]="['Yes','No']" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="UserMM" [allowSearch]="true" dataType="string">
+            <dxo-lookup [dataSource]="['Yes','No']" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="RunningNo" [allowSearch]="true" dataType="string"></dxi-column>
+          <dxi-column dataField="LastUsedBy" [allowSearch]="true" dataType="string" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="LastUsedOn" [allowSearch]="true" dataType="string" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="LastUsedNo" [allowSearch]="true" dataType="string" [allowEditing]="false"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

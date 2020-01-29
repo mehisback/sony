@@ -1,0 +1,35 @@
+<ngb-tabset type="pills" >
+  <ngb-tab id="logo" title="Logo">
+    <ng-template ngbTabContent>
+        <img [src]="itemimagePath" class="img-circle" width="150" />
+        <br>
+        <br>
+        <button (click)="showInfo()">Change/Upload Logo</button>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab id="template" title="Template">
+      <ng-template ngbTabContent>
+  
+      </ng-template>
+    </ngb-tab>
+</ngb-tabset>
+
+<dx-popup class="popup" [width]="500" [height]="300" [showTitle]="true" title="Upload/Change Image" [dragEnabled]="true"
+    [closeOnOutsideClick]="true" [(visible)]="popupVisible2">
+    <div *dxTemplate="let data of 'content'">
+        <div class="col-12">
+            <div class="row">
+                <div id="form-container">
+                    <label class="image-upload-container">
+                        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)"
+                            id="filePicker">
+                        <br>
+                        <span class="note">Allowed file extensions: <span>.jpg, .jpeg, .gif, .png</span>.</span>
+                        <br>
+                        <span class="note">Maximum file size: <span>1 MB</span>.</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</dx-popup>

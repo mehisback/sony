@@ -1,0 +1,124 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<dx-popup class="popup" [width]="'auto'" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="GL Entries"
+  [closeOnOutsideClick]="true" [(visible)]="globalGLEntriesPopup">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [showBorders]="true"
+          [dataSource]="dataSourceGLEntries">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxi-column dataField="EntryNo" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="DocumentNo" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="DocumentDate" [allowEditing]="false"> </dxi-column>
+          <dxi-column dataField="PostingDate" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="DocumentType" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="AccountCode" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="Description" [allowEditing]="false"> </dxi-column>
+          <dxi-column dataField="Amount" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="DebitAmount" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="CreditAmount" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="ReversedEntry" [allowEditing]="false"> </dxi-column>
+          <dxi-column dataField="UserID" [allowEditing]="false"></dxi-column>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-form id="COAOperation" itemType="group" [colCount]="4" accept-charset="UTF-8">
+          <dxi-item itemType="group" dataField="COA Operation">
+            <dx-select-box #selectBoxSO [dataSource]="['Print Details','GL Entries']" [value]=""></dx-select-box>
+          </dxi-item>
+          <dxi-item itemType="group" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+            <dx-button icon="spinright" type="default" text="GO" (onClick)="COAOperationsGo(selectBoxSO.text)">
+            </dx-button>
+          </dxi-item>
+        </dx-form>
+        <br>
+        <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+          <ngb-tab id="ALL" title="ALL ACCOUNTS">
+            <ng-template ngbTabContent>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="ASSET" title="ASSETS ACCOUNTS">
+            <ng-template ngbTabContent>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="LIABILITY" title="LIABILITY ACCOUNTS">
+            <ng-template ngbTabContent>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="EQUITY" title="EQUITY ACCOUNTS">
+            <ng-template ngbTabContent>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="INCOME" title="INCOME ACCOUNTS">
+            <ng-template ngbTabContent>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="EXPENSES" title="EXPENSE ACCOUNTS">
+            <ng-template ngbTabContent>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+
+        <dx-tree-list #gridContainer id="gridContainer" [dataSource]="dataSource" keyExpr="AccountCode"
+          parentIdExpr="ParentCode" [autoExpandAll]="true" [columnAutoWidth]="true" [showBorders]="true"
+          (onInitNewRow)="COAOnEditing($event,'ADD')" (onRowClick)="onCOARowClicked($event)"
+          (onEditingStart)="COAOnEditing($event,'EDIT')" (onCellPrepared)="onCellPrepared($event)"
+          [hoverStateEnabled]="true">
+          <dxo-scrolling mode="standard"></dxo-scrolling>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="false" [allowAdding]="true"></dxo-editing>
+          <dxi-column dataField="AccountCode"></dxi-column>
+          <dxi-column dataField="Name"></dxi-column>
+          <dxi-column dataField="AccountLevel" [visible]="false">
+            <dxo-lookup [dataSource]="AccountLevelSuggestions" hoverStateEnabled="true"></dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="ParentCode" [visible]="false"
+            [editorOptions]="{ itemTemplate: ParentCodeLookUp , searchExpr: ['Code', 'CodeType'] }" dataType="string">
+            <dxo-lookup [dataSource]="ParentCodeSuggestions" [valueExpr]="formateForParentCodeTypeSuggestion"
+              [displayExpr]="formateForParentCodeTypeSuggestion" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="MainType">
+            <dxo-lookup [dataSource]="MainTypeSuggestions" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="AccountType"
+            [editorOptions]="{ itemTemplate: AccountTypeLookUp , searchExpr: ['Code', 'CodeType'] }" dataType="string"
+            [setCellValue]="setSubAccountTypeOnAccountType">
+            <dxo-lookup [dataSource]="AccountTypeSuggestions" [valueExpr]="formateForAccountTypeSuggestion"
+              [displayExpr]="formateForAccountTypeSuggestion" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="SubAccountType">
+            <dxo-lookup [dataSource]="SubAccountTypeSuggestions" [valueExpr]="formateForSubAccountTypeSuggestion"
+              [displayExpr]="formateForSubAccountTypeSuggestion" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="PostingType" [visible]="false">
+            <dxo-lookup [dataSource]="PostingTypeSuggestions" hoverStateEnabled="true">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="Balance" dataType="number" [allowEditing]="false">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxo-paging [enabled]="true" [pageSize]="10">
+          </dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+          </dxo-pager>
+        </dx-tree-list>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+#pdf1{
+  display: none;
+}
+
+.cls {
+  position: absolute;
+  right: 34px;
+  top: 0;
+}
+
+
+:host ::ng-deep  .formio-component label{
+color: #333 !important;
+font-size: 12px;
+margin-top: 7px;
+font-weight: normal;
+font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Verdana, sans-serif;
+margin-right: 0px !important;
+}
+
+:host ::ng-deep  .formio-component input{
+font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Verdana, sans-serif;
+line-height: 1.35715;
+letter-spacing: normal;
+word-spacing: normal;
+text-transform: none;
+text-indent: 0px;
+text-shadow: none;
+display: block;
+text-align: start;
+color: #333;
+margin-left: 40px !important;
+width: 70% !important;
+font-size: 12px !important;
+}
+
+:host ::ng-deep  .formio-component {
+margin-bottom: 10px !important;
+display: flex;
+justify-content: flex-start;
+}
+
+::ng-deep #treeview {
+height: 400px;
+}
+
+::ng-deep .options {
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 260px;
+  top: 0;
+  background-color: #f5f5f5;
+}
+
+::ng-deep .caption {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+::ng-deep .option {
+  margin-top: 10px;
+}
+
+::ng-deep .option > .dx-selectbox {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 350px;
+  width: 100%;
+  margin-top: 5px;
+}

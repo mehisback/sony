@@ -1,0 +1,81 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-3">
+    <div class="card">
+      <div class="card-body">
+        <dx-data-grid [columnAutoWidth]="true" [dataSource]="continents" [showBorders]="true" [allowColumnReordering]="true"
+          [hoverStateEnabled]="true" (onRowClick)="changeSelection($event)" [hoverStateEnabled]="true">
+          <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="true" [allowAdding]="true">
+          </dxo-editing>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="SalesCode"></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <dx-form id="Acc" itemType="group" [colCount]="2" (onFieldDataChanged)="formSummary_fieldDataChanged($event)"
+              accept-charset="UTF-8" [formData]="FormDate" [readOnly]="!isSalesCodeSelected">
+              <dxi-item itemType="group">
+                <dxi-item cssClass="font-for-formlable" dataField="SalesCode" [label]="{text: 'Code'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }"></dxi-item>
+                <dxi-item cssClass="font-for-formlable" dataField="DiscFormula" [label]="{text: 'Disc. Formula'}"
+                  [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }}"></dxi-item>
+                <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox" [label]="{text: 'From Date'}"
+                  [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+              </dxi-item>
+              <dxi-item itemType="group">
+                <dxi-item cssClass="font-for-formlable" dataField="Description" [label]="{text: 'Description'}"
+                  [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                <dxi-item cssClass="font-for-formlable" dataField="AllCustomers" editorType="dxCheckBox"
+                  [editorOptions]="{ text: 'Apply To All Customer', elementAttr:{ 'class': 'font-for-formlable' } }">
+                  <dxo-label [visible]="false">
+                  </dxo-label>
+                </dxi-item>
+                <dxi-item></dxi-item>
+                <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox" [label]="{text: 'To Date'}"
+                  [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+              </dxi-item>
+            </dx-form>
+            <br>
+            <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource"
+              [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true" (onEditingStart)="onInitNewRow($event)"
+              (onEditorPreparing)="onEditorPreparing($event)">
+              <dxo-search-panel [visible]="true"></dxo-search-panel>
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-editing mode="row" [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true"></dxo-editing>
+              <dxi-column dataField="ItemCode" [allowSearch]="true" [setCellValue]="setBaseUOMValueItemCode"
+                [editorOptions]="{showClearButton: false, itemTemplate: hoverItemList, searchExpr: ['ItemCode', 'Description','UOM'] }"
+                dataType="string">
+                <dxo-lookup [dataSource]="itemArray" [valueExpr]="ItemCode" [displayExpr]="ItemCode" hoverStateEnabled="true">
+                </dxo-lookup>
+              </dxi-column>
+              <dxi-column dataField="UOM" dataType="string">
+                <!-- <dxo-lookup [dataSource]="itemUOMArray" [valueExpr]="formateForItemListSuggestionUOM" [displayExpr]="formateForItemListSuggestionUOM"
+                  hoverStateEnabled="true">
+                </dxo-lookup> -->
+              </dxi-column>
+              <dxi-column dataField="StartingDate" dataType="string" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="EndingDate" dataType="string" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="BasePrice" dataType="number" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="DiscText" caption="Disc Formula" dataType="string" [allowEditing]="true"
+                [setCellValue]="setDiscountValue"></dxi-column>
+              <dxi-column dataField="UnitPrice" caption="Unit Price(Discounted Price)" dataType="number" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

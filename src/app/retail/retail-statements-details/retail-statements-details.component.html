@@ -1,0 +1,111 @@
+<a [routerLink]="[ '/retail/retail-statements']" class="float">
+  <i class="fa fa-arrow-left my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <div id="form-container">
+      <dx-form id="SalesOrderOperation" itemType="group" [formData]="headerdetails"
+        (onFieldDataChanged)="formSummary_fieldDataChanged($event)" [colCount]="5" accept-charset="UTF-8">
+        <dxi-item cssClass="font-for-formlable" dataField="DocumentNo" [label]="{text: 'Store ID'}"
+          [editorOptions]="{ readOnly: true}">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" [template]="'Store'" [label]="{text: 'Store No'}">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="TransStartingDate" editorType="dxDateBox"
+          [label]="{text: 'For Date'}"
+          [editorOptions]="{displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="StoreLocation" [label]="{text: 'Location'}"
+          [editorOptions]="{ readOnly: true}">
+        </dxi-item>
+        <dxi-item cssClass="font-for-formlable" dataField="StoreDefaultStoageUnit" [label]="{text: 'SU Code'}"
+          [editorOptions]="{ readOnly: true}">
+        </dxi-item>
+        <div *dxTemplate="let data of 'Store'">
+          <dx-select-box #selectBox1 [dataSource]="storeList" [searchEnabled]="true"
+            [displayExpr]="suggestionFormateForPOS" valueExpr="StoreID" [minSearchLength]="0"
+            [value]="storeList ? storeList.StoreID:''" (onValueChanged)="onPOSIDCodeChanged($event)"
+            hoverStateEnabled="true" [itemTemplate]="hover">
+          </dx-select-box>
+        </div>
+      </dx-form>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <div class="row">
+          <div class="col-12">
+            <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true"
+              [dataSource]="openStmtLine" [showBorders]="true" [hoverStateEnabled]="true">
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+              <dxo-paging [pageSize]="20"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+              </dxo-pager>
+              <dxi-column dataField="TenderType"></dxi-column>
+              <dxi-column dataField="TenderCode"></dxi-column>
+              <dxi-column dataField="TransAmount" dataType="number">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <div class="row">
+          <div class="col-8">
+            <div id="form-container">
+              <dx-form id="statementOperation" itemType="group" [colCount]="2" accept-charset="UTF-8">
+                <dxi-item itemType="group" dataField="Operation">
+                  <dx-select-box #selectBoxSI [dataSource]="StatementOperations" [value]=""></dx-select-box>
+                </dxi-item>
+                <dxi-item itemType="group" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+                  <dx-button icon="spinright" type="default" text="GO"
+                    (onClick)="SalesInvoiceOperationsGo(selectBoxSI.text)">
+                  </dx-button>
+                </dxi-item>
+              </dx-form>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12">
+            <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true"
+              [dataSource]="getItemLine" [showBorders]="true" [hoverStateEnabled]="true">
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+              <dxo-paging [pageSize]="20"></dxo-paging>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+              </dxo-pager>
+              <dxi-column dataField="ItemCode"></dxi-column>
+              <dxi-column dataField="VariantCode"></dxi-column>
+              <dxi-column dataField="Description"></dxi-column>
+              <dxi-column dataField="BaseUOM"></dxi-column>
+              <dxi-column dataField="Qty" dataType="number">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="Amt" dataType="number">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

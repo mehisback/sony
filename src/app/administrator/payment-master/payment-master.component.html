@@ -1,0 +1,190 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainerMain [columnAutoWidth]="true" [allowColumnResizing]="true" [dataSource]="dataSource"
+          [showBorders]="true" [hoverStateEnabled]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-editing mode="cell" [allowAdding]="true" [allowUpdating]="false" [allowDeleting]="false"></dxo-editing>
+          <dxi-column cssClass="data-grid-vertical" dataField="Code" [allowSearch]="true"></dxi-column>
+          <dxi-column cssClass="data-grid-vertical" dataField="Description" [allowSearch]="true" [allowEditing]="false"></dxi-column>
+          <!--<tbody class="employee dx-row" *dxTemplate="let employee of 'rowTemplateName'"> rowTemplate="rowTemplateName"
+            <tr class="main-row">
+              <td>{{employee.data.Code}}</td>
+            </tr>
+            <tr class="notes-row">
+              <td colspan="6">
+                <div>{{employee.data.Description}}</div>
+              </td>
+            </tr>
+          </tbody>-->
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-8">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+          <ngb-tab title="General Details" id="details">
+            <ng-template ngbTabContent>
+              <br>
+              <br>
+              <div id="form-container">
+                <dx-form id="CustomerDetailsGropu" (onFieldDataChanged)="formSummary_fieldDataChanged($event)"
+                  itemType="group" [colCount]="2" [formData]="paymentMaster" accept-charset="UTF-8">
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" dataField="Code"
+                      [editorOptions]="{ readOnly: true, elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="Description"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate1'" [label]="{text: 'Type'}">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="BankAccountNo" [label]="{text: 'Bank Acct. *'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="BankAccountDescription"
+                      [label]="{text: 'Bank Acct. Decp*'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                  </dxi-item>
+                  <div *dxTemplate="let data of 'nameTemplate1'">
+                    <dx-select-box cssClass="font-for-formlable" #selectBox1 [dataSource]="paymentMethodArr"
+                      [searchEnabled]="true" editorOptions="{ elementAttr:{ 'class': 'font-for-formlable' } }"
+                      [value]="paymentMaster ? paymentMaster.PaymentType:''"
+                      (onValueChanged)="onDropDownCodeChanged($event,'PaymentType')">
+                    </dx-select-box>
+                  </div>
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" dataField="AllowCheque" editorType="dxCheckBox"
+                      [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="HasBankCharge" editorType="dxCheckBox"
+                      [editorOptions]="{elementAttr:{ 'class': 'font-for-formlable' }, readOnly:true }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" dataField="BankChargePerct" dataType="number"
+                      [label]="{text: 'Bank Charge Perct.'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' }, mode:number, readOnly: true }">
+                    </dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate5'" [label]="{text: 'Account'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                    <dxi-item cssClass="font-for-formlable" [template]="'nameTemplate6'"
+                      [label]="{text: 'Bank Charge Acc.'}"
+                      [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }"></dxi-item>
+                  </dxi-item>
+                  <div *dxTemplate="let data of 'nameTemplate5'">
+                    <dx-select-box #selectBox4 [dataSource]="COALookUpSuggestions" [searchEnabled]="true"
+                      [displayExpr]="formateForCOALookUpSuggestion" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field5" [value]="paymentMaster ? paymentMaster.AccountCode:''"
+                      [disabled]="COALookUpSuggestions!=null ? false:true"
+                      (onValueChanged)="onDropDownCodeChanged($event,'AccountCode')" hoverStateEnabled="true"
+                      [itemTemplate]="hoverFormateForCOALookUpSuggestion">
+                      <div *dxTemplate="let itemData5 of 'field5'">
+                        <dx-text-box
+                          [text]="itemData5 ? itemData5.AccountCode:paymentMaster ? paymentMaster.AccountCode:''"
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                  <div *dxTemplate="let data of 'nameTemplate6'">
+                    <dx-select-box #selectBox4 [dataSource]="COALookUpSuggestions" [searchEnabled]="true"
+                      [displayExpr]="formateForCOALookUpSuggestion" valueExpr="AccountCode" [minSearchLength]="0"
+                      fieldTemplate="field5" [value]="paymentMaster ? paymentMaster.BankChargeAccountCode:''"
+                      [disabled]="COALookUpSuggestions!=null ? false:true"
+                      (onValueChanged)="onDropDownCodeChanged($event,'BankChargeAccountCode')" hoverStateEnabled="true"
+                      [itemTemplate]="hoverFormateForCOALookUpSuggestion">
+                      <div *dxTemplate="let itemData5 of 'field5'">
+                        <dx-text-box
+                          [text]="itemData5 ? itemData5.AccountCode:paymentMaster ? paymentMaster.BankChargeAccountCode:''"
+                          [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                      </div>
+                    </dx-select-box>
+                  </div>
+                </dx-form>
+              </div>
+            </ng-template>
+          </ngb-tab>
+
+          <ngb-tab title="Entries" id="entries">
+            <ng-template ngbTabContent>
+              <br>
+              <br>
+              <div id="form-container">
+                <dx-form id="PayMForm" itemType="group" [colCount]="2" [formData]="PayLDate"
+                  (onFieldDataChanged)="PayMForm_fieldDataChanged($event)" accept-charset="UTF-8">
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+                      [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                  </dxi-item>
+                  <dxi-item itemType="group">
+                    <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox"
+                      [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                    </dxi-item>
+                  </dxi-item>
+                </dx-form>
+              </div>
+              <br>
+              <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource2"
+                [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true"
+                [masterDetail]="{ enabled: true, template: 'detail' }" keyExpr="DocumentNo">
+                <dxo-search-panel [visible]="true"></dxo-search-panel>
+                <dxi-column dataField="DocumentNo" caption="Document No"></dxi-column>
+                <dxi-column dataField="DocumentDate" caption="Date"> </dxi-column>
+                <dxi-column dataField="DocumentType"></dxi-column>
+                <dxi-column dataField="DocumentStatus"></dxi-column>
+                <dxi-column dataField="SourceType"></dxi-column>
+                <dxi-column dataField="SourceNo"></dxi-column>
+                <dxi-column dataField="PaymentMethod"></dxi-column>
+                <dxi-column dataField="PaymentAccount"></dxi-column>
+                <dxi-column dataField="Amount" caption="Amount" dataType="number">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="PaymentMethod"></dxi-column>
+                <dxi-column dataField="PaymentAccount" caption="Account"></dxi-column>
+                <dxi-column dataField="ChequeDate"></dxi-column>
+                <dxi-column dataField="ChequeNo"></dxi-column>
+                <dxo-paging [pageSize]="12"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                <div *dxTemplate="let employee of 'detail'">
+                  <div class="master-detail-caption">GL Details</div>
+                  <dx-data-grid [columnAutoWidth]="true" [dataSource]="getTasksdataSource(employee.key)"
+                    [showBorders]="true" [allowColumnReordering]="true" [hoverStateEnabled]="true">
+                    <dxi-column dataField="EntryNo" caption="Entry No."></dxi-column>
+                    <dxi-column dataField="DocumentNo"> </dxi-column>
+                    <dxi-column dataField="DocumentDate"> </dxi-column>
+                    <dxi-column dataField="PostingDate"> </dxi-column>
+                    <dxi-column dataField="ReversedEntry"> </dxi-column>
+                    <dxi-column dataField="DocumentType"> </dxi-column>
+                    <dxi-column dataField="AccountCode"></dxi-column>
+                    <dxi-column dataField="Description"></dxi-column>
+                    <dxi-column dataField="Amount" caption="Amount" dataType="number">
+                      <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="DebitAmount" caption="Amount" dataType="number">
+                      <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="CreditAmount" caption="Amount" dataType="number">
+                      <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="UserID"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                  </dx-data-grid>
+                </div>
+              </dx-data-grid>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</div>

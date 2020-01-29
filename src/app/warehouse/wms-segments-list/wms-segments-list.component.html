@@ -1,0 +1,57 @@
+<a [routerLink]="" class="float" (click)="onCreateNewLocation()">
+  <i class="fa fa-plus my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [dataSource]="pickListSource" [showBorders]="true"
+          [allowColumnReordering]="true" [hoverStateEnabled]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="LocationCode"></dxi-column>
+          <dxi-column dataField="Name"></dxi-column>
+          <dxi-column dataField="TotalStock" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="InTransit"></dxi-column>
+          <dxi-column dataField="DepositLocation"> </dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <div title="DocumentStatus"></div>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+<dx-popup class="popup" [width]="400" [height]="'auto'" [showTitle]="true" title="Create Location" [dragEnabled]="true"
+  [closeOnOutsideClick]="true" [(visible)]="popupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-12">
+      <div class="row">
+        <div id="form-container">
+          <dx-form id="LocationDetails" [(formData)]="newLocationDetail" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="LocationCode" [label]="{text: 'Location Code'}">
+              <dxi-validation-rule type="required" message="Location Code is required">
+              </dxi-validation-rule>
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="Name"></dxi-item>
+            <dxi-item class="font-for-formlable" dataField="Address1"></dxi-item>
+            <dxi-item class="font-for-formlable" dataField="Address2"></dxi-item>
+            <dxi-item class="font-for-formlable" dataField="City"></dxi-item>
+            <dxi-item class="font-for-formlable" dataField="Zip"></dxi-item>
+          </dx-form>
+          <br>
+          <dx-button text="Add" type="default" (onClick)="Save()"></dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>

@@ -1,0 +1,78 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <dx-data-grid #gridContainer id="gridContainer" [columnAutoWidth]="true" [dataSource]="continents"
+          [hoverStateEnabled]="true" [showBorders]="true" [allowColumnResizing]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-editing mode="cell" [allowAdding]="true"></dxo-editing>
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="Code" [allowSearch]="true" dataType="string"></dxi-column>
+          <dxi-column dataField="Description" [allowSearch]="true" [allowEditing]="false" dataType="string"></dxi-column>
+          <dxo-paging [pageSize]="12"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="col-8">
+    <div class="card">
+      <div class="card-body font-for-formlable">
+        <div id="form-container">
+          <dx-form [(formData)]="AccountChargeDetails" accept-charset="UTF-8">
+            <dxi-item class="font-for-formlable" dataField="Code" [editorOptions]="{ readOnly: true }">
+            </dxi-item>
+            <dxi-item class="font-for-formlable" dataField="Description"></dxi-item>
+            <dxi-item cssClass="font-for-formlable" [template]="'StoreGroup'" [label]="{text: 'Charge Type'}"></dxi-item>
+            <div *dxTemplate="let data of 'StoreGroup'">
+              <dx-select-box #selectBox2 [dataSource]="chargeTypeArr" [searchEnabled]="true" [displayExpr]="suggestionFormatForVatCode"
+                valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="chargeTypeArr ? AccountChargeDetails.ChargeType:''"
+                (onValueChanged)="onDropDownvalueChanged($event,'ChargeType')" hoverStateEnabled="true" [itemTemplate]="hoverFormatForVatCode">
+                <div *dxTemplate="let itemData1 of 'field1'">
+                  <dx-text-box [text]="itemData1 ? itemData1.Code : AccountChargeDetails ? AccountChargeDetails.ChargeType:'' "
+                    [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                </div>
+              </dx-select-box>
+            </div>
+            <dxi-item cssClass="font-for-formlable" [template]="'AreaCode'" [label]="{text: 'Account Code'}"></dxi-item>
+            <div *dxTemplate="let data of 'AreaCode'">
+              <dx-select-box #selectBox2 [dataSource]="COALookUpSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormatForCode"
+                valueExpr="AccountCode" [minSearchLength]="0" fieldTemplate="field1" [value]="COALookUpSuggestions ? AccountChargeDetails.AccountCode:''"
+                (onValueChanged)="onDropDownvalueChanged($event,'AccountCode')" hoverStateEnabled="true" [itemTemplate]="hoverFormatForCode">
+                <div *dxTemplate="let itemData1 of 'field1'">
+                  <dx-text-box [text]="itemData1 ? itemData1.AccountCode : AccountChargeDetails ? AccountChargeDetails.AccountCode:'' "
+                    [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                </div>
+              </dx-select-box>
+            </div>
+            <dxi-item cssClass="font-for-formlable" [template]="'SubAreaCode'" [label]="{text: 'Vat Group'}"></dxi-item>
+            <div *dxTemplate="let data of 'SubAreaCode'">
+              <dx-select-box #selectBox2 [dataSource]="VatLookUpSuggestions" [searchEnabled]="true" [displayExpr]="suggestionFormatForVatCode"
+                valueExpr="Code" [minSearchLength]="0" fieldTemplate="field1" [value]="VatLookUpSuggestions ? AccountChargeDetails.VatProdGroup:''"
+                (onValueChanged)="onDropDownvalueChanged($event,'VatProdGroup')" hoverStateEnabled="true"
+                [itemTemplate]="hoverFormatForVatCode">
+                <div *dxTemplate="let itemData1 of 'field1'">
+                  <dx-text-box [text]="itemData1 ? itemData1.Code : AccountChargeDetails ? AccountChargeDetails.VatProdGroup:'' "
+                    [elementAttr]="{ 'class': 'font-for-formlable' }"></dx-text-box>
+                </div>
+              </dx-select-box>
+            </div>
+            <dxi-item cssClass="font-for-formlable" dataField="PostingType" editorType="dxCheckBox" [label]="{text: 'Debit'}"
+              [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+            </dxi-item>
+          </dx-form>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-6">
+            <dx-button text="SAVE" type="default" [visible]="visiblityAccount" (onClick)="update()"></dx-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

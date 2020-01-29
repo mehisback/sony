@@ -1,0 +1,65 @@
+<!-- <div class="row justify-content-end">
+  <div class="col-lg-3 col-md-3 col-sm-3  text-right">
+      <div class="col-12 d-md-block">
+          <dx-button icon="plus" type="default" text="Create New" (onClick)="onCreateNewPO()">
+          </dx-button>
+      </div>
+      <br>
+  </div>
+</div> -->
+<a [routerLink]="" class="float" (click)="onCreateNewPO()">
+    <i class="fa fa-plus my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+    <i class="fa fa-home my-float-home"></i>
+</a>
+<a href="https://rhbussolutions.com/documentation/purchase-order/" target="_blank" class="float-help">
+    <button type="button" class="btn btn-secondary float-right disabled">
+        <i class="fa fa-info"></i>
+        Help</button>
+</a>
+<div class="">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [dataSource]="poListSource"
+                    [showBorders]="true" [allowColumnResizing]="true" [allowColumnReordering]="true"
+                    [hoverStateEnabled]="true" (onCellPrepared)="onCellPrepared($event)"
+                    (onRowClick)="onUserRowSelect($event)">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="FlowResult" cellTemplate="cellTemplate" caption="Status"></dxi-column>
+                    <dxi-column dataField="BuyFromName" caption="Name"></dxi-column>
+                    <dxi-column dataField="DocumentNo" caption="Document No"></dxi-column>
+                    <dxi-column dataField="DocumentDate" caption="Date"> </dxi-column>
+                    <dxi-column dataField="AmountIncludingVAT" caption="Amount Inc. Taxes" dataType="number">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="DocumentAmount" caption="Document Amount" dataType="number">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="DocumentStatus" caption="Status"></dxi-column>
+                    <dxi-column dataField="POStatus" caption="PO Status"></dxi-column>
+                    <dxi-column dataField="CreatedBy" caption="Created By"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 12, 20]"></dxo-pager>
+                    <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                        <div title="FlowResult"></div>
+                    </div>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-popup class="popup" [width]="500" [height]="'auto'" [dragEnabled]="true" [showTitle]="true" title="Choose Attribute"
+    [closeOnOutsideClick]="true" [(visible)]="attributesPopup">
+    <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [showBorders]="true" [dataSource]="dataAttributes"
+        (onRowClick)="onAttributesSelected($event)" [hoverStateEnabled]="true">
+        <dxo-search-panel [visible]="true"></dxo-search-panel>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column dataField="AttributeValue" [allowEditing]="false"></dxi-column>
+        <dxo-paging [pageSize]="7"></dxo-paging>
+    </dx-data-grid>
+</dx-popup>

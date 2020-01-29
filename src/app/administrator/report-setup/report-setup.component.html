@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-12">
+    <dx-form [colCount]="4" [(formData)]="reportsetupForm" accept-charset="UTF-8">
+      <dxi-item cssClass="font-for-formlable" [template]="'Document'" [label]="{text: 'Document:'}" [editorOptions]="{ elementAttr:{ 'class': 'font-for-formlable' } }">
+      </dxi-item>
+      <div *dxTemplate="let data of 'Document'">
+        <dx-select-box #selectBox1 [dataSource]="DocumentList" [searchEnabled]="true" (onValueChanged)="onDocumentListChange($event)"
+          hoverStateEnabled="true">
+        </dx-select-box>
+      </div>
+    </dx-form>
+    <br>
+    <dx-data-grid #gridContainer2 id="gridContainer2" [columnAutoWidth]="true" [dataSource]="reportSetup" [showBorders]="true"
+      [hoverStateEnabled]="true">
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-editing mode="row" [allowAdding]="false" [allowUpdating]="true" [allowDeleting]="false">
+      </dxo-editing>
+      <dxi-column dataField="Code" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="Name" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="ReportType" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="MetaData" [allowEditing]="true"></dxi-column>
+      <dxi-column dataField="Required" [allowSearch]="true" dataType="string" [editorOptions]="{showClearButton: false}">
+        <dxo-lookup [dataSource]="getTheItemLookup">
+        </dxo-lookup>
+      </dxi-column>
+      <dxo-paging [pageSize]="12"></dxo-paging>
+    </dx-data-grid>
+  </div>
+</div>

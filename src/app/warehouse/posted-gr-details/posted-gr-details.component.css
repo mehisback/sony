@@ -1,0 +1,12 @@
+.bg-darkerbg{
+    background-color: #408bca;
+  }  
+  .clearfix {
+    display: flex;
+    justify-content: flex-end; /*space-between flex-end*/
+  }
+  
+  .clearfix2 {
+    display: flex;
+    justify-content: flex-start;
+  }

@@ -1,32 +1,81 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-const routes: Routes = [
+import { FullComponent } from './layouts/full/full.component';
+import { BlankComponent } from './layouts/blank/blank.component';
+
+export const routes: Routes = [
   {
-    path: 'settings',
-    loadChildren: './settings/settings.module#SettingsModule'
+    path: '',
+    component: FullComponent,
+    children: [
+      { path: '', redirectTo: '/authentication/login', pathMatch: 'full' },
+      {
+        path: 'dashboard',
+        loadChildren: './dashboards/dashboard.module#DashboardModule'
+      },
+      {
+        path: 'starter',
+        loadChildren: './starter/starter.module#StarterModule'
+      },
+      {
+        path: 'sales',
+        loadChildren: './sales/sales.module#SalesModule'
+      },
+      {
+        path: 'purchases',
+        loadChildren: './purchases/purchases.module#PurchasesModule'
+      },
+      {
+        path: 'warehouse',
+        loadChildren: './warehouse/warehouse.module#WarehouseModule'
+      },
+      {
+        path: 'finance',
+        loadChildren: './finance/finance.module#FinanceModule'
+      },
+      {
+        path: 'retail',
+        loadChildren: './retail/retail.module#RetailModule'
+      },
+      {
+        path: 'administrator',
+        loadChildren: './administrator/administrator.module#AdministratorModule'
+      },
+      {
+        path: 'production',
+        loadChildren: './production/production.module#ProductionModule'
+      },
+      {
+        path: 'ecommerce',
+        loadChildren: './ecommerce/ecommerce.module#EcommerceModule'
+      },
+      {
+        path: 'integration',
+        loadChildren: './integration/integration.module#IntegrationModule'
+      }
+    ]
   },
   {
-    path: 'profile',
-    loadChildren: './profile/profile.module#ProfileModule'
+    path: '',
+    component: BlankComponent,
+    children: [
+      {
+        path: 'authentication',
+        loadChildren:
+          './authentication/authentication.module#AuthenticationModule'
+      }
+    ]
   },
   {
-    path: 'editor',
-    loadChildren: './editor/editor.module#EditorModule'
-  },
-  {
-    path: 'article',
-    loadChildren: './article/article.module#ArticleModule'
+    path: '**',
+    redirectTo: '404'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    // preload all modules; optionally we could
-    // implement a custom preloading strategy for just some
-    // of the modules (PRs welcome 😉)
-    preloadingStrategy: PreloadAllModules
-  })],
+  imports: [RouterModule.forRoot(routes), NgbModule.forRoot()],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

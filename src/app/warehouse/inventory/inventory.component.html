@@ -1,0 +1,153 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card-body font-for-formlable">
+      <ngb-tabset type="pills" (tabChange)="onTabChange($event)">
+        <ngb-tab id="Location" title="By Location">
+          <ng-template ngbTabContent>
+            <div class="row p-t-20">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="dx-field col-4">
+                          <div>
+                            <dx-check-box [value]="isNegativeShow" text="Show Inventory equal or below 0"
+                              (onOptionChanged)="onOptionChanged($event)"></dx-check-box>
+                          </div>
+                        </div>
+                        <dx-data-grid #gridContainer1 id="gridContainer1" [columnAutoWidth]="true"
+                          [allowColumnResizing]="true" [hoverStateEnabled]="true" [dataSource]="dataSource"
+                          [showBorders]="true">
+                          <dxo-search-panel [visible]="true"></dxo-search-panel>
+                          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                          <dxo-export [enabled]="true" fileName="ByLocation-Details"></dxo-export>
+                          <dxo-paging [pageSize]="20"></dxo-paging>
+                          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+                          </dxo-pager>
+                          <dxi-column dataField="ItemCode"></dxi-column>
+                          <dxi-column dataField="Description"></dxi-column>
+                          <dxi-column dataField="Quantity" [allowSearch]="false" dataType="number">
+                            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                          </dxi-column>
+                          <dxi-column dataField="BaseUOM"></dxi-column>
+                          <dxi-column dataField="Location"></dxi-column>
+                          <dxi-column dataField="UnitPrice" dataType="number">
+                            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                          </dxi-column>
+                          <dxi-column dataField="Brand"></dxi-column>
+                          <dxi-column dataField="Category"></dxi-column>
+                          <dxi-column dataField="SubCategory"></dxi-column>
+                        </dx-data-grid>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="SUCode" title="By SU Code">
+          <ng-template ngbTabContent>
+            <div class="row p-t-20">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="dx-field col-4">
+                          <div>
+                            <dx-check-box [value]="isNegativeShow" text="Show Inventory equal or below 0"
+                              (onOptionChanged)="onOptionChanged($event)"></dx-check-box>
+                          </div>
+                        </div>
+                        <dx-data-grid #gridContainer2 id="gridContainer2" [columnAutoWidth]="true"
+                          [allowColumnResizing]="true" [hoverStateEnabled]="true" [dataSource]="dataSource2"
+                          [showBorders]="true">
+                          <dxo-search-panel [visible]="true"></dxo-search-panel>
+                          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                          <dxo-export [enabled]="true" fileName="BySUCode-Details"></dxo-export>
+                          <dxo-paging [pageSize]="20"></dxo-paging>
+                          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+                          </dxo-pager>
+                          <dxi-column dataField="StorageCode"></dxi-column>
+                          <dxi-column dataField="ItemCode"></dxi-column>
+                          <dxi-column dataField="Description"></dxi-column>
+                          <dxi-column dataField="Quantity" dataType="number">
+                            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                          </dxi-column>
+                          <dxi-column dataField="BaseUOM"></dxi-column>
+                          <dxi-column dataField="UnitPrice" dataType="number">
+                            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                          </dxi-column>
+                          <dxi-column dataField="Brand"></dxi-column>
+                          <dxi-column dataField="Category"></dxi-column>
+                          <dxi-column dataField="SubCategory"></dxi-column>
+                        </dx-data-grid>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="ByLot" title="By Lot">
+          <ng-template ngbTabContent>
+            <div class="row p-t-20">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="dx-field col-4">
+                          <div>
+                            <dx-check-box [value]="isNegativeShow" text="Show Inventory equal or below 0"
+                              (onOptionChanged)="onOptionChanged($event)"></dx-check-box>
+                          </div>
+                        </div>
+                        <dx-data-grid #gridContainer3 id="gridContainer3" [columnAutoWidth]="true"
+                          [allowColumnResizing]="true" [hoverStateEnabled]="true" [dataSource]="dataSource3"
+                          [showBorders]="true">
+                          <dxo-search-panel [visible]="true"></dxo-search-panel>
+                          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                          <dxo-export [enabled]="true" fileName="ByLot-Details"></dxo-export>
+                          <dxo-paging [pageSize]="20"></dxo-paging>
+                          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+                          </dxo-pager>
+                          <dxi-column dataField="ItemCode"></dxi-column>
+                          <dxi-column dataField="LotNumber"></dxi-column>
+                          <dxi-column dataField="Description"></dxi-column>
+                          <dxi-column dataField="Stock" dataType="number">
+                            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                          </dxi-column>
+                          <dxi-column dataField="UOM"></dxi-column>
+                          <dxi-column dataField="OriginDate"></dxi-column>
+                          <dxi-column dataField="ExpiryDate"></dxi-column>
+                          <dxi-column dataField="apct" caption="Age %"></dxi-column>
+                          <dxi-column dataField="LocationCode"></dxi-column>
+                          <dxi-column dataField="UnitPrice" dataType="number">
+                            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                          </dxi-column>
+                          <dxi-column dataField="Brand"></dxi-column>
+                          <dxi-column dataField="Category"></dxi-column>
+                          <dxi-column dataField="ItemStatus"></dxi-column>
+                          <dxi-column dataField="VendorCode"></dxi-column>
+                          <dxi-column dataField="VendorLotNo"></dxi-column>
+                        </dx-data-grid>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>

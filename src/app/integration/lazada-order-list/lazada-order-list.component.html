@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-12">
+        <dx-form itemType="group" [colCount]="4"
+            accept-charset="UTF-8" [formData]="FormDate">
+            <dxi-item itemType="group">
+                <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+                    [label]="{text: 'From Date'}"
+                    [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group">
+                <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox"
+                    [label]="{text: 'To Date'}"
+                    [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+                </dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group">
+                <div class="font-for-formlable" style="text-align: right;">
+                    <dx-button type="default" text="Convert To SO" (onClick)="convertToSO()"></dx-button>
+                </div>
+            </dxi-item>
+        </dx-form>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [dataSource]="dataSource" [showBorders]="true"
+                    [allowColumnReordering]="true" [hoverStateEnabled]="true">
+                    <dxo-search-panel [visible]="true"></dxo-search-panel>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="order_id"></dxi-column>
+                    <dxi-column dataField="order_number"></dxi-column>
+                    <dxi-column dataField="customer_first_name"></dxi-column>
+                    <dxi-column dataField="price" dataType="number">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="payment_method"></dxi-column>
+                    <dxi-column dataField="created_at"></dxi-column>
+                    <dxi-column dataField="remarks"></dxi-column>
+                    <dxo-paging [pageSize]="12"></dxo-paging>
+                    <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>

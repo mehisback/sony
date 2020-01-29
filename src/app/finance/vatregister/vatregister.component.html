@@ -1,0 +1,91 @@
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+
+      <div class="col-4">
+        <div class="dx-fieldset">
+          <div class="dx-field">
+            <div class="dx-field-label">From Date</div>
+            <div class="dx-field-value">
+              <dx-date-box [value]="fromdate" type="date" displayFormat='dd-MM-yyyy'
+                (onValueChanged)="fromdateBox_valueChanged($event)">
+              </dx-date-box>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="dx-fieldset">
+          <div class="dx-field">
+            <div class="dx-field-label">To Date</div>
+            <div class="dx-field-value">
+              <dx-date-box [value]="todate" type="date" displayFormat='dd-MM-yyyy'
+                (onValueChanged)="todateBox_valueChanged($event)">
+              </dx-date-box>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="dx-fieldset">
+          <div class="dx-field">
+            <div class="dx-field-value">
+              <dx-button icon="refresh" text="Refresh" (onClick)="doneClick()">
+              </dx-button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <div class="card-body font-for-formlable">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [allowColumnResizing]="true"
+                  [dataSource]="dataSource" [showBorders]="true" [hoverStateEnabled]="true">
+                  <dxo-search-panel [visible]="true"></dxo-search-panel>
+                  <dxo-export [enabled]="true" fileName="VatReport"></dxo-export>
+                  <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+                  <dxo-paging [pageSize]="20"></dxo-paging>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+                  </dxo-pager>
+                  <dxi-column dataField="DocumentNo"></dxi-column>
+                  <dxi-column dataField="DocumentDate"></dxi-column>
+                  <dxi-column dataField="PostingDate"></dxi-column>
+                  <dxi-column dataField="DocumentType"></dxi-column>
+                  <dxi-column dataField="VATID"></dxi-column>
+                  <dxi-column dataField="SourceCode"></dxi-column>
+                  <dxi-column dataField="VATProdPostingGroup"></dxi-column>
+                  <dxi-column dataField="VATPercentage" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="IsUnRealizedVAT"></dxi-column>
+                  <dxi-column dataField="BaseAmount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="Amount" dataType="number">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                  </dxi-column>
+                  <dxi-column dataField="Submitted"></dxi-column>
+                  <dxi-column dataField="LineLocked"></dxi-column>
+                  <dxi-column dataField="SubmissionNo"></dxi-column>
+                </dx-data-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

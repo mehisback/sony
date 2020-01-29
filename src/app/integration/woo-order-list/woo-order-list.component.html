@@ -1,0 +1,58 @@
+<a [routerLink]="" class="float" (click)="onCreateNewSO()">
+  <i class="fa fa-plus my-float"></i>
+</a>
+<a [routerLink]="[ '/dashboard/dashboard1']" class="float-home">
+  <i class="fa fa-home my-float-home"></i>
+</a>
+
+<div class="row">
+  <div class="col-12">
+    <dx-form itemType="group" [colCount]="4"
+      accept-charset="UTF-8" [formData]="FormDate">
+      <dxi-item itemType="group">
+        <dxi-item cssClass="font-for-formlable" dataField="DocumentFromDate" editorType="dxDateBox"
+          [label]="{text: 'From Date'}"
+          [editorOptions]="{  width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+        </dxi-item>
+      </dxi-item>
+      <dxi-item itemType="group">
+        <dxi-item cssClass="font-for-formlable" dataField="DocumentToDate" editorType="dxDateBox"
+          [label]="{text: 'To Date'}"
+          [editorOptions]="{ width: '100%', displayFormat: 'dd-MM-yyyy',elementAttr:{ 'class': 'font-for-formlable' } }">
+        </dxi-item>
+      </dxi-item>
+      <dxi-item itemType="group">
+          <div class="font-for-formlable" style="text-align: right;">
+              <dx-button type="default" text="Convert To SO" (onClick)="convertToSO('ALL')"></dx-button>
+            </div>
+      </dxi-item>
+    </dx-form>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <dx-data-grid id="gridContainer" [columnAutoWidth]="true" [dataSource]="soListSource" [showBorders]="true"
+          [allowColumnReordering]="true" [hoverStateEnabled]="true" (onRowClick)="onUserRowSelect($event)">
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column dataField="id" [allowSearch]="true"></dxi-column>
+          <dxi-column dataField="order_key" [allowSearch]="true"></dxi-column>
+          <dxi-column dataField="customer_id" [allowSearch]="true"></dxi-column>
+          <dxi-column dataField="status" [allowSearch]="true"></dxi-column>
+          <dxi-column dataField="total" caption="Amount Inc. Taxes" dataType="number">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <!-- <dxi-column dataField="Action" cellTemplate="cellTemplate" [allowEditing]="false" [allowSearch]="false"></dxi-column>
+            <div *dxTemplate="let data of 'cellTemplate'">
+              <dx-button type="default" text="Convert To SO" (onClick)="convertToSO(data)"></dx-button>
+            </div> -->
+          <dxo-editing mode="row" [allowDeleting]="false" [texts]="{ deleteRow:'Convert To SO' }">
+            <dxo-texts confirmDeleteMessage="Are you sure want to Convert To SO?"></dxo-texts>
+          </dxo-editing>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[8, 10, 20]"></dxo-pager>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
