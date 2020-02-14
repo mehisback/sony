@@ -1,29 +1,28 @@
-# AdminAngular
+# Angular and TypeScript Hello World Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
+The Hello World project is an Angular 2+ starter project that has the npm modules, 
+configuration, scripts and folders and routing in place to make getting started 
+with an Angular project easy!
 
-## Development server
+Here's what is in the project:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Angular scripts and TypeScript configuration are ready to go
+* A simple app component 
+* Bootstrap for CSS
 
-## Code scaffolding
+This is a very simple "Hello World" project to help get you started.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+If you're using VS Code, install my [Angular code snippets](https://blog.codewithdan.com/2017/04/01/angular-2-typescript-and-html-snippets-for-vs-code/) 
+to simplify the process of writing Angular code. The code snippets make it easy
+to build Angular components, services, pipes, directives and more.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Running the Application
 
-## Running unit tests
+1. Install the Angular CLI
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    `npm install -g @angular/cli`
 
-## Running end-to-end tests
+1. Run `npm install`
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## This is a test.
+1. Run `ng serve -o`
